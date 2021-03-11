@@ -8,16 +8,23 @@ Tableau de bord etudiant
 @section('content')
 
 <div class="big-box">
-    <form class="Tableau-box" action="" method="">
+    <div class="Tableau-box">
         <br><br>
-        <h2> Tableau de bord</h2>
+        <h2> Tableau de bord étudiant</h2>
         <br><br>
         <br><br>
-        <input type="submit" name="" value="Profil" class="Profil">
-        <input type="submit" name="" value="Mes rendez-vous" class="rendez-vous">
+        
+        <a href="{{route('profil.show')}}">
+                <button type="submit" class="Profil">Profil</button>
+        </a>
+
+        <a href="{{route('MesRendezVousEtudiant')}}">
+                <button type="submit" class="rendez-vous">Mes rendez-vous</button>
+        </a>
+        
 
 
-    </form>
+    </div>
 </div>
 
 @endsection

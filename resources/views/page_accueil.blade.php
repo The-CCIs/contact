@@ -7,17 +7,17 @@ Accueil
 
     <div class="big-box">
 
-        <form class="min-box" action="" method="">
+        <div class="min-box">
 
-            <a href="#">
-                <button class="Etudiant">Etudiant</button>
+            <a href="{{route('connexionEtudiant.show')}}">
+                <button type="submit" class="Etudiant">Etudiant</button>
             </a>
 
-            <a href="#">
-                <button class="Enseignant">Enseignant</button>
+            <a href="{{route('LogineEnseignant.show')}}">
+                <button type="submit" class="Enseignant">Enseignant</button>
             </a>
 
-        </form>
+        </div>
     </div>
 
 @endsection

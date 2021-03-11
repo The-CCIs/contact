@@ -29,9 +29,13 @@ Route::get('/etudiant', [Controller::class, 'showConnexionEtudiant'])->name('con
 Route::get('/etudiant/inscription', [Controller::class, 'showInscriptionEtudiant'])->name('InscriptionEtudiant.show');
 Route::post('/inscription', [Controller::class, 'storeInscription'])->name('Inscription.store');
 
-//Générartion de la page d’identification ou authentification
-Route::get('/login', [Controller::class, 'showLogin'])->name('Logine.show');
-Route::post('/login', [Controller::class, 'storeLogin'])->name('Login.store');
+//Générartion de la page d’identification ou authentification pour etudiant
+Route::get('/loginEtudiant', [Controller::class, 'showLoginEtudiant'])->name('LogineEtudiant.show');
+Route::post('/login', [Controller::class, 'storeLoginEtudiant'])->name('LoginEtudiant.store');
+
+//Générartion de la page d’identification ou authentification pour enseignant
+Route::get('/loginEnseignant', [Controller::class, 'showLoginEnseignant'])->name('LogineEnseignant.show');
+Route::post('/login', [Controller::class, 'storeLoginEnseignant'])->name('LoginEnseignant.store');
 
 //Déconnexion
 Route::post('/logout', [Controller::class, 'logout'])->name('logout.post');

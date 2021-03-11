@@ -6,17 +6,17 @@ Identification
 
 <div class="big-box">
 
-    <form class="min-box" action="" method="">
+    <div class="min-box">
 
-        <a href="#">
-            <button class="Conecter">SE CONECTER</button>
+        <a href="{{route('LogineEtudiant.show')}}">
+            <button type="submit" class="Conecter">SE CONECTER</button>
         </a>
 
-        <a href="#">
-            <button class="Inscrire">S'INSCRIRE</button>
+        <a href="{{route('InscriptionEtudiant.show')}}">
+            <button type="submit" class="Inscrire">S'INSCRIRE</button>
         </a>
 
-    </form>
+    </div>
 </div>
 
 @endsection

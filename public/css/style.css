@@ -182,6 +182,10 @@ nav {
     box-shadow: 0 0 10px rgba(0, 0, 0, 1);
     color: #fff;
 }
+@media(max-width:1028px) {
+    .body{width: 50%}
+    }
+    
 
 form {
     font-size: 12px;

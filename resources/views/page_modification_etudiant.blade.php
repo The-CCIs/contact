@@ -10,7 +10,7 @@ Modification profil
 <div class="big-box">
     <h2> Profil</h2>
     <h3>A propos de moi</h3><br>
-    <form class="profil-edit-box" action="" method="">
+    <form class="profil-edit-box" method="POST" action="{{route('modificationEtudiant.post')}}">
         <table>
             <tr>
                 <td class="td1">
@@ -133,12 +133,12 @@ Modification profil
                 </select>
                         <br><br>
                     </div>
-                    <input type="submit" name="" value="Enregistrer" id="Enregistrer">
-
+                    
                 </td>
             </tr>
         </table>
-    </form>
+        <button type="submit" class="btn btn-outline-primary">Déconnexion</a>
+            </form>
     <h2></h2>
 </div>
 @endsection

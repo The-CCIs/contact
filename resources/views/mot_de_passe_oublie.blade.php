@@ -16,8 +16,8 @@ Mot de passe oublié
         <br><br>
         <input type="email" name="" placeholder="Email" class="email1">
         <br><br>
-
-        <input type="submit" name="" value="ENVOYER MA DEMANDE" class="Demande">
+        
+        <a class="btn btn-secondary"  href="{{route('reinitialisationMotDePasse')}}">ENVOYER MA DEMANDE</a>
 
     </form>
 

@@ -11,7 +11,7 @@ Tableau de bord enseignant
 
     <form class="Tableau-box" action="" method="">
         <br><br>
-        <h2> Tableau de bord</h2>
+        <h2> Tableau de bord enseignant</h2>
         <br><br>
         <br><br>
         <input type="submit" name="" value="Disponibilité" class="Disponibilité">

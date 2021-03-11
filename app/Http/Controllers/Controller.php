@@ -46,12 +46,12 @@ class Controller extends BaseController
         return "bien venu au tableau de bord de l'étudiant ... inscription ok";
     }
 //-----------------------------------------------------------------------------------------------------------------------------------
-    function showLogin()
+    function showLoginEtudiant()
     {
-        return view('page_autentification');
+        return view('page_autentification_etudiant');
     }
 
-    function storeLogin()
+    function storeLoginEtudiant()
     {
          /*
         $value = $repository->getUser($email, $password);
@@ -61,8 +61,24 @@ class Controller extends BaseController
         verifier s'il s'agit d'un étudiant ou d'un enseignant pour retourner la vue adéquate.
         */
         return view('tableau_de_bord_etudiant');
-        //ou return view('tableau_de_bord_enseignant');
     }
+//-----------------------------------------------------------------------------------------------------------------------------------
+function showLoginEnseignant()
+{
+    return view('page_autentification_enseignant');
+}
+
+function storeLoginEnseignant()
+{
+     /*
+    $value = $repository->getUser($email, $password);
+    1- verification des information saisis
+    2- se souvenir de l'authentification de l'utilisateur $request->session()->put('user', $value);
+    avec traitement des exceptions
+    verifier s'il s'agit d'un étudiant ou d'un enseignant pour retourner la vue adéquate.
+    */
+    return view('tableau_de_bord_enseignant');
+}
 //-----------------------------------------------------------------------------------------------------------------------
     function logout()
     {
@@ -137,7 +153,8 @@ class Controller extends BaseController
 
         verification de l'ancien email
         */
-        return "vos informations ont été actualisé avec succe";
+        return view('page_modification_etudiant');
+        //return "vos informations ont été actualisé avec succe";
     }
 //-------------------------------------------------------------------------------------------------------------------------------
     function showMesRendezVousEtudiant()

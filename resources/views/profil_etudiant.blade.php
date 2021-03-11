@@ -8,13 +8,18 @@ Profil etudiant
 @section('content')
 
 <div class="big-box">
-    <form class="profil-box" action="" method="">
+    <div class="profil-box">
         <h2> Profil</h2>
         <br><br>
         <br><br>
         <section>
-            <input type="submit" name="" value="Modifier" class="Modifier">
+        
+        <a href="{{route('modificationEtudiant')}}">
+                <button type="submit" class="Modifier">Modifier mes informations</button>
+        </a>
         </section>
+
+
         <section>
             <h3>A propos de moi</h3><br>
             <img class="photo_profil" src="/icon/image.jpg" alt="">
@@ -31,7 +36,7 @@ Profil etudiant
             <div class="date_inscription">Date d'inscription : 01/11/2017</div>
             <div class="date_connexion">Derniere connexion : 01/11/2020</div>
         </section>
-    </form>
+    </div>
 
 </div>
 
