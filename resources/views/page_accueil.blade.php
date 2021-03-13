@@ -12,11 +12,11 @@ Accueil
         <form class="min-box" action="" method="">
 
             <a href="#">
-                <button class="Etudiant">Etudiant</button>
+                <button class="Etudiant"><span>Etudiant</span></button>
             </a>
 
             <a href="#">
-                <button class="Enseignant">Enseignant</button>
+                <button class="Enseignant"><span>Enseignant</span></button>
             </a>
 
         </form>

@@ -29,19 +29,19 @@
             <span class="navbar-toggler-icon"></span>
           </button>
             <div id="navbarTogglerDemo02" class="collapse navbar-collapse">
-                <a class="navbar-brand" href="">Hove Parck School<span class="logo2">Together we Achieve</span></a>
+                <a class="navbar-brand" href="{{route('PageAccueil.show')}}">Hove Parck School<span class="logo2">Together we Achieve</span></a>
                 <ul class="navbar-nav ml-auto">
                     <li class="navbar-item">
-                        <a class="nav-link fix" href="#footer">Accueil</a>
+                        <a class="nav-link fix" href="{{route('PageAccueil.show')}}">Accueil</a>
                     </li>
                     <li class="navbar-item">
-                        <a class="nav-link fix" href="#pricing">Etablissement</a>
+                        <a class="nav-link fix" href="{{route('itablissement.show')}}">Etablissement</a>
                     </li>
                     <li class="navbar-item">
-                        <a class="nav-link fix" href="#cta">Contact</a>
+                        <a class="nav-link fix" href="{{route('contact.show')}}">Contact</a>
                     </li>
                     <li class="navbar-item">
-                        <a class="nav-link" href="#cta"><button class="btn btn-primary">Tableau de bord</button></a>
+                        <a class="nav-link" href="{{route('tableauDeBordEnseignant.show')}}"><button class="btn btn-primary">Tableau de bord</button></a>
                     </li>
                     <li class="navbar-item">
                         <a class="nav-link" href="#cta"><button class="btn btn-primary">Déconnexion</button></a>
