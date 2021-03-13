@@ -3,7 +3,7 @@
 @section('title')
 Disponibilité
 @endsection
-@section('asset')
+@section('assets')
     <link rel="stylesheet" href="/css/style.css">
 @endsection
 

@@ -2,7 +2,7 @@
 @section('title')
 Mot de passe oublié
 @endsection
-@section('asset')
+@section('assets')
     <link rel="stylesheet" href="/css/style.css">
 @endsection
 @section('content')

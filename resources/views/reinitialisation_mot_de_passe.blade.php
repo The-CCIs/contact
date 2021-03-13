@@ -3,7 +3,7 @@
 @section('title')
 Réitialisatonde mot de passe
 @endsection
-@section('asset')
+@section('assets')
     <link rel="stylesheet" href="/css/style.css">
 @endsection
 

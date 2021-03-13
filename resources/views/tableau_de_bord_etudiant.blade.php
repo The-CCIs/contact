@@ -3,7 +3,7 @@
 @section('title')
 Tableau de bord etudiant
 @endsection
-@section('asset')
+@section('assets')
     <link rel="stylesheet" href="/css/style.css">
 @endsection
 
