@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -10,9 +11,69 @@ use Illuminate\Support\Facades\Route;
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
-|
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Genération de la page d'accueil
+Route::get('/', [Controller::class, 'showPageAccueil'])->name('PageAccueil.show');
+
+//Genération de la page d'itablissement
+Route::get('/itablissement', [Controller::class, 'showItablissement'])->name('itablissement.show');
+
+//Genération de la page de contact
+Route::get('/contact', [Controller::class, 'showContact'])->name('contact.show');
+
+//Genération de La page principale Etudiant
+Route::get('/etudiant', [Controller::class, 'showConnexionEtudiant'])->name('connexionEtudiant.show');
+
+//Géneration de La page d’inscription Etudiant
+Route::get('/etudiant/inscription', [Controller::class, 'showInscriptionEtudiant'])->name('InscriptionEtudiant.show');
+Route::post('/inscription', [Controller::class, 'storeInscription'])->name('Inscription.store');
+
+//Générartion de la page d’identification ou authentification
+Route::get('/login', [Controller::class, 'showLogin'])->name('Logine.show');
+Route::post('/login', [Controller::class, 'storeLogin'])->name('Login.store');
+
+//Déconnexion
+Route::post('/logout', [Controller::class, 'logout'])->name('logout.post');
+
+//Mot de passe au cas d'oublie
+Route::get('/mot-de-passe-oublie', [Controller::class, 'motDePasseOublieForm'])->name('motDePasseOublie');
+Route::post('/mot-de-passe-oublie', [Controller::class, 'storemotDePasseOublie'])->name('motDePasseOublie.post');
+
+//réinitialisation du mot de passe
+Route::get('/reinitialisation-mot-de-passe', [Controller::class, 'reinitialisationMotDePasseForm'])->name('reinitialisationMotDePasse');
+Route::post('/reinitialisation-mot-de-passe', [Controller::class, 'storereinitialisationMotDePasse'])->name('reinitialisationMotDePasse.post');
+
+//Générartion du tableau de bord etudiant
+Route::get('/etudiant/tableau-de-Bord-etudiant', [Controller::class, 'showTableauDeBordEtudiant'])->name('tableauDeBordEtudiant.show');
+
+//Générartion du tableau de bord enseignant
+Route::get('/enseignant/tableau-de-Bord-enseignant', [Controller::class, 'showTableauDeBordEnseignant'])->name('tableauDeBordEnseignant.show');
+
+//Géneration de la page profil
+Route::get('/etudiant/profil', [Controller::class, 'showProfil'])->name('profil.show');
+
+//Modification des informations de l'étudiant
+Route::get('/etudiant/profil/modification', [Controller::class, 'modificationEtudiantForm'])->name('modificationEtudiant');
+Route::post('/modificationEtudiant', [Controller::class, 'storeModificationEtudiant'])->name('modificationEtudiant.post');
+
+//Géneration de la page mes rendez vous
+Route::get('/etudiant/mes-rendez-vous', [Controller::class, 'showMesRendezVousEtudiant'])->name('MesRendezVousEtudiant');
+
+//Géneration de la page de la prise de rendez vous
+Route::get('/etudiant/prise-rendez-vous', [Controller::class, 'priseRendezVousForm'])->name('priseRendezVous');
+Route::post('/prise-rendez-vous', [Controller::class, 'storePriseRendezVous'])->name('priseRendezVous.post');
+Route::post('/annulationRendezVous', [Controller::class, 'storeannulationRendezVous'])->name('annulationRendezVous.post');
+
+
+
+//Géneration de la page des rdv avec les etudiant et envoi de message
+Route::get('/enseignant/mes-rendez-vous', [Controller::class, 'rendezVousMessageForm'])->name('rendezVousMessage');
+Route::get('/enseignant/message-enseignant-etudiant', [Controller::class, 'RendezVousMessage'])->name('message-enseignant-etudiant');
+Route::post('/message-enseignant-etudiant', [Controller::class, 'storeRendezVousMessage'])->name('message-enseignant-etudiant.post');
+Route::post('/annulationRendezVousEnseignant', [Controller::class, 'storeannulationRendezVousEnseignant'])->name('annulationRendezVousEnseignant.post');
+Route::get('/enseignant/rendez-vous', [Controller::class, 'RendezVous'])->name('RDV-enseignant-etudiant');
+
+//Géneration de la page disponibilité enseignant
+Route::get('/enseignant/disponibilites', [Controller::class, 'showdisponibilites'])->name('disponibilites.show');
+Route::post('/disponibilites', [Controller::class, 'storeDisponibilites'])->name('diponibilites.post');
