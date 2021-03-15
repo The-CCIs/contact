@@ -1,5 +1,8 @@
 
 @extends('base')
+@section('assets')
+    <link rel="stylesheet" href="/css/styless.css">
+@endsection
 @section('title')
 Contact
 @endsection
@@ -16,15 +19,15 @@ Contact
          <h1 class="contact">Contactez-nous</h1>
          <div class="tel">
          <i class="fas fa-phone-alt fa-4x icon"></i>
-         <h2>+33 7 55 70 09 42</h2>
+         <h2 class="ht">+33 7 55 70 09 42</h2>
         </div>
         <div class="tel">
             <i class="fas fa-at fa-4x icon"></i>
-            <h2>office@hovepark.org.uk</h2>
+            <h2 class="ht">office@hovepark.org.uk</h2>
         </div>
         <div class="tel">
             <i class="fas fa-map fa-4x icon"></i>
-            <h2>Nevill Road, Hove, BN3 7BN</h2>
+            <h2 class="ht">Nevill Road, Hove, BN3 7BN</h2>
         </div>
 
         </div>

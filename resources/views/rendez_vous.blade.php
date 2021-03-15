@@ -3,7 +3,9 @@
 @section('title')
 RDV
 @endsection
-
+@section('assets')
+    <link rel="stylesheet" href="/css/style.css">
+@endsection
 @section('content')
 <div class="big-box">
     <h2> Rendez-vous</h2>

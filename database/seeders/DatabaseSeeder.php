@@ -1,7 +1,11 @@
 <?php
 
 namespace Database\Seeders;
+
+
+
 use App\Repositories\Repository;
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,9 +18,13 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
+
+
+
         touch('database/database.sqlite');
         $repository = new Repository();
         $repository->createDatabase();
+<<<<<<< HEAD
         $repository->insertEtudiant(
                                     ['NomEtudiant' => 'BELKHOUS',
                                     'PrénomEtudiant' => 'Lyes',
@@ -35,6 +43,8 @@ class DatabaseSeeder extends Seeder
                                                                             
                                         );
                                     
+=======
+>>>>>>> 78095ddf31d8f60e425f926eabe0e7d8b56cc0b7
 
     }
 }

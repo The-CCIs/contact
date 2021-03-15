@@ -3,7 +3,9 @@
 @section('title')
 Modification profil
 @endsection
-
+@section('assets')
+    <link rel="stylesheet" href="/css/style.css">
+@endsection
 
 @section('content')
 

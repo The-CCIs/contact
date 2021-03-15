@@ -20,6 +20,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+
     function showPageAccueil()
     {
         return view('page_accueil');
@@ -281,5 +282,6 @@ function storeLoginEnseignant()
         */
         return redirect()->route('disponibilites.show');
     }
+
 
 }

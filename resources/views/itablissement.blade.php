@@ -1,8 +1,12 @@
 
 @extends('base')
+@section('assets')
+    <link rel="stylesheet" href="/css/styles.css">
+@endsection
 @section('title')
 Itablissement
 @endsection
+
 
 @section('content')
 
@@ -24,7 +28,7 @@ Itablissement
             <hr>
             <p>16 Mar 2020 - 20 Jui 2021</p>
             <p>sessions de printemps</p>
-            <button class="btn btn-primary">Je m'inscris</button>
+            <a href="{{route('InscriptionEtudiant.show')}}"><button class="btn btn-primary btn1">Je m'inscris</button></a>
         </div>
     </div>
 

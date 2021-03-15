@@ -9,7 +9,7 @@
     <!--script of bootstrap-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <!---CSS style sheet-->
-    <link rel="stylesheet" href="/css/style.css">
+    @yield('assets')
     <link rel="icon" href="/icon/blob.png">
     <!---fonts for the icon from awsome font icon-->
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
@@ -29,19 +29,19 @@
             <span class="navbar-toggler-icon"></span>
           </button>
             <div id="navbarTogglerDemo02" class="collapse navbar-collapse">
-                <a class="navbar-brand" href="">Hove Parck School<span class="logo2">Together we Achieve</span></a>
+                <a class="navbar-brand" href="{{route('PageAccueil.show')}}">Hove Parck School<span class="logo2">Together we Achieve</span></a>
                 <ul class="navbar-nav ml-auto">
                     <li class="navbar-item">
-                        <a class="nav-link fix" href="#footer">Accueil</a>
+                        <a class="nav-link fix" href="{{route('PageAccueil.show')}}">Accueil</a>
                     </li>
                     <li class="navbar-item">
-                        <a class="nav-link fix" href="#pricing">Etablissement</a>
+                        <a class="nav-link fix" href="{{route('itablissement.show')}}">Etablissement</a>
                     </li>
                     <li class="navbar-item">
-                        <a class="nav-link fix" href="#cta">Contact</a>
+                        <a class="nav-link fix" href="{{route('contact.show')}}">Contact</a>
                     </li>
                     <li class="navbar-item">
-                        <a class="nav-link" href="#cta"><button class="btn btn-primary">Tableau de bord</button></a>
+                        <a class="nav-link" href="{{route('tableauDeBordEnseignant.show')}}"><button class="btn btn-primary">Tableau de bord</button></a>
                     </li>
                     <li class="navbar-item">
                         <a class="nav-link" href="#cta"><button class="btn btn-primary">Déconnexion</button></a>

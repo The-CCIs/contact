@@ -3,7 +3,9 @@
 @section('title')
 Mes rendez-vous etudiant
 @endsection
-
+@section('assets')
+    <link rel="stylesheet" href="/css/style.css">
+@endsection
 
 @section('content')
 

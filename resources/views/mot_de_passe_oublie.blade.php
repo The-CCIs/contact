@@ -2,6 +2,9 @@
 @section('title')
 Mot de passe oublié
 @endsection
+@section('assets')
+    <link rel="stylesheet" href="/css/style.css">
+@endsection
 @section('content')
 <div class="big-box">
     <form class="demande-box" action="" method="">

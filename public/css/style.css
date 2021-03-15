@@ -19,33 +19,12 @@ body {
     font-family: 'Oswald';
 }
 
-.row {
-    font-size: 140%;
-}
 
-.img_1 {
-    width: 120%;
-    position: relative;
-    right: -10%;
-}
 
-.icon {
-    color: #ef8172;
-    float: left;
-    margin-right: 40px;
-    background-color: burlywood;
-    border-radius: 100%;
-    padding: 10px;
-}
 
-.icon:hover {
-    color: #ff4c68;
-}
 
-.row h2 {
-    text-align: left;
-    padding-top: 15px;
-}
+
+
 
 
 /*-------------------------------------------------------------------------------*/
@@ -140,7 +119,7 @@ nav {
 .Inscrire {
     width: 30%;
     height: 23%;
-    margin: 3% 25px;
+    margin:3% 25px;
     text-align: center;
     font-size: 200%;
     padding: 5px;
