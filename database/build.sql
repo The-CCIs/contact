@@ -10,14 +10,17 @@ DROP TABLE IF EXISTS Enseignant;
 DROP TABLE IF EXISTS Etudiant;
 /*Creation des Table*/
 
+
 CREATE TABLE Etudiant (
-Id_Etudiant INT PRIMARY KEY ,
+IdEtudiant INTEGER PRIMARY KEY AUTOINCREMENT,
 NomEtudiant varchar(20) NOT NULL,
 PrénomEtudiant varchar(20) NOT NULL,
-Date_Naissance date NOT NULL,
+Date_Naissance DATE NOT NULL,
 Email_Etudiant varchar(50) NOT NULL,
 Niveau_Etude varchar(20) NOT NULL,
-UNIQUE (Id_Etudiant)
+NumTelephone varchar(20),
+UNIQUE (IdEtudiant),
+UNIQUE (Email_Etudiant)
 
 );
 CREATE TABLE Enseignant (
@@ -41,32 +44,32 @@ Id_Enseignant INTEGER,
 CREATE TABLE RendezVous (
 Id_RDV INTEGER PRIMARY KEY ,
 Date_RDV datetime NOT NULL,
-Id_Etudiant INTEGER,
+IdEtudiant INTEGER,
 Id_Enseignant INTEGER,
-  UNIQUE (Id_RDV,Date_RDV,Id_Etudiant,Id_Enseignant),
-  FOREIGN KEY(Id_Etudiant) REFERENCES Etudiant(Id_Etudiant),
+  UNIQUE (Id_RDV,Date_RDV,IdEtudiant,Id_Enseignant),
+  FOREIGN KEY(IdEtudiant) REFERENCES Etudiant(IdEtudiant),
   FOREIGN KEY(Id_Enseignant) REFERENCES Enseignant(Id_Enseignant)
 
 );
 
 CREATE TABLE Message (
 Id_msg INTEGER PRIMARY KEY ,
-Id_Etudiant INTEGER,
-  FOREIGN KEY(Id_Etudiant) REFERENCES Etudiant(Id_Etudiant)
+IdEtudiant INTEGER,
+  FOREIGN KEY(IdEtudiant) REFERENCES Etudiant(IdEtudiant)
 );
 
 CREATE TABLE Fichier (
 Id_Fichier INTEGER PRIMARY KEY ,
-Id_Etudiant INTEGER,
-  FOREIGN KEY(Id_Etudiant) REFERENCES Etudiant(Id_Etudiant)
+IdEtudiant INTEGER,
+  FOREIGN KEY(IdEtudiant) REFERENCES Etudiant(IdEtudiant)
 
 );
 
 CREATE TABLE Probleme (
 Id_Pbm INTEGER PRIMARY KEY ,
 Nom_Pbm varchar(20),
-Id_Etudiant INTEGER,
-  FOREIGN KEY(Id_Etudiant) REFERENCES Etudiant(Id_Etudiant)
+IdEtudiant INTEGER,
+  FOREIGN KEY(IdEtudiant) REFERENCES Etudiant(IdEtudiant)
 
 );
 

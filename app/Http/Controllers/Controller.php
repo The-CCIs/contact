@@ -2,10 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use App\Repositories\Repository;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
+use App\Repositories\Data;
+
+use App\Http\Middleware\TrimStrings;
+use App\Http\Middleware\ConvertEmptyStringsToNull;
+
+use Symfony\Component\HttpFoundation\Cookie;
 
 class Controller extends BaseController
 {
@@ -146,15 +155,42 @@ function storeLoginEnseignant()
         return view('page_modification_etudiant');
     }
 
-    function storeModificationEtudiant()
+    function storeModificationEtudiant(Request $request, Repository $repository)
     {
-        /*
-        verification des champs saisi
+        $messages = [
+            'nom.required' => "Vous devez saisir un nom.",
+            'prenom.required' => "Vous devez saisir un Pres nom.",
+            'ancienEmail.required' => "Vous devez saisir votre ancien email.",
+            'nouveauEmail.required' => "Vous devez saisir votre nouveau email.",
+            'date.required' => "Vous devez selectionner une date valide."
+        
+          ]; 
+        
+        $rules = [  'nom' => ['required'],
+                    'prenom' => ['required'],
+                    'phone' => [''],
+                    'ancienEmail' => ['required'],
+                    'nouveauEmail' => ['required'],
+                    'date' => ['required','date']
+                        
+                ];
+        //verification des champs saisi
+        $validatedData = $request->validate($rules,$messages);
+        try{
+        $nom = $validatedData['nom'];
+        $prenom = $validatedData['prenom'];
+        $phone = $validatedData['phone'];
+        $ancienEmail = $validatedData['ancienEmail'];
+        $nouveauEmail = $validatedData['nouveauEmail'];
+        $date = $validatedData['date'];
+        $repository->modifInfoEtudiant($ancienEmail,$nouveauEmail,$nom,$prenom,$date,$phone);
 
-        verification de l'ancien email
-        */
-        return view('page_modification_etudiant');
-        //return "vos informations ont été actualisé avec succe";
+        
+        return "vos informations ont été actualisé avec succe";
+        }catch(Exception $e)
+        {
+            return redirect()->back()->withErrors("Modifs non enrigistrées");
+        }
     }
 //-------------------------------------------------------------------------------------------------------------------------------
     function showMesRendezVousEtudiant()
