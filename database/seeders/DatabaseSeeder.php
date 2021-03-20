@@ -24,27 +24,24 @@ class DatabaseSeeder extends Seeder
         touch('database/database.sqlite');
         $repository = new Repository();
         $repository->createDatabase();
-<<<<<<< HEAD
         $repository->insertEtudiant(
                                     ['NomEtudiant' => 'BELKHOUS',
                                     'PrénomEtudiant' => 'Lyes',
                                     'Date_Naissance' => '1989-01-18',
                                     'Email_Etudiant' => 'lyes@hotmail.com',
-                                    'Niveau_Etude' => 1]
-                                                                        
+                                    'Niveau_Etude' => 'Troisième_année']
+
                                     );
-        
+
                                     $repository->insertEtudiant(
                                         ['NomEtudiant' => 'SIYOUCEF',
                                         'PrénomEtudiant' => 'Walid',
                                         'Date_Naissance' => '1992-01-18',
                                         'Email_Etudiant' => 'walid@hotmail.com',
-                                        'Niveau_Etude' => 2]
-                                                                            
+                                        'Niveau_Etude' => 'Troisième_année']
+
                                         );
-                                    
-=======
->>>>>>> 78095ddf31d8f60e425f926eabe0e7d8b56cc0b7
+
 
     }
 }

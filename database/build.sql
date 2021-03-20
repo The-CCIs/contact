@@ -66,23 +66,24 @@ IdEtudiant INTEGER,
 );
 
 CREATE TABLE Probleme (
-Id_Pbm INTEGER PRIMARY KEY ,
+Id_Pbm INTEGER PRIMARY KEY,
 Nom_Pbm varchar(20),
 IdEtudiant INTEGER,
   FOREIGN KEY(IdEtudiant) REFERENCES Etudiant(IdEtudiant)
-
 );
 
 CREATE TABLE UtilisateurEtudiant (
+Id INTEGER PRIMARY KEY AUTOINCREMENT,
 Email_Etudiant varchar(50),
 Mot_Passe_Hashé varchar(100),
-   UNIQUE (Email_Etudiant,Mot_Passe_Hashé),
-  PRIMARY KEY(Email_Etudiant)
+codeReinitialisation INT,
+   UNIQUE (Email_Etudiant)
 );
 
 CREATE TABLE UtilisateurEnseignant (
+Id INTEGER PRIMARY KEY AUTOINCREMENT,
 Email_Enseignant varchar(50),
 Mot_Passe_Hashé varchar(100),
-   UNIQUE (Email_Enseignant,Mot_Passe_Hashé),
-  PRIMARY KEY(Email_Enseignant)
+   UNIQUE (Email_Enseignant)
 );
+

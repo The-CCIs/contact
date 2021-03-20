@@ -20,6 +20,10 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public function __construct(Repository $repository)
+    {
+        $this->repository = $repository;
+    }
 
     function showPageAccueil()
     {
@@ -45,15 +49,51 @@ class Controller extends BaseController
         return view('page_Inscription_Etudiant');
     }
 
-    function storeInscription()
+    function storeInscription(Request $request)
     {
-        /*
+        $rules = [
+            'nom' => ['required'],
+            'prénom' => ['required'],
+            'email' => ['required', 'unique:Etudiant,Email_Etudiant'],
+            'tel' => ['required', 'unique:Etudiant,Email_Etudiant'],
+            'password' => ['required'],
+            'passwordconfirmation' => ['required'],
+            'niveau' => ['required'],
+            'date' => ['required', 'date'],
+            // 'scales' => ['required'],
 
-        1- verification des information saisis
-        2- ajout de l'étudiant dans la base de donnée
+            ];
+            $messages = [
+                'nom.required' => 'Vous devez choisir un nom.',
+                'prénom.required' => 'Vous devez choisir un prénom.',
+                'email.required' => 'Vous devez choisir une adresse mail.',
+                'email.unique' => 'Cet Email existe déja.',
+                'tel.required' => 'Vous devez choisir un numéro de telephone.',
+                'tel.unique' => 'Ce numéro existe déja.',
+                'password.required' => 'champs obligatoire',
+                'passwordConfirmation.required' => 'champs obligatoire',
+                'niveau.required' => 'champs obligatoire',
+                'date.required' => 'Vous devez choisir une date de naissance.',
+                'date.date' => 'Vous devez choisir une date de naissance valide.',
+            ];
 
-        */
-        return "bien venu au tableau de bord de l'étudiant ... inscription ok";
+            $validatedData = $request->validate($rules,$messages);
+            try{
+
+                $this->repository->insertEtudiant(    ['NomEtudiant' => $validatedData['nom'],
+                'PrénomEtudiant' => $validatedData['prénom'],
+                'Email_Etudiant' => $validatedData['email'],
+                'NumTelephone' => $validatedData['tel'],
+                'Date_Naissance' => $validatedData['date'],
+                'Niveau_Etude' => $validatedData['niveau']]);
+
+                $this->repository->addUser($validatedData['email'], $validatedData['password']);
+            }catch (Exception $exception) {
+
+                var_dump($exception);
+                return redirect()->route('InscriptionEtudiant.show')->withInput()->withErrors("Impossible de rajouter l'étudiant");
+            }
+        return redirect()->route('tableauDeBordEtudiant.show');
     }
 //-----------------------------------------------------------------------------------------------------------------------------------
     function showLoginEtudiant()
@@ -164,16 +204,16 @@ function storeLoginEnseignant()
             'ancienEmail.required' => "Vous devez saisir votre ancien email.",
             'nouveauEmail.required' => "Vous devez saisir votre nouveau email.",
             'date.required' => "Vous devez selectionner une date valide."
-        
-          ]; 
-        
+
+          ];
+
         $rules = [  'nom' => ['required'],
                     'prenom' => ['required'],
                     'phone' => [''],
                     'ancienEmail' => ['required'],
                     'nouveauEmail' => ['required'],
                     'date' => ['required','date']
-                        
+
                 ];
         //verification des champs saisi
         $validatedData = $request->validate($rules,$messages);
@@ -186,7 +226,7 @@ function storeLoginEnseignant()
         $date = $validatedData['date'];
         $repository->modifInfoEtudiant($ancienEmail,$nouveauEmail,$nom,$prenom,$date,$phone);
 
-        
+
         return "vos informations ont été actualisé avec succe";
         }catch(Exception $e)
         {
@@ -227,6 +267,12 @@ function storeLoginEnseignant()
         retirer le rdv de la base de donnée et actualiser l'affichage des rdv
         */
         return view('mes_rendez_vous_etudiant');
+    }
+
+    function showMessageReçu()
+    {
+
+        return view('message_reçu_etudiant');
     }
 //---------------------------------------------------------------------------------------------------------------------------------
     function rendezVousMessageForm()

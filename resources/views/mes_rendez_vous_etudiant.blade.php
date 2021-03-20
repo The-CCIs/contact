@@ -77,6 +77,22 @@ Mes rendez-vous etudiant
         </div>
     </div>
     <h2></h2>
+    <div  class="bar_iden">
+
+        <a href="{{route('messageRecu.show')}}">
+        <ul>
+            <li>
+                <div class="prof">
+                    <span class="nom_prof">Message reçus</span>
+                    <span class="matière">1</span>
+                </div>
+
+            </li>
+        </ul>
+        </a>
+
+    </div>
+
 
 
 
