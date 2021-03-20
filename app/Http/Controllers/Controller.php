@@ -19,6 +19,10 @@ use Symfony\Component\HttpFoundation\Cookie;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    public function __construct(Repository $repository)
+    {
+        $this->repository = $repository;
+    }
 
 
     function showPageAccueil()
@@ -58,19 +62,42 @@ class Controller extends BaseController
 //-----------------------------------------------------------------------------------------------------------------------------------
     function showLoginEtudiant()
     {
-        return view('page_autentification_etudiant');
+        return view('LoginEtudiant');
     }
 
-    function storeLoginEtudiant()
-    {
-         /*
-        $value = $repository->getUser($email, $password);
-        1- verification des information saisis
-        2- se souvenir de l'authentification de l'utilisateur $request->session()->put('user', $value);
-        avec traitement des exceptions
-        verifier s'il s'agit d'un étudiant ou d'un enseignant pour retourner la vue adéquate.
-        */
-        return view('tableau_de_bord_etudiant');
+    function storeLoginEtudiant(Request $request)
+    {    $rules = [
+        'email' => ['required', 'email'],
+        'password' => ['required']
+         ];
+        $messages = [
+        'email.required' => 'Vous devez saisir un e-mail.',
+        'email.email' => 'Vous devez saisir un e-mail valide.',
+        'email.exists' => "Cet utilisateur n'existe pas.",
+        'password.required' => "Vous devez saisir un mot de passe.",
+         ];
+        $validatedData = $request->validate($rules, $messages);
+        $email=$validatedData['email'];
+        $password=$validatedData['password'];
+        $hasKey = $request->session()->has('student');
+        if(!$hasKey){
+            return redirect()->route('PageAccueil.show');
+        }
+        try {
+      # TODO 1 : lever une exception si le mot de passe de l'utilisateur n'est pas correct
+        $student=$this->repository->getStudent($email,$password);
+      # TODO 2 : se souvenir de l'authentification de l'utilisateur
+
+        //$value = $request->session()->get($user['email']);
+        $request->session()->put('student', $student);
+
+        } catch (Exception $e) {
+        return redirect()->back()->withInput()->withErrors("Impossible de vous authentifier.");
+    }
+
+
+
+    return redirect()->route('tableauDeBordEtudiant.show');
     }
 //-----------------------------------------------------------------------------------------------------------------------------------
 function showLoginEnseignant()
@@ -78,16 +105,39 @@ function showLoginEnseignant()
     return view('page_autentification_enseignant');
 }
 
-function storeLoginEnseignant()
+function storeLoginEnseignant(Request $request)
 {
-     /*
-    $value = $repository->getUser($email, $password);
-    1- verification des information saisis
-    2- se souvenir de l'authentification de l'utilisateur $request->session()->put('user', $value);
-    avec traitement des exceptions
-    verifier s'il s'agit d'un étudiant ou d'un enseignant pour retourner la vue adéquate.
-    */
-    return view('tableau_de_bord_enseignant');
+
+    $rules = [
+        'email_teacher' => ['required', 'email'],
+        'password_teacher' => ['required']
+         ];
+        $messages = [
+        'email_teacher.required' => 'Vous devez saisir un e-mail.',
+        'email_teacher.email' => 'Vous devez saisir un e-mail valide.',
+        'email_teacher.exists' => "Cet utilisateur n'existe pas.",
+        'password_teacher.required' => "Vous devez saisir un mot de passe.",
+         ];
+        $validatedData = $request->validate($rules, $messages);
+        $email=$validatedData['email_teacher'];
+        $password=$validatedData['password_teacher'];
+        $hasKey = $request->session()->has('teacher');
+        if(!$hasKey){
+            return redirect()->route('PageAccueil.show');
+        }
+        try {
+      # TODO 1 : lever une exception si le mot de passe de l'utilisateur n'est pas correct
+        $teacher=$this->repository->getTeacher($email,$password);
+      # TODO 2 : se souvenir de l'authentification de l'utilisateur
+
+        //$value = $request->session()->get($user['email']);
+        $request->session()->put('teacher', $teacher);
+
+        } catch (Exception $e) {
+        return redirect()->back()->withInput()->withErrors("Impossible de vous authentifier.");
+        }
+        return redirect()->route('tableauDeBordEnseignant.show');
+
 }
 //-----------------------------------------------------------------------------------------------------------------------
     function logout()
@@ -128,31 +178,47 @@ function storeLoginEnseignant()
         return 'mot de passe reinitialiser avec sucee';
     }
 //--------------------------------------------------------------------------------------------------------------------------------
-    function showTableauDeBordEtudiant()
+   function showTableauDeBordEtudiant(Request $request)
     {
+        $hasKey = $request->session()->has('student');
+        if(!$hasKey){
+            return redirect()->route('PageAccueil.show');
+        }
         return view('tableau_de_bord_etudiant');
     }
 //--------------------------------------------------------------------------------------------------------------------------------
-    function showTableauDeBordEnseignant()
+    function showTableauDeBordEnseignant(Request $request)
     {
+        $hasKey = $request->session()->has('teacher');
+        if(!$hasKey){
+            return redirect()->route('PageAccueil.show');
+        }
         return view('tableau_de_bord_enseignant');
     }
 //--------------------------------------------------------------------------------------------------------------------------------
-    function showProfil()
+    function showProfil(Request $request)
     {
         /*
         verifier si l'utilisateur est connecté ou pas si non rediriger 'utlisateur vers la page
         d'autentification. avec un message vous "devez vous authentifier d'abord".
         */
+        $hasKey = $request->session()->has('student');
+        if(!$hasKey){
+            return redirect()->route('PageAccueil.show');
+        }
         return view('profil_etudiant');
     }
 //-------------------------------------------------------------------------------------------------------------------------------
-    function modificationEtudiantForm()
+    function modificationEtudiantForm(Request $request)
     {
         /*
         verifier si l'utilisateur est connecté ou pas si non rediriger 'utlisateur vers la page
         d'autentification. avec un message vous "devez vous authentifier d'abord".
         */
+        $hasKey = $request->session()->has('student');
+        if(!$hasKey){
+            return redirect()->route('PageAccueil.show');
+        }
         return view('page_modification_etudiant');
     }
 
@@ -164,19 +230,23 @@ function storeLoginEnseignant()
             'ancienEmail.required' => "Vous devez saisir votre ancien email.",
             'nouveauEmail.required' => "Vous devez saisir votre nouveau email.",
             'date.required' => "Vous devez selectionner une date valide."
-        
-          ]; 
-        
+
+          ];
+
         $rules = [  'nom' => ['required'],
                     'prenom' => ['required'],
                     'phone' => [''],
                     'ancienEmail' => ['required'],
                     'nouveauEmail' => ['required'],
                     'date' => ['required','date']
-                        
+
                 ];
         //verification des champs saisi
         $validatedData = $request->validate($rules,$messages);
+        $hasKey = $request->session()->has('student');
+        if(!$hasKey){
+            return redirect()->route('PageAccueil.show');
+        }
         try{
         $nom = $validatedData['nom'];
         $prenom = $validatedData['prenom'];
@@ -186,7 +256,7 @@ function storeLoginEnseignant()
         $date = $validatedData['date'];
         $repository->modifInfoEtudiant($ancienEmail,$nouveauEmail,$nom,$prenom,$date,$phone);
 
-        
+
         return "vos informations ont été actualisé avec succe";
         }catch(Exception $e)
         {
@@ -194,20 +264,28 @@ function storeLoginEnseignant()
         }
     }
 //-------------------------------------------------------------------------------------------------------------------------------
-    function showMesRendezVousEtudiant()
+    function showMesRendezVousEtudiant(Request $request)
     {
         /*
         recuperation des données de drv a partir de la base de donnée
         */
+        $hasKey = $request->session()->has('student');
+        if(!$hasKey){
+            return redirect()->route('PageAccueil.show');
+        }
         return view('mes_rendez_vous_etudiant');
     }
 //--------------------------------------------------------------------------------------------------------------------------------
-    function priseRendezVousForm()
+    function priseRendezVousForm(Request $request)
     {
         /*
         verifier tjrs si la requette http a été faite aprés une connexion si non rediriger
         l'ulilisateur a la page de connexion
         */
+        $hasKey = $request->session()->has('student');
+        if(!$hasKey){
+            return redirect()->route('PageAccueil.show');
+        }
         return view('prise_rendez_vous_etudiant');
     }
     function storePriseRendezVous()
@@ -217,6 +295,10 @@ function storeLoginEnseignant()
         verification de la disponibilité de l'enseignant
 
         */
+        $hasKey = $request->session()->has('student');
+        if(!$hasKey){
+            return redirect()->route('PageAccueil.show');
+        }
         return view('mes_rendez_vous_etudiant');
     }
     function annulationRendezVous()
@@ -226,6 +308,10 @@ function storeLoginEnseignant()
         affichafge d'un message "voulez vous confirmez l'annulation du rdv"
         retirer le rdv de la base de donnée et actualiser l'affichage des rdv
         */
+        $hasKey = $request->session()->has('student');
+        if(!$hasKey){
+            return redirect()->route('PageAccueil.show');
+        }
         return view('mes_rendez_vous_etudiant');
     }
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -285,3 +371,4 @@ function storeLoginEnseignant()
 
 
 }
+

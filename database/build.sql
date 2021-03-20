@@ -74,15 +74,16 @@ IdEtudiant INTEGER,
 );
 
 CREATE TABLE UtilisateurEtudiant (
+Id INTEGER PRIMARY KEY AUTOINCREMENT,
 Email_Etudiant varchar(50),
 Mot_Passe_Hashé varchar(100),
-   UNIQUE (Email_Etudiant,Mot_Passe_Hashé),
-  PRIMARY KEY(Email_Etudiant)
+codeReinitialisation INT,
+   UNIQUE (Email_Etudiant)
 );
 
 CREATE TABLE UtilisateurEnseignant (
+Id INTEGER PRIMARY KEY AUTOINCREMENT,
 Email_Enseignant varchar(50),
 Mot_Passe_Hashé varchar(100),
-   UNIQUE (Email_Enseignant,Mot_Passe_Hashé),
-  PRIMARY KEY(Email_Enseignant)
+   UNIQUE (Email_Enseignant)
 );
