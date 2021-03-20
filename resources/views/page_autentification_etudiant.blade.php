@@ -9,7 +9,7 @@ Authentification
 
 <div class="big-box">
     <form class="Conexion-box" action="" method="">
-
+    @csrf
         <h2> Service d'authentification pour étudiants</h2>
         <br><br>
         <input type="text" name="" placeholder="E-mail" class="email1">

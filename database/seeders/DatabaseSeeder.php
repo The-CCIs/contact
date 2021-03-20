@@ -24,7 +24,6 @@ class DatabaseSeeder extends Seeder
         touch('database/database.sqlite');
         $repository = new Repository();
         $repository->createDatabase();
-<<<<<<< HEAD
         $repository->insertEtudiant(
                                     ['NomEtudiant' => 'BELKHOUS',
                                     'PrénomEtudiant' => 'Lyes',
@@ -34,7 +33,7 @@ class DatabaseSeeder extends Seeder
                                                                         
                                     );
         
-                                    $repository->insertEtudiant(
+        $repository->insertEtudiant(
                                         ['NomEtudiant' => 'SIYOUCEF',
                                         'PrénomEtudiant' => 'Walid',
                                         'Date_Naissance' => '1992-01-18',
@@ -42,9 +41,11 @@ class DatabaseSeeder extends Seeder
                                         'Niveau_Etude' => 2]
                                                                             
                                         );
+        $repository->insertEtudiantMotDePasse(
+            ['Email_Etudiant'=> 'lyes@hotmail.com', 'Mot_Passe_Hashé' => 'secret1' ]
+
+        );
                                     
-=======
->>>>>>> 78095ddf31d8f60e425f926eabe0e7d8b56cc0b7
 
     }
 }

@@ -17,7 +17,7 @@ Profil etudiant
         <section>
         
         <a href="{{route('modificationEtudiant')}}">
-                <button type="submit" class="Modifier">Modifier mes informations</button>
+                <button type="submit" class="Modifier" style="background-color: red;">Modifier mes informations</button>
         </a>
         </section>
 
@@ -26,10 +26,12 @@ Profil etudiant
             <h3>A propos de moi</h3><br>
             <img class="photo_profil" src="/icon/image.jpg" alt="">
             <br>
-            <div class="Non_etudiant">Walid SIYOUCEF</div>
-            <div class="date_naissance">Date de naissance : 01/11/2002</div>
-            <div class="Tel">Tel :0751192256</div>
-            <div class="class">Classe: Terminal</div>
+            <div class="Non_etudiant">{{ $tab[0]['nom'] ."  ". $tab[0]['prenom']}}</div>
+            <div class="date_naissance">Date de naissance : {{$tab[0]['dateNaissance']}}</div>
+            <div class="Tel">Tel : {{$tab[0]['phone']}}</div>
+            <div class="class">Classe: {{$tab[0]['classe']+10}}</div>
+
+
             <br><br><br><br>
         </section>
         <section>

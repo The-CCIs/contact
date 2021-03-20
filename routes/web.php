@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ForgetPasswordController;
+use App\Mail\ContactMessageCreated;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,3 +83,11 @@ Route::get('/enseignant/rendez-vous', [Controller::class, 'RendezVous'])->name('
 //Géneration de la page disponibilité enseignant
 Route::get('/enseignant/disponibilites', [Controller::class, 'showdisponibilites'])->name('disponibilites.show');
 Route::post('/disponibilites', [Controller::class, 'storeDisponibilites'])->name('diponibilites.post');
+
+
+Route::get('/enseignant/disponibilites', [Controller::class, 'showdisponibilites'])->name('disponibilites.show');
+
+Route::get('/test-email',function(){
+    return new ContactMessageCreated('BELKHOUS','lyes.belkhous@hotmail.com','reinitialisation de mot de passe');
+});
+
