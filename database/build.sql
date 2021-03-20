@@ -66,11 +66,10 @@ IdEtudiant INTEGER,
 );
 
 CREATE TABLE Probleme (
-Id_Pbm INTEGER PRIMARY KEY ,
+Id_Pbm INTEGER PRIMARY KEY,
 Nom_Pbm varchar(20),
 IdEtudiant INTEGER,
   FOREIGN KEY(IdEtudiant) REFERENCES Etudiant(IdEtudiant)
-
 );
 
 CREATE TABLE UtilisateurEtudiant (

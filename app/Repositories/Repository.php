@@ -3,9 +3,9 @@ namespace App\Repositories;
 use Exception;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\VarDumper\Cloner\Data;
+use Illuminate\Support\Facades\Hash;
 
 class Repository
 {
@@ -62,14 +62,14 @@ function modifInfoEtudiant(string $email,string $email2,string $nomEtudiant,
     if(count($table)!==0){
         DB::table('Etudiant')
             ->where('Email_Etudiant', $email)
-            ->update([  'NomEtudiant'=> $nomEtudiant, 
+            ->update([  'NomEtudiant'=> $nomEtudiant,
                         'PrénomEtudiant'=> $PrénomEtudiant,
                         'Date_Naissance'=> $Date_Naissance,
                         'Email_Etudiant'=> $email2,
                         'NumTelephone'=> $NumTelephone
 
                     ]);
-    }else{    
+    }else{
         throw new Exception('Modifications échouées');
     }
 
@@ -80,7 +80,7 @@ function modifInfoEtudiant(string $email,string $email2,string $nomEtudiant,
        // DB::table('teams')->insert($team);
        //yfcygfgfygtfytf
         $id = DB::table('Etudiant')->insertGetId($Etudiant);
-        
+
         return $id;
     }
     function insertEtudiantMotDePasse(array $utilisateur): int
@@ -95,6 +95,11 @@ function modifInfoEtudiant(string $email,string $email2,string $nomEtudiant,
     
 
 
+    function addUser(string $email, string $password): int
+    {
+        $passwordHash =  Hash::make($password);
+        return DB::table('UtilisateurEtudiant')->insertGetId(['Email_Etudiant'=> $email, 'Mot_Passe_Hashé'=> $passwordHash]);
+    }
 
 }
 

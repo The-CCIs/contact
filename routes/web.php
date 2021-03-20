@@ -70,6 +70,7 @@ Route::get('/etudiant/mes-rendez-vous', [Controller::class, 'showMesRendezVousEt
 Route::get('/etudiant/prise-rendez-vous', [Controller::class, 'priseRendezVousForm'])->name('priseRendezVous');
 Route::post('/prise-rendez-vous', [Controller::class, 'storePriseRendezVous'])->name('priseRendezVous.post');
 Route::post('/annulationRendezVous', [Controller::class, 'storeannulationRendezVous'])->name('annulationRendezVous.post');
+Route::get('/etudiant/message-reçu', [Controller::class, 'showMessageReçu'])->name('messageRecu.show');
 
 
 

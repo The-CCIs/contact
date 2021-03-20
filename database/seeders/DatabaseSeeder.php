@@ -29,18 +29,20 @@ class DatabaseSeeder extends Seeder
                                     'PrénomEtudiant' => 'Lyes',
                                     'Date_Naissance' => '1989-01-18',
                                     'Email_Etudiant' => 'lyes@hotmail.com',
-                                    'Niveau_Etude' => 1]
-                                                                        
+                                    'Niveau_Etude' => 'Troisième_année']
+
                                     );
         
-        $repository->insertEtudiant(
+
+                                    $repository->insertEtudiant(
                                         ['NomEtudiant' => 'SIYOUCEF',
                                         'PrénomEtudiant' => 'Walid',
                                         'Date_Naissance' => '1992-01-18',
                                         'Email_Etudiant' => 'walid@hotmail.com',
-                                        'Niveau_Etude' => 2]
-                                                                            
-                                        );
+                                        'Niveau_Etude' => 'Troisième_année']
+
+                                    );
+
         $repository->insertEtudiantMotDePasse(
             ['Email_Etudiant'=> 'lyes@hotmail.com', 'Mot_Passe_Hashé' => 'secret1' ]
 
