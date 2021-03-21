@@ -428,7 +428,7 @@ function storeLoginEnseignant(Request $request)
         }
         return view('mes_rendez_vous_etudiant');
     }
-    function annulationRendezVous()
+    function annulationRendezVous(Request $request)
     {
         /*
         verification que la requette a été faite apres connexion
@@ -501,7 +501,26 @@ function storeLoginEnseignant(Request $request)
         */
         return redirect()->route('disponibilites.show');
     }
+//---------------------------------------------------------------------BARRE DE RECHERCHE-------------------------------------------------------
 
-
+function showSearchBarre()
+{
+$q = request()->input('q');
+$profss= $this->repository->searchProf($q);
+// dd($profss);
+// $profs=['NomEnseignant'=>$profss[0]->NomEnseignant,
+//         'PrénomEnseignant'=>$profss[0]->PrénomEnseignant,
+//         'Matière'=>$profss[0]->Matière];
+// dd($profs);
+return view('mes_rendez_vous_etudiant-research', ['profss' => $profss]);
 }
 
+function showSearchBarre2()
+{
+$q = request()->input('q');
+$etudss= $this->repository->searchEtud($q);
+
+return view('mes_rendez_vous_enseignant-research', ['etudss' => $etudss]);
+}
+
+}

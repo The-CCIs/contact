@@ -69,7 +69,8 @@ Route::get('/etudiant/profil/modification', [Controller::class, 'modificationEtu
 Route::post('/modificationEtudiant', [Controller::class, 'storeModificationEtudiant'])->name('modificationEtudiant.post');
 
 //Géneration de la page mes rendez vous
-Route::get('/etudiant/mes-rendez-vous', [Controller::class, 'showMesRendezVousEtudiant'])->name('mesRendezVousEtudiant');
+Route::get('/etudiant/mes-rendez-vous', [Controller::class, 'showMesRendezVousEtudiant'])->name('MesRendezVousEtudiant');
+Route::get('/etudiant/mes-rendez-vous/checher', [Controller::class, 'showSearchBarre'])->name('barre.reserch');
 
 //Géneration de la page de la prise de rendez vous
 Route::get('/etudiant/prise-rendez-vous', [Controller::class, 'priseRendezVousForm'])->name('priseRendezVous');
@@ -81,6 +82,8 @@ Route::get('/etudiant/message-reçu', [Controller::class, 'showMessageReçu'])->
 
 //Géneration de la page des rdv avec les etudiant et envoi de message
 Route::get('/enseignant/mes-rendez-vous', [Controller::class, 'rendezVousMessageForm'])->name('rendezVousMessage');
+Route::get('/enseignant/mes-rendez-vous/checher', [Controller::class, 'showSearchBarre2'])->name('barre2.reserch');
+
 Route::get('/enseignant/message-enseignant-etudiant', [Controller::class, 'RendezVousMessage'])->name('message-enseignant-etudiant');
 Route::post('/message-enseignant-etudiant', [Controller::class, 'storeRendezVousMessage'])->name('message-enseignant-etudiant.post');
 Route::post('/annulationRendezVousEnseignant', [Controller::class, 'storeannulationRendezVousEnseignant'])->name('annulationRendezVousEnseignant.post');

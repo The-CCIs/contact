@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
                                     );
 
 
-                                    $repository->insertEtudiant(
+        $repository->insertEtudiant(
                                         ['NomEtudiant' => 'SIYOUCEF',
                                         'PrénomEtudiant' => 'Walid',
                                         'Date_Naissance' => '1992-01-18',
@@ -42,10 +42,29 @@ class DatabaseSeeder extends Seeder
                                         'Niveau_Etude' => 'Troisième_année']
 
                                         );
-        $repository->addUser('walid@hotmail.com','se');
-        $repository->addUser('lyes@hotmail.com','se');
-        $repository->addTeacher('nabil@hotmail.com', 'secret');
-        $repository->addTeacher('aissa@hotmail.com', 'secret');
+
+        $repository->insertEnseignant(
+                                            ['NomEnseignant' => 'karim',
+                                            'PrénomEnseignant' => 'nouioua',
+                                            'Date_Naissance' => '1989-01-18',
+                                            'Email_Enseignant' => 'karim@hotmail.com',
+                                            'Matière' => 'Maths']
+
+                                            );
+        $repository->insertEnseignant(
+                                                ['NomEnseignant' => 'karim',
+                                                'PrénomEnseignant' => 'bachir',
+                                                'Date_Naissance' => '1989-01-18',
+                                                'Email_Enseignant' => 'karimb@hotmail.com',
+                                                'Matière' => 'Maths']
+
+                                                );
+
+        $repository->addUser('walid@hotmail.com','123456');
+        $repository->addUser('lyes@hotmail.com','123456');
+        $repository->addTeacher('karim@hotmail.com','123456');
+        $repository->addTeacher('karimb@hotmail.com','123456');
+
 
 
     }

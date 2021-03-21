@@ -73,8 +73,8 @@ function modifInfoEtudiant(string $email,string $email2,string $nomEtudiant,
         throw new Exception('Modifications échouées');
     }
 
-}
-function insertEtudiant(array $Etudiant): int
+    }
+    function insertEtudiant(array $Etudiant): int
     {
         //throw new Exception("bonjour bonjour");
        // DB::table('teams')->insert($team);
@@ -108,6 +108,18 @@ function insertEtudiant(array $Etudiant): int
     }
         return [$user->Id,$user->Email_Etudiant];
     }
+
+
+
+    function insertEnseignant(array $Enseignant): int
+    {
+        //throw new Exception("bonjour bonjour");
+       // DB::table('teams')->insert($team);
+       //yfcygfgfygtfytf
+        $id = DB::table('Enseignant')->insertGetId($Enseignant);
+        return $id;
+
+    }
     function addTeacher(string $email, string $password): int
     {
       $passwordHash= Hash::make($password);
@@ -118,22 +130,42 @@ function insertEtudiant(array $Etudiant): int
 
     function getTeacher(string $email, string $password): array
     {
-    // TODO
-    $users=DB::table('UtilisateurEnseignant')->where('Email_Enseignant',$email)->get()->toArray();
-    if(count($users)==0 ){
-        throw new Exception('Utilisateur inconnu');
-    }
-    $user=$users[0];
-    $ok = Hash::check($password, $user->Mot_Passe_Hashé);
-    //dd($ok);
-    //dump($ok);
-    if(!$ok)
-    {
-        throw new Exception('Utilisateur inconnu');
-    }
+        // TODO
+        $users=DB::table('UtilisateurEnseignant')->where('Email_Enseignant',$email)->get()->toArray();
+        if(count($users)==0)
+            {
+                throw new Exception('Utilisateur inconnu');
+            }
+        $user=$users[0];
+        $ok = Hash::check($password, $user->Mot_Passe_Hashé);
+        //dd($ok);
+        //dump($ok);
+        if(!$ok)
+            {
+                throw new Exception('Utilisateur inconnu');
+            }
+
         return [$user->Id,$user->Email_Enseignant];
+
     }
 
+    function searchProf(string $q): array
+    {
+      return  DB::table('Enseignant')
+      ->where('NomEnseignant', 'like', "%$q%")
+      ->orWhere('PrénomEnseignant', 'like', "%$q%")
+      ->get()
+      ->toArray();
+     }
+
+     function searchEtud(string $q): array
+     {
+       return  DB::table('Etudiant')
+       ->where('NomEtudiant', 'like', "%$q%")
+       ->orWhere('PrénomEtudiant', 'like', "%$q%")
+       ->get()
+       ->toArray();
+      }
 
 }
 
