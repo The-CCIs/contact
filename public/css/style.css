@@ -17,6 +17,7 @@ body {
     background-size: cover;
     z-index: -1;
     font-family: 'Oswald';
+    overflow-y: scroll;
 }
 
 
@@ -75,12 +76,13 @@ nav {
     left: 50%;
     bottom: 0%;
     transform: translate(-50%, 50%);
-    /* min-height: 1vh; */
+    /* min-height: 1vh;*/
     text-align: center;
     border-radius: 1%;
     background: rgba(0, 0, 0, 0.8);
     box-shadow: 0 0 10px rgba(0, 0, 0, 1);
     color: #fff;
+
 }
 
 
@@ -159,7 +161,11 @@ nav {
     .body {
         width: 50%
     }
+<<<<<<< HEAD
 }
+=======
+
+>>>>>>> b0e5c23729a86972db22c66379d9a86d4ec25e43
 
 form {
     font-size: 12px;
@@ -767,9 +773,8 @@ div h3 {
     font-size: 15px;
 }
 
-.checkbox2 input {
-    margin-top: 12px;
-    margin-bottom: 12px;
+td input {
+    margin: .4rem;
 }
 
 .Message2 textarea {

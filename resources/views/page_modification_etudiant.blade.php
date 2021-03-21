@@ -12,24 +12,27 @@ Modification profil
 <div class="big-box">
     <h2> Profil</h2>
     <h3>A propos de moi</h3><br>
+    <input type="file" name="lyesImage">
     <form class="profil-edit-box" method="POST" action="{{route('modificationEtudiant.post')}}">
         @csrf
         @if ($errors->any())
         <div class="alert alert-warning">
-            hhhhhhhhhhhhhhhhhhhh &#9785;
+            infos non actualisées &#9785;
         </div>
         @endif
         <table>
             <tr>
-                <td class="td1">
+                <td class="td1" >
+                    <form method="POST" action="{{route('modificationEtudiant.post')}}">
                     <ul class="">
                         <li>
                             <img class="photo_profil2" src="/icon/image.jpg" alt=""><br>
                         </li>
                         <li>
-                            <input type="submit" name="" value="Modifier" class="Modifier2">
+                            <input type="file" name="file" value="Modifier" class="input-group-text">
                         </li>
                     </ul>
+                    </form>
                 </td>
                 <td>
                     <div class="profil_edit">
@@ -51,10 +54,10 @@ Modification profil
                         <div class="alert-danger"> {{ $errors->first('nouveauEmail')}} </div>
                         <br>
 
-                        <span id="date_de_naissance2">Date de naissance</span>
+                        <span id="date_de_naissance2" >Date de naissance</span>
                         <br>
                         <br>
-                        <input type="date" class="form-control" id="date" name="date" value="{{ old('date') }}">
+                        <input type="date" class="form-control first-name1"  id="date" name="date" value="{{ old('date') }}">
                         <div class="alert-danger"> {{ $errors->first('date')}} </div>
                         <br><br>
                     </div>

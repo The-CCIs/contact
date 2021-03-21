@@ -27,7 +27,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark">
             <button class="navbar-toggler" data-target="#navbarTogglerDemo02" data-toggle="collapse" aria-expanded="false" aria-controls="navbarTogglerDemo02" aria-label="Toggelnavigation">
             <span class="navbar-toggler-icon"></span>
-          </button>
+            </button>
             <div id="navbarTogglerDemo02" class="collapse navbar-collapse">
                 <a class="navbar-brand" href="{{route('PageAccueil.show')}}">Hove Parck School<span class="logo2">Together we Achieve</span></a>
                 <ul class="navbar-nav ml-auto">
@@ -40,18 +40,37 @@
                     <li class="navbar-item">
                         <a class="nav-link fix" href="{{route('contact.show')}}">Contact</a>
                     </li>
-                    <li class="navbar-item">
-                        <a class="nav-link" href="{{route('tableauDeBordEnseignant.show')}}"><button class="btn btn-primary">Tableau de bord</button></a>
-                    </li>
-                    <li class="navbar-item">
-                        <a class="nav-link" href="#cta"><button class="btn btn-primary">Déconnexion</button></a>
-                    </li>
+                <li class="navbar-item">
+                @if (session()->has('student'))
+                <form method="POST" action="/logout">
+                    @csrf
 
+
+
+                    <a class="nav-link" href="{{route('PageAccueil.show')}}"><button type="submit" class="btn btn-outline-primary">Déconnexion</button></button></a>
+
+                    </form>
+                </li>
+                @endif
+                @if (session()->has('teacher'))
+
+                <form method="POST" action="/logout">
+                    @csrf
+
+
+                    <a class="nav-link" href="{{route('PageAccueil.show')}}"><button type="submit" class="btn btn-outline-primary">Déconnexion</button></button></a>
+
+
+                    </form>
+                </li>
+
+
+                @endif
                 </ul>
             </div>
         </nav>
     </div>
-    
+
     <main>
         @yield('content')
     </main>

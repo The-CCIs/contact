@@ -44,7 +44,7 @@ Id_Enseignant INTEGER,
 CREATE TABLE RendezVous (
 Id_RDV INTEGER PRIMARY KEY ,
 Date_RDV datetime NOT NULL,
-Message VARCHAR
+Message VARCHAR(3000),
 IdEtudiant INTEGER,
 Id_Enseignant INTEGER,
   UNIQUE (Id_RDV,Date_RDV,IdEtudiant,Id_Enseignant),

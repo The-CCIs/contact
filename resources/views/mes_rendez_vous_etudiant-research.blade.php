@@ -63,11 +63,17 @@ Mes rendez-vous etudiant
         </div>
         </form>
         <br>
-        <br>
-        <br>
-        <br>
-        <br>
-
+        <div>
+        @foreach($profss as $profs)
+            <ul>
+                <li>
+                    <img class="photo_profil3" src="/icon/profil1.jpeg" alt=""> <span class="nom_prof">{{$profs->NomEnseignant}}   {{$profs->PrénomEnseignant}}</span>
+                    <span class="matière">{{$profs->Matière}}</span>
+                    <a href="/etudiant/prise-rendez-vous"><span class="prendre_rendez_vous"> Prendre un rendez vous</span></a>
+                </li>
+            </ul>
+        @endforeach
+        </div>
     </div>
     <h2></h2>
     <div  class="bar_iden">
