@@ -415,7 +415,7 @@ function storeLoginEnseignant(Request $request)
         }
         return view('prise_rendez_vous_etudiant');
     }
-    function storePriseRendezVous()
+    function storePriseRendezVous(Request $request)
     {
         /*
         verification des champs saisis
