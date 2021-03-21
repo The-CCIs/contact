@@ -63,6 +63,7 @@ Route::post('/modificationEtudiant', [Controller::class, 'storeModificationEtudi
 
 //Géneration de la page mes rendez vous
 Route::get('/etudiant/mes-rendez-vous', [Controller::class, 'showMesRendezVousEtudiant'])->name('MesRendezVousEtudiant');
+Route::get('/etudiant/mes-rendez-vous/checher', [Controller::class, 'showSearchBarre'])->name('barre.reserch');
 
 //Géneration de la page de la prise de rendez vous
 Route::get('/etudiant/prise-rendez-vous', [Controller::class, 'priseRendezVousForm'])->name('priseRendezVous');

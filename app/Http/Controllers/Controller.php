@@ -328,6 +328,12 @@ function storeLoginEnseignant()
         */
         return redirect()->route('disponibilites.show');
     }
+//---------------------------------------------------------------------BARRE DE RECHERCHE-------------------------------------------------------
 
+function showSearchBarre()
+{
+$q = request()->input('q');
+dd($q);
+}
 
 }
