@@ -1,3 +1,4 @@
+
 @extends('base')
 @section('title')
 Accueil
@@ -23,3 +24,4 @@ Accueil
     </div>
 
 @endsection
+

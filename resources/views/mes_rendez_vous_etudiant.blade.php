@@ -69,7 +69,7 @@ Mes rendez-vous etudiant
                 <li>
                     <img class="photo_profil3" src="/icon/profil1.jpeg" alt=""> <span class="nom_prof">Walid SIYOUCEF</span>
                     <span class="matière">Physique</span>
-                    <span class="prendre_rendez_vous"> <a href="#">Prendre un rendez vous</a></span>
+                    <a href="/enseignant/disponibilites"><span class="prendre_rendez_vous"> Prendre un rendez vous</span></a>
                 </li>
 
 
@@ -77,6 +77,22 @@ Mes rendez-vous etudiant
         </div>
     </div>
     <h2></h2>
+    <div  class="bar_iden">
+
+        <a href="/etudiant/message-reçu">
+        <ul>
+            <li>
+                <div class="prof">
+                    <span class="nom_prof">Message reçus</span>
+                    <span class="matière">1</span>
+                </div>
+
+            </li>
+        </ul>
+        </a>
+
+    </div>
+
 
 
 
