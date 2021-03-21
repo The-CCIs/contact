@@ -244,14 +244,13 @@ function storeLoginEnseignant()
 
         
         
-        $nom = '<h1>BELKHOUS</h1>';
-        $nom = htmlentities($nom);
-        dump($nom);
+        $nom = 'BELKHOUS';
+        //dump($nom);
         $prenom = 'Lyes';
         $dateNaissance = "18/01/1989";
         $phone = "0614623344";
         $classe = 5;
-        $tableInformations = [['nom'=>$nom , 'prenom'=>$prenom , 'dateNaissance'=>$dateNaissance , 'phone'=>$phone , 'classe'=>$classe]];
+        $tableInformations = ['nom'=>$nom , 'prenom'=>$prenom , 'dateNaissance'=>$dateNaissance , 'phone'=>$phone , 'classe'=>$classe];
         return view('profil_etudiant',['tab' => $tableInformations]);
     }
 //-------------------------------------------------------------------------------------------------------------------------------
@@ -292,7 +291,7 @@ function storeLoginEnseignant()
         $nom = $tableEtudiant[0]->NomEtudiant;
         
         $prenom = $tableEtudiant[0]->PrénomEtudiant;
-        $phone = $$tableEtudiant[0]->NumTelephone;
+        $phone = $tableEtudiant[0]->NumTelephone;
         $ancienEmail = $tableEtudiant[0]->Email_Etudiant;
         $nouveauEmail = $tableEtudiant[0]->Email_Etudiant;
         $date = $tableEtudiant[0]->Date_Naissance;

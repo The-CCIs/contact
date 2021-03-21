@@ -83,6 +83,7 @@ function modifInfoEtudiant(string $email,string $email2,string $nomEtudiant,
 
         return $id;
     }
+
     function insertEtudiantMotDePasse(array $utilisateur): int
     {   
         //throw new Exception("bonjour bonjour");

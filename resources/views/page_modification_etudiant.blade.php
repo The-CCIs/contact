@@ -12,7 +12,6 @@ Modification profil
 <div class="big-box">
     <h2> Profil</h2>
     <h3>A propos de moi</h3><br>
-    <input type="file" name="lyesImage">
     <form class="profil-edit-box" method="POST" action="{{route('modificationEtudiant.post')}}">
         @csrf
         @if ($errors->any())

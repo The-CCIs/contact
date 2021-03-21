@@ -32,7 +32,6 @@ class DatabaseSeeder extends Seeder
                                     'Niveau_Etude' => 'Troisième_année']
 
                                     );
-        
 
                                     $repository->insertEtudiant(
                                         ['NomEtudiant' => 'SIYOUCEF',
