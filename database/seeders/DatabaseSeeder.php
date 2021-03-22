@@ -24,12 +24,15 @@ class DatabaseSeeder extends Seeder
         touch('database/database.sqlite');
         $repository = new Repository();
         $repository->createDatabase();
+        $repository->remplissageBD();
+        $repository->insertHeur();
         $repository->insertEtudiant(
                                     ['NomEtudiant' => 'BELKHOUS',
                                     'PrénomEtudiant' => 'Lyes',
                                     'Date_Naissance' => '1989-01-18',
                                     'Email_Etudiant' => 'lyes@hotmail.com',
-                                    'Niveau_Etude' => 'Troisième_année']
+                                    'Niveau_Etude' => 'Troisième_année',
+                                    'NumTelephone'=> '0614 62 33 44']
 
                                     );
 
@@ -39,31 +42,62 @@ class DatabaseSeeder extends Seeder
                                         'PrénomEtudiant' => 'Walid',
                                         'Date_Naissance' => '1992-01-18',
                                         'Email_Etudiant' => 'walid@hotmail.com',
-                                        'Niveau_Etude' => 'Troisième_année']
+                                        'Niveau_Etude' => 'Troisième_année',
+                                        'NumTelephone'=> '0751 19 77 30']
 
                                         );
+        $repository->insertEtudiant(
+                                            ['NomEtudiant' => 'BABAAMMI',
+                                            'PrénomEtudiant' => 'Nabil',
+                                            'Date_Naissance' => '1992-01-18',
+                                            'Email_Etudiant' => 'nabil@hotmail.com',
+                                            'Niveau_Etude' => 'Troisième_année',
+                                            'NumTelephone'=> '0751 19 77 12']
+
+                                            );
 
         $repository->insertEnseignant(
                                             ['NomEnseignant' => 'karim',
                                             'PrénomEnseignant' => 'nouioua',
                                             'Date_Naissance' => '1989-01-18',
                                             'Email_Enseignant' => 'karim@hotmail.com',
-                                            'Matière' => 'Maths']
+                                            'Matière' => 'Java']
 
                                             );
         $repository->insertEnseignant(
-                                                ['NomEnseignant' => 'karim',
-                                                'PrénomEnseignant' => 'bachir',
+                                                ['NomEnseignant' => 'estellon',
+                                                'PrénomEnseignant' => 'bertrand',
                                                 'Date_Naissance' => '1989-01-18',
-                                                'Email_Enseignant' => 'karimb@hotmail.com',
-                                                'Matière' => 'Maths']
+                                                'Email_Enseignant' => 'estellon@hotmail.com',
+                                                'Matière' => 'PHP']
 
                                                 );
+        $repository->insertEnseignant(
+                                                    ['NomEnseignant' => 'camille',
+                                                    'PrénomEnseignant' => 'dinaz',
+                                                    'Date_Naissance' => '1989-01-18',
+                                                    'Email_Enseignant' => 'camille@hotmail.com',
+                                                    'Matière' => 'Anglais']
+
+                                                    );
+        $repository->insertEnseignant(
+                                                        ['NomEnseignant' => 'nadia',
+                                                        'PrénomEnseignant' => 'creignou',
+                                                        'Date_Naissance' => '1989-01-18',
+                                                        'Email_Enseignant' => 'nadia@hotmail.com',
+                                                        'Matière' => 'BD']
+
+                                                        );
+
 
         $repository->addUser('walid@hotmail.com','123456');
         $repository->addUser('lyes@hotmail.com','123456');
+        $repository->addUser('nabil@hotmail.com','123456');
+
         $repository->addTeacher('karim@hotmail.com','123456');
-        $repository->addTeacher('karimb@hotmail.com','123456');
+        $repository->addTeacher('estellon@hotmail.com','123456');
+        $repository->addTeacher('camille@hotmail.com','123456');
+        $repository->addTeacher('nadia@hotmail.com','123456');
 
 
 

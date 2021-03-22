@@ -65,14 +65,20 @@ Mes rendez-vous enseignant
             </div>
             </form>
         <br>
-
+        @if (count($etudss)==0)
+        <ul>
+            <li>
+                <span class="nom_prof">{{"Cet etudiant n'existe pas"}}</span>
+            </li>
+        </ul>
+        @endif
         <div>
             @foreach($etudss as $etuds)
                 <ul>
                     <li>
                         <img class="photo_profil3" src="/icon/profil1.jpeg" alt=""> <span class="nom_prof">{{$etuds->NomEtudiant}}   {{$etuds->PrénomEtudiant}}</span>
                         <span class="matière">{{$etuds->Niveau_Etude}}</span>
-                        <a href="/enseignant/message-enseignant-etudiant"><span class="prendre_rendez_vous">Envoyer un message</span></a>
+                        <a href="{{route('message-enseignant-etudiant',['etuds'=>$etuds])}}"><span class="prendre_rendez_vous">Envoyer un message</span></a>
                     </li>
                 </ul>
             @endforeach
