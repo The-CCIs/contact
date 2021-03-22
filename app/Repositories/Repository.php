@@ -42,6 +42,7 @@ function changeMotDePasseOublier($email,$Mot_Passe_Hashé):void
 function createDatabase(): void
 {
     DB::unprepared(file_get_contents('database/build.sql'));
+    DB::unprepared(file_get_contents('database/build2.sql'));
    // La méthode unprepared exécute le script qui lui est donné en argument.
    // La fonction PHP file_get_contents prend en argument un nom de fichier
 }
@@ -77,8 +78,8 @@ function modifInfoEtudiant(string $email,string $email2,string $nomEtudiant,
         throw new Exception('Modifications échouées');
     }
 
-}
-function insertEtudiant(array $Etudiant): int
+    }
+    function insertEtudiant(array $Etudiant): int
     {
         //throw new Exception("bonjour bonjour");
        // DB::table('teams')->insert($team);
@@ -112,6 +113,18 @@ function insertEtudiant(array $Etudiant): int
     }
         return [$user->Id,$user->Email_Etudiant];
     }
+
+
+
+    function insertEnseignant(array $Enseignant): int
+    {
+        //throw new Exception("bonjour bonjour");
+       // DB::table('teams')->insert($team);
+       //yfcygfgfygtfytf
+        $id = DB::table('Enseignant')->insertGetId($Enseignant);
+        return $id;
+
+    }
     function addTeacher(string $email, string $password): int
     {
       $passwordHash= Hash::make($password);
@@ -122,24 +135,118 @@ function insertEtudiant(array $Etudiant): int
 
     function getTeacher(string $email, string $password): array
     {
-    // TODO
-    $users=DB::table('UtilisateurEnseignant')->where('Email_Enseignant',$email)->get()->toArray();
-    if(count($users)==0 ){
-        throw new Exception('Utilisateur inconnu');
-    }
-    $user=$users[0];
-    $ok = Hash::check($password, $user->Mot_Passe_Hashé);
-    //dd($ok);
-    //dump($ok);
-    if(!$ok)
-    {
-        throw new Exception('Utilisateur inconnu');
-    }
+        // TODO
+        $users=DB::table('UtilisateurEnseignant')->where('Email_Enseignant',$email)->get()->toArray();
+        if(count($users)==0)
+            {
+                throw new Exception('Utilisateur inconnu');
+            }
+        $user=$users[0];
+        $ok = Hash::check($password, $user->Mot_Passe_Hashé);
+        //dd($ok);
+        //dump($ok);
+        if(!$ok)
+            {
+                throw new Exception('Utilisateur inconnu');
+            }
+
         return [$user->Id,$user->Email_Enseignant];
+
     }
+
+    function searchProf(string $q): array
+    {
+      return  DB::table('Enseignant')
+      ->where('NomEnseignant', 'like', "%$q%")
+      ->orWhere('PrénomEnseignant', 'like', "%$q%")
+      ->get()
+      ->toArray();
+     }
+
+     function searchEtud(string $q): array
+     {
+       return  DB::table('Etudiant')
+       ->where('NomEtudiant', 'like', "%$q%")
+       ->orWhere('PrénomEtudiant', 'like', "%$q%")
+       ->get()
+       ->toArray();
+      }
+function remplissageBD(): void{
+    for($j = 1 ; $j<=5 ; $j++)
+    {
+            for($i = 1 ; $i<=9 ; $i++)
+            {
+                if($j==1) $jour = 'Lundi';
+                if($j==2) $jour = 'Mardi';
+                if($j==3) $jour = 'Mercredi';
+                if($j==4) $jour = 'Jeudi';
+                if($j==5) $jour = 'Vendredi';
+                DB::table('DispNouioua')->insert(['Heure'=>$i,'Etat'=>'oui','jour'=>$jour]);
+                DB::table('DispEstellon')->insert(['Heure'=>$i,'Etat'=>'oui','jour'=>$jour]);
+                DB::table('DispDinaz')->insert(['Heure'=>$i,'Etat'=>'oui','jour'=>$jour]);
+                DB::table('DispCreignou')->insert(['Heure'=>$i,'Etat'=>'oui','jour'=>$jour]);
+            }
+    }
+
+                }
+
+            function insertHeur()
+            {
+                $tab = [['1000'],['1030'],['1100'],['1130'],['1200'],['1230'],['1400'],['1430'],['1500']];
+                $tabjous = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi'];
+                $tabj=['L','Ma','Me','J','V'];
+                $j=0;
+                for($k = 1 ; $k<=5 ; $k++){
+                for($i = 0 ; $i<9 ; $i++){
+                    // if($j==4) $j=0;
+                    // dump($tab[$i][0]);
+                    DB::table('DispNouioua')
+                    ->where('Heure',($i+1))
+                    ->where('Jour',$tabjous[$j])
+                    ->update(['Heure'=>$tabj[$j].$tab[$i][0]]);
+
+                    DB::table('DispEstellon')
+                    ->where('Heure',($i+1))
+                    ->where('Jour',$tabjous[$j])
+                    ->update(['Heure'=>$tabj[$j].$tab[$i][0]]);
+
+                    DB::table('DispDinaz')
+                    ->where('Heure',($i+1))
+                    ->where('Jour',$tabjous[$j])
+                    ->update(['Heure'=>$tabj[$j].$tab[$i][0]]);
+
+                    DB::table('DispCreignou')
+                    ->where('Heure',($i+1))
+                    ->where('Jour',$tabjous[$j])
+                    ->update(['Heure'=>$tabj[$j].$tab[$i][0]]);
+                }
+                    $j++;
+                }
+
+            }
+
+            function tabDispoEnseignant($email): array
+            {
+                //$value = DB::table('Enseignant')->where('Id_Enseignant',2)->get('Email_Enseignant');
+                //dd($value[0]->Email_Enseignant);
+                if($email == (DB::table('Enseignant')->where('Id_Enseignant',1)->get('Email_Enseignant'))[0]->Email_Enseignant)
+                    return DB::table('DispNouioua')->get()->toArray();
+
+                if($email == (DB::table('Enseignant')->where('Id_Enseignant',2)->get('Email_Enseignant'))[0]->Email_Enseignant)
+                    return DB::table('DispEstellon')->get()->toArray();
+
+                if($email == (DB::table('Enseignant')->where('Id_Enseignant',3)->get('Email_Enseignant'))[0]->Email_Enseignant)
+                    return DB::table('DispDinaz')->get()->toArray();
+
+                if($email == (DB::table('Enseignant')->where('Id_Enseignant',4)->get('Email_Enseignant'))[0]->Email_Enseignant)
+                    return DB::table('DispCreignou')->get()->toArray();
+            }
+
+
 
 
 }
+
 
 
 

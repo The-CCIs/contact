@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS Probleme;
 DROP TABLE IF EXISTS Fichier;
 DROP TABLE IF EXISTS Message;
 DROP TABLE IF EXISTS RendezVous;
-DROP TABLE IF EXISTS Disponibilite;
+
 DROP TABLE IF EXISTS UtilisateurEtudiant;
 DROP TABLE IF EXISTS UtilisateurEnseignant;
 DROP TABLE IF EXISTS Enseignant;
@@ -18,8 +18,8 @@ PrénomEtudiant varchar(20) NOT NULL,
 Date_Naissance DATE NOT NULL,
 Email_Etudiant varchar(50) NOT NULL,
 Niveau_Etude varchar(20) NOT NULL,
-NumTelephone varchar(20),
 NomImage varchar(100),
+NumTelephone varchar(20) NOT NULL,
 UNIQUE (IdEtudiant),
 UNIQUE (Email_Etudiant)
 
@@ -35,16 +35,12 @@ UNIQUE (Id_Enseignant)
 
 );
 
-CREATE TABLE Disponibilite (
-Date_DISP datetime NOT NULL,
-Id_Enseignant INTEGER,
- FOREIGN KEY(Id_Enseignant) REFERENCES Enseignant(Id_Enseignant),
- PRIMARY KEY(Date_DISP)
-);
+
 
 CREATE TABLE RendezVous (
 Id_RDV INTEGER PRIMARY KEY ,
 Date_RDV datetime NOT NULL,
+Message VARCHAR(3000),
 IdEtudiant INTEGER,
 Id_Enseignant INTEGER,
   UNIQUE (Id_RDV,Date_RDV,IdEtudiant,Id_Enseignant),

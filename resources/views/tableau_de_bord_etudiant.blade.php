@@ -20,7 +20,7 @@ Tableau de bord etudiant
                 <button type="submit" class="Profil">Profil</button>
         </a>
 
-        <a href="/etudiant/mes-rendez-vous">
+        <a href="{{route('MesRendezVousEtudiant')}}">
                 <button type="submit" class="rendez-vous">Mes rendez-vous</button>
         </a>
 

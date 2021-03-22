@@ -21,13 +21,6 @@ body {
 }
 
 
-
-
-
-
-
-
-
 /*-------------------------------------------------------------------------------*/
 
 main {
@@ -121,7 +114,7 @@ nav {
 .Inscrire {
     width: 30%;
     height: 23%;
-    margin:3% 25px;
+    margin: 3% 25px;
     text-align: center;
     font-size: 200%;
     padding: 5px;
@@ -163,10 +156,16 @@ nav {
     box-shadow: 0 0 10px rgba(0, 0, 0, 1);
     color: #fff;
 }
-@media(max-width:1028px) {
-    .body{width: 50%}
-    }
 
+@media(max-width:1028px) {
+    .body {
+        width: 50%
+    }
+<<<<<<< HEAD
+}
+=======
+
+>>>>>>> b0e5c23729a86972db22c66379d9a86d4ec25e43
 
 form {
     font-size: 12px;
@@ -590,7 +589,8 @@ div h3 {
 }
 
 .search_box input[type="text"] {
-    width: 35%;
+    font-size: large;
+    width: 65%;
     padding: 7px;
     margin: 0;
     float: left;
@@ -899,6 +899,4 @@ td input {
     background: rgba(0, 0, 0, 0.7);
     /*font-size: x-large*/
 }
-.oploadButton{
 
-}

@@ -1,14 +1,13 @@
 
 @extends('base')
 @section('title')
-Mes rendez-vous etudiant
+Mes rendez-vous enseignant
 @endsection
 @section('assets')
     <link rel="stylesheet" href="/css/style.css">
 @endsection
 
 @section('content')
-
 <div class="big-box2">
     <h2> Rendez-vous</h2>
     <h3>Mes rendez-vous</h3><br>
@@ -24,8 +23,8 @@ Mes rendez-vous etudiant
                     </div>
                     <img class="photo_profil3" src="/icon/profil1.jpeg" alt="">
                     <div class="prof">
-                        <span class="nom_prof">WALID SIYOUCEF</span>
-                        <span class="matière">MATHS</span>
+                        <span class="nom_prof">CAMIILE DINAZ</span>
+                        <span class="matière">1ère année</span>
                     </div>
                 </li>
                 <li>
@@ -35,8 +34,8 @@ Mes rendez-vous etudiant
                     </div>
                     <img class="photo_profil3" src="/icon/profil1.jpeg" alt="">
                     <div class="prof">
-                        <span class="nom_prof">WALID SIYOUCEF</span>
-                        <span class="matière">MATHS</span>
+                        <span class="nom_prof">CAMIILE DINAZ</span>
+                        <span class="matière">1ère année</span>
                     </div>
                 </li>
                 <li>
@@ -46,44 +45,54 @@ Mes rendez-vous etudiant
                     </div>
                     <img class="photo_profil3" src="/icon/profil1.jpeg" alt="">
                     <div class="prof">
-                        <span class="nom_prof">WALID SIYOUCEF</span>
-                        <span class="matière">MATHS</span>
+                        <span class="nom_prof">CAMIILE DINAZ</span>
+                        <span class="matière">1ère année</span>
                     </div>
                 </li>
+
+
+
             </ul>
         </div>
     </div>
     <h2></h2>
     <div class="bar_rech">
-        <h3>Equipe d'enseignement</h3><br>
-        <form action="{{route('barre.reserch')}}">
-        <div class="search_box">
-            <input type="text" name="q" placeholder="Trouvez votre professeur?">
-            <button type="submit" class="btn btn-info">Chercher</button>
-        </div>
-        </form>
+        <h3>Etudiant</h3><br>
+        <form action="{{route('barre2.reserch')}}">
+            <div class="search_box">
+                <input type="text" name="q" placeholder="Trouvez l'étudiant?">
+                <button type="submit" class="btn btn-info">Chercher</button>
+            </div>
+            </form>
         <br>
-        <br>
-        <br>
-        <br>
-        <br>
-    </div>
-    <h2></h2>
-    <div  class="bar_iden">
-        <a href="/etudiant/message-reçu">
+        @if (count($etudss)==0)
         <ul>
             <li>
-                <div class="prof">
-                    <span class="nom_prof">Message reçus</span>
-                    <span class="matière">1</span>
-                </div>
-
+                <span class="nom_prof">{{"Cet etudiant n'existe pas"}}</span>
             </li>
         </ul>
-        </a>
+        @endif
+        <div>
+            @foreach($etudss as $etuds)
+                <ul>
+                    <li>
+                        <img class="photo_profil3" src="/icon/profil1.jpeg" alt=""> <span class="nom_prof">{{$etuds->NomEtudiant}}   {{$etuds->PrénomEtudiant}}</span>
+                        <span class="matière">{{$etuds->Niveau_Etude}}</span>
+                        <a href="{{route('message-enseignant-etudiant',['etuds'=>$etuds])}}"><span class="prendre_rendez_vous">Envoyer un message</span></a>
+                    </li>
+                </ul>
+            @endforeach
+        </div>
+
+
+
     </div>
+    <h2></h2>
+
+
+
     <br>
+
+
 </div>
-
-
 @endsection

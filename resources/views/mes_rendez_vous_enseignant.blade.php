@@ -58,25 +58,18 @@ Mes rendez-vous enseignant
     <h2></h2>
     <div class="bar_rech">
         <h3>Etudiant</h3><br>
-        <div class="search_box">
-            <input type="text" placeholder="Trouvez votre etudiant?">
-        </div>
+        <form action="{{route('barre2.reserch')}}">
+            <div class="search_box">
+                <input type="text" name="q" placeholder="Trouvez l'étudiant?">
+                <button type="submit" class="btn btn-info">Chercher</button>
+            </div>
+            </form>
         <br>
         <br>
         <br>
         <br>
         <br>
-        <div>
-            <ul>
-                <li>
-                    <img class="photo_profil3" src="/icon/profil1.jpeg" alt=""> <span class="nom_prof">CAMIILE DINAZ</span>
-                    <span class="matière">1ère année</span>
-                    <span class="prendre_rendez_vous"> <a href="#">Envoyer un message</a></span>
-                </li>
 
-
-            </ul>
-        </div>
     </div>
     <h2></h2>
 

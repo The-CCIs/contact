@@ -18,8 +18,8 @@ Message enseignant
                 <li>
                     <img class="photo_profil3" src="/icon/profil1.jpeg" alt="">
                     <div class="prof">
-                        <span class="nom_prof">CAMIILE DINAZ</span>
-                        <span class="matière">1ère année</span>
+                        <span class="nom_prof">{{$PrénomEtudiant}} {{$NomEtudiant}}</span>
+                        <span class="matière">{{$Niveau_Etude}}</span>
                     </div>
                 </li>
 

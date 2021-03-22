@@ -469,15 +469,18 @@ function storePhoto(Request $request)
 //--------------------------------------------------------------------------------------------------------------------------------
     function priseRendezVousForm(Request $request)
     {
-        /*
-        verifier tjrs si la requette http a été faite aprés une connexion si non rediriger
-        l'ulilisateur a la page de connexion
-        */
         $hasKey = $request->session()->has('student');
         if(!$hasKey){
             return redirect()->route('PageAccueil.show');
         }
-        return view('prise_rendez_vous_etudiant');
+// dd($request->profs['NomEnseignant']);
+// $request->profs['NomEnseignant'];
+// $request->profs['PrénomEnseignant'];
+// $request->profs['Matière'];
+
+
+        return view('prise_rendez_vous_etudiant',['PrénomEnseignant'=>$request->profs['NomEnseignant'],'NomEnseignant'=>$request->profs['PrénomEnseignant'],'Matière'=>$request->profs['Matière']]);
+
     }
     function storePriseRendezVous(Request $request)
     {
@@ -519,12 +522,15 @@ function storePhoto(Request $request)
         */
         return view('mes_rendez_vous_enseignant');
     }
-    function RendezVousMessage()
+    function RendezVousMessage(Request $request)
     {
-        /*
-        verifications habituelles + message "message envoyer avec succé"
-        */
-        return view('message_enseignant_etudiant');
+// dd($request->etuds);
+// $request->etuds['NomEtudiant'];
+// $request->etuds['PrénomEtudiant'];
+// $request->etuds['Niveau'];
+
+
+        return view('message_enseignant_etudiant',['PrénomEtudiant'=>$request->etuds['PrénomEtudiant'],'NomEtudiant'=>$request->etuds['NomEtudiant'],'Niveau_Etude'=>$request->etuds['Niveau_Etude']]);
     }
 
     function storeRendezVousMessage()
@@ -553,9 +559,20 @@ function storePhoto(Request $request)
     }
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 
-    function showdisponibilites()
+    function showdisponibilites(Request $request)
     {
-        return view('disponibilites_enseignant');
+        $email = 'nadia@hotmail.com';
+
+        $tableDispoEnseignant = $this->repository->tabDispoEnseignant($email);
+        $tableDispoEnseignant = json_decode(json_encode($tableDispoEnseignant), true);
+        for($i=0; $i<9 ;$i++)
+            $tabDispoLundi[$i] = $tableDispoEnseignant[$i];
+            //dd($tabDispoLundi[0]['Etat']);
+        //dd($tabDispoLundi[0]['Heure']);
+        //dd($tableDispoEnseignant);
+
+
+        return view('disponibilites_enseignant',['tabDispoLundi'=>$tabDispoLundi]);
     }
 
     function storeDisponibilites()
@@ -565,7 +582,22 @@ function storePhoto(Request $request)
         */
         return redirect()->route('disponibilites.show');
     }
+//---------------------------------------------------------------------BARRE DE RECHERCHE-------------------------------------------------------
 
+function showSearchBarre()
+{
+$q = request()->input('q');
+$profss= $this->repository->searchProf($q);
 
+return view('mes_rendez_vous_etudiant-research', ['profss' => $profss]);
 }
 
+function showSearchBarre2()
+{
+$q = request()->input('q');
+$etudss= $this->repository->searchEtud($q);
+
+return view('mes_rendez_vous_enseignant-research', ['etudss' => $etudss]);
+}
+
+}

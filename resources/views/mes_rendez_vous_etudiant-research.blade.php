@@ -57,19 +57,35 @@ Mes rendez-vous etudiant
     <div class="bar_rech">
         <h3>Equipe d'enseignement</h3><br>
         <form action="{{route('barre.reserch')}}">
+  
         <div class="search_box">
             <input type="text" name="q" placeholder="Trouvez votre professeur?">
             <button type="submit" class="btn btn-info">Chercher</button>
         </div>
         </form>
         <br>
-        <br>
-        <br>
-        <br>
-        <br>
+        <div>
+            @if (count($profss)==0)
+            <ul>
+                <li>
+                    <span class="nom_prof">{{"Cet enseignant n'existe pas"}}</span>
+                </li>
+            </ul>
+            @endif
+        @foreach($profss as $profs)
+            <ul>
+                <li>
+                    <img class="photo_profil3" src="/icon/profil1.jpeg" alt=""> <span class="nom_prof">{{$profs->NomEnseignant}}   {{$profs->PrénomEnseignant}}</span>
+                    <span class="matière">{{$profs->Matière}}</span>
+                    <a href="{{route('priseRendezVous',['profs'=>$profs])}}"> <span class="prendre_rendez_vous">Prendre un rendez vous</span></a>
+                </li>
+            </ul>
+        @endforeach
+        </div>
     </div>
     <h2></h2>
     <div  class="bar_iden">
+
         <a href="/etudiant/message-reçu">
         <ul>
             <li>
@@ -81,8 +97,15 @@ Mes rendez-vous etudiant
             </li>
         </ul>
         </a>
+
     </div>
+
+
+
+
     <br>
+
+
 </div>
 
 
