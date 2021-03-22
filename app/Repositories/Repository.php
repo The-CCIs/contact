@@ -14,7 +14,11 @@ class Repository
 // build.sql en étant connectée à la base de données de l'application.
 function tableEtudiant($email): array
 {
-    return DB::table('Etudiant')->where('Email_Etudiant', $email)->get()->toArray();
+    $tableEtudiant = DB::table('Etudiant')->where('Email_Etudiant', $email)->get()->toArray();
+    if(count($tableEtudiant)===0){
+        throw new Exception('Utilisateur inconnu');
+    }
+    return $tableEtudiant;
 }
 //----------------------------------------------------------------------------------------------
 function tableUtilisateurEtudiant($email): array
@@ -74,8 +78,8 @@ function modifInfoEtudiant(string $email,string $email2,string $nomEtudiant,
     }
 
 }
-    function insertEtudiant(array $Etudiant): int
-    {   
+function insertEtudiant(array $Etudiant): int
+    {
         //throw new Exception("bonjour bonjour");
        // DB::table('teams')->insert($team);
        //yfcygfgfygtfytf
@@ -83,24 +87,57 @@ function modifInfoEtudiant(string $email,string $email2,string $nomEtudiant,
 
         return $id;
     }
-
-    function insertEtudiantMotDePasse(array $utilisateur): int
-    {   
-        //throw new Exception("bonjour bonjour");
-       // DB::table('teams')->insert($team);
-       //yfcygfgfygtfytf
-        $id = DB::table('UtilisateurEtudiant')->insertGetId($utilisateur);
-        
-        return $id;
-    }
-    
-
-
     function addUser(string $email, string $password): int
     {
-        $passwordHash =  Hash::make($password);
-        return DB::table('UtilisateurEtudiant')->insertGetId(['Email_Etudiant'=> $email, 'Mot_Passe_Hashé'=> $passwordHash]);
+      $passwordHash= Hash::make($password);
+
+      return DB::table('UtilisateurEtudiant')->insertGetId(['Email_Etudiant'=>$email,'Mot_Passe_Hashé'=>$passwordHash]);
+
     }
+
+    function getStudent(string $email, string $password): array
+    {
+    // TODO
+    $users=DB::table('UtilisateurEtudiant')->where('Email_Etudiant',$email)->get()->toArray();
+    if(count($users)==0 ){
+        throw new Exception('Utilisateur inconnu');
+    }
+    $user=$users[0];
+    $ok = Hash::check($password, $user->Mot_Passe_Hashé);
+    //dd($ok);
+    //dump($ok);
+    if(!$ok)
+    {
+        throw new Exception('Utilisateur inconnu');
+    }
+        return [$user->Id,$user->Email_Etudiant];
+    }
+    function addTeacher(string $email, string $password): int
+    {
+      $passwordHash= Hash::make($password);
+
+      return DB::table('UtilisateurEnseignant')->insertGetId(['Email_Enseignant'=>$email,'Mot_Passe_Hashé'=>$passwordHash]);
+
+    }
+
+    function getTeacher(string $email, string $password): array
+    {
+    // TODO
+    $users=DB::table('UtilisateurEnseignant')->where('Email_Enseignant',$email)->get()->toArray();
+    if(count($users)==0 ){
+        throw new Exception('Utilisateur inconnu');
+    }
+    $user=$users[0];
+    $ok = Hash::check($password, $user->Mot_Passe_Hashé);
+    //dd($ok);
+    //dump($ok);
+    if(!$ok)
+    {
+        throw new Exception('Utilisateur inconnu');
+    }
+        return [$user->Id,$user->Email_Enseignant];
+    }
+
 
 }
 

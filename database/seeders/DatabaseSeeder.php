@@ -29,7 +29,9 @@ class DatabaseSeeder extends Seeder
                                     'PrénomEtudiant' => 'Lyes',
                                     'Date_Naissance' => '1989-01-18',
                                     'Email_Etudiant' => 'lyes@hotmail.com',
-                                    'Niveau_Etude' => 'Troisième_année']
+                                    'Niveau_Etude' => 'Troisième_année',
+                                    'NumTelephone'=> '06 14 62 33 44',
+                                    'NomImage'=> 'imagesDefault.png']
 
                                     );
 
@@ -38,15 +40,16 @@ class DatabaseSeeder extends Seeder
                                         'PrénomEtudiant' => 'Walid',
                                         'Date_Naissance' => '1992-01-18',
                                         'Email_Etudiant' => 'walid@hotmail.com',
-                                        'Niveau_Etude' => 'Troisième_année']
+                                        'Niveau_Etude' => 'Troisième_année',
+                                        'NumTelephone'=> '06 20 20 20',
+                                        'NomImage'=> 'imagesDefault.png']
 
-                                    );
+                                        );
+        $repository->addUser('walid@hotmail.com','se');
+        $repository->addUser('lyes@hotmail.com','se');
+        $repository->addTeacher('nabil@hotmail.com', 'secret');
+        $repository->addTeacher('aissa@hotmail.com', 'secret');
 
-        $repository->insertEtudiantMotDePasse(
-            ['Email_Etudiant'=> 'lyes@hotmail.com', 'Mot_Passe_Hashé' => 'secret1' ]
-
-        );
-                                    
 
     }
 }

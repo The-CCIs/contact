@@ -10,11 +10,12 @@ Inscription Etudiant
 
 
 <div class="big-box2">
+
 <form class="Inscription-box" action="{{route('Inscription.store')}}" method="POST">
 @csrf
 
 @if ($errors->any())
-<div class="alert alert-warning">
+<div class="alert alert-warning ">
     L'étudiant n'a pas pu être ajouté &#9785;
 </div>
 @endif
@@ -23,6 +24,7 @@ Inscription Etudiant
 
 
 <h2> Inscrivez-vous avec votre adresse e-mail</h2>
+
 <input type="text" name="nom" placeholder="Nom" class="last-name1">
 @error('nom')
 {{ $message }}
@@ -77,9 +79,12 @@ Inscription Etudiant
 @enderror
 {{-- ------------------------------------------------------- --}}
 <div>
-<input type="checkbox" id="scales" name="scales" checked>
+<input type="checkbox" id="scales" name="scales" class="@error('scales') is-invalid @enderror" required>
 <label for="scales">J'ai lu et j'accepte les Conditions Générales d'Utilisation</label>
 </div>
+@error('scales')
+        {{ $message }}
+@enderror
 
 
 <br>
@@ -89,7 +94,10 @@ Inscription Etudiant
 <div class="connexion-index">Vous avez déjà un compte ?
 <a href="#">Connectez-vous</a></div>
 
+
+
 </form>
+
 
 </div>
 

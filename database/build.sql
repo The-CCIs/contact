@@ -19,6 +19,7 @@ Date_Naissance DATE NOT NULL,
 Email_Etudiant varchar(50) NOT NULL,
 Niveau_Etude varchar(20) NOT NULL,
 NumTelephone varchar(20),
+NomImage varchar(100),
 UNIQUE (IdEtudiant),
 UNIQUE (Email_Etudiant)
 

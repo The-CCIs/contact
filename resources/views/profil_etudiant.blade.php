@@ -9,7 +9,13 @@ Profil etudiant
 
 @section('content')
 
+
 <div class="big-box">
+@if(session()->has('message'))
+        <div class="alert alert-success" style="font-size: 20px;">
+            {{ session()->get('message') }}
+        </div>
+    @endif
     <div class="profil-box">
         <h2> Profil</h2>
         <br><br>
@@ -24,9 +30,9 @@ Profil etudiant
 
         <section>
             <h3>A propos de moi</h3><br>
-            <img class="photo_profil" src="/icon/image.jpg" alt="">
+            <img class="photo_profil" src="http://localhost:8000/storage/image/{{$tab['NomImage']}}" alt="">
             <br>
-            <div class="Non_etudiant">{{ $tab['nom'] ."  ". $tab['prenom']}}</div>
+            <div class="Non_etudiant">{{$tab['nom']."  ". $tab['prenom']}}</div>
             <div class="date_naissance">Date de naissance : {{$tab['dateNaissance']}}</div>
             <div class="Tel">Tel : {{$tab['phone']}}</div>
             <div class="class">Classe: {{$tab['classe']}}</div>

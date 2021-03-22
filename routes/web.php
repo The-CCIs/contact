@@ -10,7 +10,7 @@ use App\Mail\ContactMessageCreated;
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
+|   Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 */
@@ -32,15 +32,20 @@ Route::get('/etudiant/inscription', [Controller::class, 'showInscriptionEtudiant
 Route::post('/inscription', [Controller::class, 'storeInscription'])->name('Inscription.store');
 
 //Générartion de la page d’identification ou authentification pour etudiant
-Route::get('/loginEtudiant', [Controller::class, 'showLoginEtudiant'])->name('LogineEtudiant.show');
-Route::post('/login', [Controller::class, 'storeLoginEtudiant'])->name('LoginEtudiant.store');
+Route::get('/etudiant/loginEtudiant', [Controller::class, 'showLoginEtudiant'])->name('LogineEtudiant.show');
+Route::post('/loginEtudiant', [Controller::class, 'storeLoginEtudiant'])->name('LoginEtudiant.post');
+
+
+
 
 //Générartion de la page d’identification ou authentification pour enseignant
-Route::get('/loginEnseignant', [Controller::class, 'showLoginEnseignant'])->name('LogineEnseignant.show');
-Route::post('/login', [Controller::class, 'storeLoginEnseignant'])->name('LoginEnseignant.store');
+Route::get('/enseignant/loginEnseignant', [Controller::class, 'showLoginEnseignant'])->name('LogineEnseignant.show');
+Route::post('/loginEnseignant', [Controller::class, 'storeLoginEnseignant'])->name('LoginEnseignant.store');
 
-//Déconnexion
-Route::post('/logout', [Controller::class, 'logout'])->name('logout.post');
+//déconexion enseignant
+Route::post('/logout', [Controller::class, 'logout'])->name('logout');
+
+
 
 //Mot de passe au cas d'oublie
 Route::get('/mot-de-passe-oublie', [Controller::class, 'motDePasseOublieForm'])->name('motDePasseOublie');
@@ -51,10 +56,10 @@ Route::get('/reinitialisation-mot-de-passe', [Controller::class, 'reinitialisati
 Route::post('/reinitialisation-mot-de-passe', [Controller::class, 'storereinitialisationMotDePasse'])->name('reinitialisationMotDePasse.post');
 
 //Générartion du tableau de bord etudiant
-Route::get('/etudiant/tableau-de-Bord-etudiant', [Controller::class, 'showTableauDeBordEtudiant'])->name('tableauDeBordEtudiant.show');
+//Route::get('/etudiant/tableau_de_bord_etudiant', [Controller::class, 'showTableauDeBordEtudiant'])->name('tableauDeBordEtudiant.show');
 
 //Générartion du tableau de bord enseignant
-Route::get('/enseignant/tableau-de-Bord-enseignant', [Controller::class, 'showTableauDeBordEnseignant'])->name('tableauDeBordEnseignant.show');
+//Route::get('/enseignant/tableau-de-Bord-enseignant', [Controller::class, 'showTableauDeBordEnseignant'])->name('tableauDeBordEnseignant.show');
 
 //Géneration de la page profil
 Route::get('/etudiant/profil', [Controller::class, 'showProfil'])->name('profil.show');
@@ -64,7 +69,7 @@ Route::get('/etudiant/profil/modification', [Controller::class, 'modificationEtu
 Route::post('/modificationEtudiant', [Controller::class, 'storeModificationEtudiant'])->name('modificationEtudiant.post');
 
 //Géneration de la page mes rendez vous
-Route::get('/etudiant/mes-rendez-vous', [Controller::class, 'showMesRendezVousEtudiant'])->name('MesRendezVousEtudiant');
+Route::get('/etudiant/mes-rendez-vous', [Controller::class, 'showMesRendezVousEtudiant'])->name('mesRendezVousEtudiant');
 
 //Géneration de la page de la prise de rendez vous
 Route::get('/etudiant/prise-rendez-vous', [Controller::class, 'priseRendezVousForm'])->name('priseRendezVous');
@@ -87,6 +92,9 @@ Route::post('/disponibilites', [Controller::class, 'storeDisponibilites'])->name
 
 
 Route::get('/enseignant/disponibilites', [Controller::class, 'showdisponibilites'])->name('disponibilites.show');
+
+//changement de photo
+Route::post('/xx', [Controller::class, 'storePhoto'])->name('photo.post');
 
 Route::get('/test-email',function(){
     return new ContactMessageCreated('BELKHOUS','lyes.belkhous@hotmail.com','reinitialisation de mot de passe');

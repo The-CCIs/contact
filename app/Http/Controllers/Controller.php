@@ -10,6 +10,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use App\Repositories\Data;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\ConvertEmptyStringsToNull;
@@ -29,14 +30,24 @@ use Illuminate\Support\Facades\Mail;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-
     public function __construct(Repository $repository)
     {
         $this->repository = $repository;
     }
 
-    function showPageAccueil()
+
+
+    function showPageAccueil(Request $request)
     {
+        $hasKey = $request->session()->has('student');
+        $hasKey1 = $request->session()->has('teacher');
+        if($hasKey){
+            return view('tableau_de_bord_etudiant');
+        }
+       else if($hasKey1){
+            return view('tableau_de_bord_enseignant');
+       }
+
         return view('page_accueil');
     }
     function showItablissement()
@@ -70,7 +81,7 @@ class Controller extends BaseController
             'passwordconfirmation' => ['required'],
             'niveau' => ['required'],
             'date' => ['required', 'date'],
-            // 'scales' => ['required'],
+            'scales' => ['required'],
 
             ];
             $messages = [
@@ -85,6 +96,7 @@ class Controller extends BaseController
                 'niveau.required' => 'champs obligatoire',
                 'date.required' => 'Vous devez choisir une date de naissance.',
                 'date.date' => 'Vous devez choisir une date de naissance valide.',
+                'scales.required'=>'vous devez cocher pour continuer'
             ];
 
             $validatedData = $request->validate($rules,$messages);
@@ -95,7 +107,9 @@ class Controller extends BaseController
                 'Email_Etudiant' => $validatedData['email'],
                 'NumTelephone' => $validatedData['tel'],
                 'Date_Naissance' => $validatedData['date'],
-                'Niveau_Etude' => $validatedData['niveau']]);
+                'Niveau_Etude' => $validatedData['niveau'],
+                'NomImage'=> 'imagesDefault.png'
+                ]);
 
                 $this->repository->addUser($validatedData['email'], $validatedData['password']);
             }catch (Exception $exception) {
@@ -103,61 +117,109 @@ class Controller extends BaseController
                 var_dump($exception);
                 return redirect()->route('InscriptionEtudiant.show')->withInput()->withErrors("Impossible de rajouter l'étudiant");
             }
-        return redirect()->route('tableauDeBordEtudiant.show');
+        //return redirect()->route('tableauDeBordEtudiant.show');
+        return redirect()->route('PageAccueil.show');
     }
 //-----------------------------------------------------------------------------------------------------------------------------------
     function showLoginEtudiant()
     {
-        return view('page_autentification_etudiant');
+        return view('LoginEtudiant');
     }
 
-    function storeLoginEtudiant()
-    {
-         /*
-        $value = $repository->getUser($email, $password);
-        1- verification des information saisis
-        2- se souvenir de l'authentification de l'utilisateur $request->session()->put('user', $value);
-        avec traitement des exceptions
-        verifier s'il s'agit d'un étudiant ou d'un enseignant pour retourner la vue adéquate.
-        */
-        return view('tableau_de_bord_etudiant');
+    function storeLoginEtudiant(Request $request)
+    {   
+        $rules = [
+        'email' => ['required', 'email'],
+        'password' => ['required']
+         ];
+        $messages = [
+        'email.required' => 'Vous devez saisir un e-mail.',
+        'email.email' => 'Vous devez saisir un e-mail valide.',
+        'email.exists' => "Cet utilisateur n'existe pas.",
+        'password.required' => "Vous devez saisir un mot de passe.",
+         ];
+        $validatedData = $request->validate($rules, $messages);
+        $email=$validatedData['email'];
+        $password=$validatedData['password'];
+
+
+        try {
+      # TODO 1 : lever une exception si le mot de passe de l'utilisateur n'est pas correct
+        $student=$this->repository->getStudent($email,$password);
+      # TODO 2 : se souvenir de l'authentification de l'utilisateur
+
+        //$value = $request->session()->get($user['email']);
+        $request->session()->put('student', $student);
+        //return view('tableau_de_bord_etudiant'); 
+        
+        } catch (Exception $e) {
+        return redirect()->back()->withInput()->withErrors("Impossible de vous authentifier.");
     }
+
+
+
+    //return redirect()->route('tableauDeBordEtudiant.show');
+    return redirect()->route('PageAccueil.show');
+    }
+
 //-----------------------------------------------------------------------------------------------------------------------------------
 function showLoginEnseignant()
 {
     return view('page_autentification_enseignant');
 }
 
-function storeLoginEnseignant()
+function storeLoginEnseignant(Request $request)
 {
-     /*
-    $value = $repository->getUser($email, $password);
-    1- verification des information saisis
-    2- se souvenir de l'authentification de l'utilisateur $request->session()->put('user', $value);
-    avec traitement des exceptions
-    verifier s'il s'agit d'un étudiant ou d'un enseignant pour retourner la vue adéquate.
-    */
-    return view('tableau_de_bord_enseignant');
+
+    $rules = [
+        'email_teacher' => ['required', 'email'],
+        'password_teacher' => ['required']
+         ];
+        $messages = [
+        'email_teacher.required' => 'Vous devez saisir un e-mail.',
+        'email_teacher.email' => 'Vous devez saisir un e-mail valide.',
+        'email_teacher.exists' => "Cet utilisateur n'existe pas.",
+        'password_teacher.required' => "Vous devez saisir un mot de passe.",
+         ];
+        $validatedData = $request->validate($rules, $messages);
+        $email=$validatedData['email_teacher'];
+        $password=$validatedData['password_teacher'];
+
+
+        try {
+      # TODO 1 : lever une exception si le mot de passe de l'utilisateur n'est pas correct
+        $teacher=$this->repository->getTeacher($email,$password);
+      # TODO 2 : se souvenir de l'authentification de l'utilisateur
+
+        //$value = $request->session()->get($user['email']);
+        $request->session()->put('teacher', $teacher);
+
+        } catch (Exception $e) {
+        return redirect()->back()->withInput()->withErrors("Impossible de vous authentifier.");
+        }
+        //return redirect()->route('tableauDeBordEnseignant.show');
+        return redirect()->route('PageAccueil.show');
+
 }
+      function logout(Request $request) {
+        if($request->session()->has('student'))
+        $request->session()->forget('student');
+        else
+        $request->session()->forget('teacher');
+
+        return redirect()->route('PageAccueil.show');
+      }
 //-----------------------------------------------------------------------------------------------------------------------
-    function logout()
-    {
-        /*
-        on peut afficher un message qui nous demande de confirmer le déconnexion
-        */
-       
-        return redirect()->route('Logine.show');
-    }
-//-----------------------------------------------------------------------------------------------------------------------
+
     function motDePasseOublieForm()
-    { 
+    {
         return view('mot_de_passe_oublie');
     }
     function storemotDePasseOublie(Request $request, Repository $repository)
     {
-        $messages = ['email.required' => "Vous devez saisir votre mail"]; 
-        
-        $rules = [  
+        $messages = ['email.required' => "Vous devez saisir votre mail"];
+
+        $rules = [
                     'email' => ['required']
                  ];
 
@@ -173,16 +235,16 @@ function storeLoginEnseignant()
             //dump($code);
             $tablEtudiant = $repository->tableEtudiant($email);
             $prenom = $tablEtudiant[0]->PrénomEtudiant;
-            
+
             $mailable = new ContactMessageCreated($email,$prenom,$code);
             Mail::to($email)->send($mailable);
             $repository->changeCodeConfirmation($email,$code);
             return redirect()->back()->with('message', 'Un message a été envoyé dans votre boite mail');
         }
-        
-        
+
+
         return redirect()->back()->withErrors('message : La réinitialisation de votre mot de passe a échoué');
-       
+
     }
 //---------------------------------------------------------------------------------------------------------------------------------
 
@@ -198,8 +260,8 @@ function storeLoginEnseignant()
                     'code.required' => "Saisissez le code reçu sur votre boite mail",
                     'password1.required' => "Vous devez saisir un mot de passe",
                     'password2.required' => "Vous devez saisir un mot de passe"
-                    ]; 
-        $rules = [  
+                    ];
+        $rules = [
                     'email' => ['required','email'],
                     'code' => ['required','integer'],
                     'password1' => ['required'],
@@ -224,43 +286,73 @@ function storeLoginEnseignant()
         return redirect()->back()->withErrors('echeque, vérifiez bien vos informations');
     }
 //--------------------------------------------------------------------------------------------------------------------------------
-    function showTableauDeBordEtudiant()
+   /*function showTableauDeBordEtudiant(Request $request)
     {
+        $hasKey = $request->session()->has('student');
+        if(!$hasKey){
+            return redirect()->route('PageAccueil.show');
+        }
         return view('tableau_de_bord_etudiant');
-    }
+    }*/
 //--------------------------------------------------------------------------------------------------------------------------------
-    function showTableauDeBordEnseignant()
+    /*function showTableauDeBordEnseignant(Request $request)
     {
+        $hasKey = $request->session()->has('teacher');
+        if(!$hasKey){
+            return redirect()->route('PageAccueil.show');
+        }
         return view('tableau_de_bord_enseignant');
-    }
+    }*/
 //--------------------------------------------------------------------------------------------------------------------------------
-    function showProfil(Repository $repository)
+    function showProfil(Request $request)
     {
-        /*
-        verifier si l'utilisateur est connecté ou pas si non rediriger 'utlisateur vers la page
-        d'autentification. avec un message vous "devez vous authentifier d'abord".
-        */
-        //$infosEtudiant = $repository->tableEtudiant($email);
+       
+        $hasKey = $request->session()->has('student');
+        //dd($hasKey);
+       //dump($hasKey);
+        if(!$hasKey){
+            return redirect()->route('PageAccueil.show');
+        }
 
+        $value = $request->session()->get('student');
+        $email = $value[1];
         
-        
-        $nom = 'BELKHOUS';
+        try{
+            
+        $tableEtudiant = $this->repository->tableEtudiant($email);
+        $nom = $tableEtudiant[0]->NomEtudiant;
         //dump($nom);
-        $prenom = 'Lyes';
-        $dateNaissance = "18/01/1989";
-        $phone = "0614623344";
-        $classe = 5;
-        $tableInformations = ['nom'=>$nom , 'prenom'=>$prenom , 'dateNaissance'=>$dateNaissance , 'phone'=>$phone , 'classe'=>$classe];
+        $prenom = $tableEtudiant[0]->PrénomEtudiant;
+        $dateNaissance = $tableEtudiant[0]->Date_Naissance;
+        $phone = $tableEtudiant[0]->NumTelephone;
+        $classe = $tableEtudiant[0]->Niveau_Etude;
+        $NomImage = $tableEtudiant[0]->NomImage;
+        //dd($NomImage);
+
+        $tableInformations = ['NomImage'=>$NomImage ,'nom'=>$nom , 'prenom'=>$prenom , 'dateNaissance'=>$dateNaissance , 'phone'=>$phone , 'classe'=>$classe];
+        
+        
+        } catch(Exception $e){
+            return redirect()->back()->withErrors("il y a eu un probleme");
+        }
         return view('profil_etudiant',['tab' => $tableInformations]);
     }
 //-------------------------------------------------------------------------------------------------------------------------------
-    function modificationEtudiantForm()
+    function modificationEtudiantForm(Request $request)
     {
         /*
         verifier si l'utilisateur est connecté ou pas si non rediriger 'utlisateur vers la page
         d'autentification. avec un message vous "devez vous authentifier d'abord".
         */
-        return view('page_modification_etudiant');
+        $hasKey = $request->session()->has('student');
+        if(!$hasKey){
+            return redirect()->route('PageAccueil.show');
+        }
+        $value = $request->session()->get('student');
+        $email = $value[1];
+        $nomImage = $this->repository->tableEtudiant($email)[0]->NomImage;
+
+        return view('page_modification_etudiant',['nomImage'=>$nomImage]);
     }
 
     function storeModificationEtudiant(Request $request, Repository $repository)
@@ -271,83 +363,146 @@ function storeLoginEnseignant()
             'ancienEmail.required' => "Vous devez saisir votre ancien email.",
             'nouveauEmail.email' => "Vous devez saisir un email.",
             'date.date' => "Vous devez selectionner une date valide."
-        
-          ]; 
-        
+
+          ];
+
         $rules = [  'nom' => ['String','nullable'],
                     'prenom' => ['String','nullable'],
                     'phone' => ['String','nullable'],
                     'ancienEmail' => ['required','email'],
                     'nouveauEmail' => ['email','nullable'],
                     'date' => ['date','nullable']
-                        
+
                 ];
         //verification des champs saisi
-        dump($request->all());
+        //dump($request->all());
         $validatedData = $request->validate($rules,$messages);
         $ancienEmail = $validatedData['ancienEmail'];
-        $tableEtudiant = $repository->tableEtudiant($ancienEmail);
-
-        $nom = $tableEtudiant[0]->NomEtudiant;
         
+
+        
+
+        //dd($nom . $prenom . $ancienEmail . $nouveauEmail . $date);
+        $hasKey = $request->session()->has('student');
+        if(!$hasKey){
+            return redirect()->route('PageAccueil.show');
+        }
+        //dump(gettype($tableEtudiant));
+        //dd(count($tableEtudiant));
+        
+        try{
+        //dd($request->file('image'));
+        $tableEtudiant = $repository->tableEtudiant($ancienEmail);
+        $nom = $tableEtudiant[0]->NomEtudiant;
         $prenom = $tableEtudiant[0]->PrénomEtudiant;
         $phone = $tableEtudiant[0]->NumTelephone;
         $ancienEmail = $tableEtudiant[0]->Email_Etudiant;
         $nouveauEmail = $tableEtudiant[0]->Email_Etudiant;
         $date = $tableEtudiant[0]->Date_Naissance;
-        dd($nom . $prenom . $ancienEmail . $nouveauEmail . $date);
-        try{
+        $NomImage = $tableEtudiant[0]->NomImage;
+
+
+        if($validatedData['nom']!= null)
+            $nom = $validatedData['nom'];
+
+        if($validatedData['prenom']!== null)
+            $prenom = $validatedData['prenom'];
         
-        $nom = $validatedData['nom'];
-        $prenom = $validatedData['prenom'];
-        $phone = $validatedData['phone'];
-        $ancienEmail = $validatedData['ancienEmail'];
-        $nouveauEmail = $validatedData['nouveauEmail'];
-        $date = $validatedData['date'];
+        if($validatedData['phone']!=null)
+            $phone = $validatedData['phone'];
+
+        if($validatedData['ancienEmail']!= null)
+            $ancienEmail = $validatedData['ancienEmail'];
+        
+        if($validatedData['nouveauEmail']!= null)
+            $nouveauEmail = $validatedData['nouveauEmail'];
+        
+        if($validatedData['date']!= null)
+            $date = $validatedData['date'];
+        //dd(gettype($phone));
         $repository->modifInfoEtudiant($ancienEmail,$nouveauEmail,$nom,$prenom,$date,$phone);
 
 
-        return "vos informations ont été actualisé avec succe";
+        return redirect()->route('profil.show')->with('message','Modiffications enrigistrées');
+        
         }catch(Exception $e)
         {
             return redirect()->back()->withErrors("Modifs non enrigistrées");
         }
+        
     }
 //-------------------------------------------------------------------------------------------------------------------------
-    
-//-------------------------------------------------------------------------------------------------------------------------------
-    function showMesRendezVousEtudiant()
+function storePhoto(Request $request)
+{
+    $hasKey = $request->session()->has('student');
+    if(!$hasKey){
+        return redirect()->route('PageAccueil.show');
+    }
+    $value = $request->session()->get('student');
+        $email = $value[1];
+    //dd($request->file('image'));
+    //dd($request->hasFile('image'));
+    if($request->hasFile('image'))
     {
-        /*
-        recuperation des données de drv a partir de la base de donnée
-        */
+        $fileName = $request->image->getClientOriginalName();
+
+        $request->image->storeAs('image',$fileName,'public');
+        DB::table('Etudiant')
+        ->where('Email_Etudiant', $email)
+        ->update(['NomImage'=> $fileName]);
+        return redirect()->back()->with("message","Photo de profil changé avec succé");
+    }
+    return redirect()->back()->withErrors("aucune photo selectionné");
+   
+    
+}
+//-------------------------------------------------------------------------------------------------------------------------------
+    function showMesRendezVousEtudiant(Request $request)
+    {
+
+        $hasKey = $request->session()->has('student');
+        if(!$hasKey){
+            return redirect()->route('PageAccueil.show');
+        }
         return view('mes_rendez_vous_etudiant');
     }
 //--------------------------------------------------------------------------------------------------------------------------------
-    function priseRendezVousForm()
+    function priseRendezVousForm(Request $request)
     {
         /*
         verifier tjrs si la requette http a été faite aprés une connexion si non rediriger
         l'ulilisateur a la page de connexion
         */
+        $hasKey = $request->session()->has('student');
+        if(!$hasKey){
+            return redirect()->route('PageAccueil.show');
+        }
         return view('prise_rendez_vous_etudiant');
     }
-    function storePriseRendezVous()
+    function storePriseRendezVous(Request $request)
     {
         /*
         verification des champs saisis
         verification de la disponibilité de l'enseignant
 
         */
+        $hasKey = $request->session()->has('student');
+        if(!$hasKey){
+            return redirect()->route('PageAccueil.show');
+        }
         return view('mes_rendez_vous_etudiant');
     }
-    function annulationRendezVous()
+    function annulationRendezVous(Request $request)
     {
         /*
         verification que la requette a été faite apres connexion
         affichafge d'un message "voulez vous confirmez l'annulation du rdv"
         retirer le rdv de la base de donnée et actualiser l'affichage des rdv
         */
+        $hasKey = $request->session()->has('student');
+        if(!$hasKey){
+            return redirect()->route('PageAccueil.show');
+        }
         return view('mes_rendez_vous_etudiant');
     }
 
@@ -413,3 +568,4 @@ function storeLoginEnseignant()
 
 
 }
+
