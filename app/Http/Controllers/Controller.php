@@ -561,26 +561,85 @@ function storePhoto(Request $request)
 
     function showdisponibilites(Request $request)
     {
-        $email = 'nadia@hotmail.com';
+       
+
+        $hasKey1 = $request->session()->has('teacher');
+        //dd($hasKey1);
+        
+        if(!$hasKey1){
+            return view('page_accueil');
+        }
+
+        $email = $request->session()->get('teacher')[1];
+        $tab = ['10:00','10:30','11:00','11:30','12:00','12:30','14:00','14:30','15:00'];
+
+        $tabEns = $this->repository->tableEnseignant($email);
+        //dd($tabEns);
+        $nomPrenom = $tabEns[0][ "NomEnseignant"]."  ".$tabEns[0][ "PrénomEnseignant"];
+        $nomPrenom = strtoupper($nomPrenom);
+        $matiere = $tabEns[0]["Matière"];
+        $matiere = strtoupper($matiere);
 
         $tableDispoEnseignant = $this->repository->tabDispoEnseignant($email);
         $tableDispoEnseignant = json_decode(json_encode($tableDispoEnseignant), true);
         for($i=0; $i<9 ;$i++)
+        {
             $tabDispoLundi[$i] = $tableDispoEnseignant[$i];
-            //dd($tabDispoLundi[0]['Etat']);
-        //dd($tabDispoLundi[0]['Heure']);
-        //dd($tableDispoEnseignant);
+            $tabDispoLundi[$i]['H'] = $tab[$i];
+        }
+        
+        for($i=9; $i<18 ;$i++)
+        {
+            $tabDispoMardi[$i] = $tableDispoEnseignant[$i];
+            $tabDispoMardi[$i]['H'] = $tab[$i-9];
+        }
+        for($i=18; $i<27 ;$i++)
+        {
+            $tabDispoMercredi[$i] = $tableDispoEnseignant[$i];
+            $tabDispoMercredi[$i]['H'] = $tab[$i-18];
+        }
+        for($i=27; $i<36 ;$i++)
+        {
+            $tabDispoJeudi[$i] = $tableDispoEnseignant[$i];
+            $tabDispoJeudi[$i]['H'] = $tab[$i-27];
+        }
+        for($i=36; $i<45 ;$i++)
+        {
+            $tabDispoVendredi[$i] = $tableDispoEnseignant[$i];
+            $tabDispoVendredi[$i]['H'] = $tab[$i-36];
+        }
 
 
-        return view('disponibilites_enseignant',['tabDispoLundi'=>$tabDispoLundi]);
+        return view('disponibilites_enseignant',[
+                                                    'tabDispoLundi'=>$tabDispoLundi,
+                                                    'tabDispoMardi'=>$tabDispoMardi,
+                                                    'tabDispoMercredi'=>$tabDispoMercredi,
+                                                    'tabDispoJeudi'=>$tabDispoJeudi,
+                                                    'tabDispoVendredi'=>$tabDispoVendredi,
+                                                    'nomPrenom'=>$nomPrenom,
+                                                    'matiere'=> $matiere
+                                                ]);
     }
 
-    function storeDisponibilites()
+    function storeDisponibilites(Request $request)
     {
-        /*
-        verifications habituelle
-        */
-        return redirect()->route('disponibilites.show');
+        $hasKey1 = $request->session()->has('teacher');
+        //dd($hasKey1);
+        
+        if(!$hasKey1){
+            return view('page_accueil');
+        }
+        
+        $email = $request->session()->get('teacher')[1];
+        //dd($email);
+        $tabCoché = $request->input('choix');
+        //dd( $tabCoché);
+        //$taille = count($tabCoché);
+        $this->repository->modificationDispo($email, $tabCoché);
+        
+        
+        return "yooopiiiii";
+        //return redirect()->route('disponibilites.show');
     }
 //---------------------------------------------------------------------BARRE DE RECHERCHE-------------------------------------------------------
 

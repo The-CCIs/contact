@@ -94,7 +94,7 @@ Route::get('/enseignant/disponibilites', [Controller::class, 'showdisponibilites
 Route::post('/disponibilites', [Controller::class, 'storeDisponibilites'])->name('diponibilites.post');
 
 
-Route::get('/enseignant/disponibilites', [Controller::class, 'showdisponibilites'])->name('disponibilites.show');
+//Route::get('/enseignant/disponibilites', [Controller::class, 'showdisponibilites'])->name('disponibilites.show');
 
 //changement de photo
 Route::post('/xx', [Controller::class, 'storePhoto'])->name('photo.post');
