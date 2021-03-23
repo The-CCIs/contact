@@ -10,8 +10,8 @@ Disponibilité
 @section('content')
 
 
-<form action="">
-
+<form method="POST" action="{{route('diponibilites.post')}}">
+@csrf
     <div class="container">
         <h2> disponibilité</h2>
         <div class="bar_iden">
@@ -20,8 +20,8 @@ Disponibilité
 
                     <img class="photo_profil3" src="/icon/profil1.jpeg" alt="">
                     <div class="prof">
-                        <span class="nom_prof">WALID SIYOUCEF</span>
-                        <span class="matière">MATHS</span>
+                        <span class="nom_prof">{{$nomPrenom}}</span>
+                        <span class="matière">{{$matiere}}</span>
                     </div>
                 </li>
             </ul>
@@ -35,11 +35,11 @@ Disponibilité
                 <tr>
                     <td> LINDI</td>
 
-                    @foreach ($tabDispoLundi as $item)
-                    @if ($item['Etat']=='oui')
-                    <td><input type="checkbox" id="ten" name="{{$item['Heure']}}" checked><label for="ten" class="checkbox2">{{$item['Heure']}}</label></td>
+                    @foreach($tabDispoLundi as $tab)
+                    @if($tab['Etat']=='oui')
+                    <td><input value="{{$tab['Heure']}}" type="checkbox" id="ten" name="choix[]" checked><label for="ten" class="checkbox2">{{$tab['H']}}</label></td>
                     @else
-                    <td><input type="checkbox" id="ten" name="{{$item['Heure']}}" ><label for="ten" class="checkbox2">{{$item['Heure']}}</label></td>
+                    <td><input value="{{$tab['Heure']}}" type="checkbox" id="ten" name="choix[]"><label for="ten" class="checkbox2">{{$tab['H']}}</label></td>
                     @endif
                     @endforeach
 
@@ -47,42 +47,42 @@ Disponibilité
             </thead>
             <tbody>
                 <tr>
-                    <td> MARDI</td>
-                    @foreach ($tabDispoMardi as $item)
-                    @if ($item['Etat']=='oui')
-                    <td><input type="checkbox" id="ten" name="{{$item['Heure']}}" checked><label for="ten" class="checkbox2">{{$item['Heure']}}</label></td>
+                <td> MARDI </td>
+                @foreach($tabDispoMardi as $tab)
+                @if($tab['Etat']=='oui')
+                    <td><input value="{{$tab['Heure']}}" type="checkbox" id="ten" name="choix[]" checked><label for="ten" class="checkbox2">{{$tab['H']}}</label></td>
                     @else
-                    <td><input type="checkbox" id="ten" name="{{$item['Heure']}}" ><label for="ten" class="checkbox2">{{$item['Heure']}}</label></td>
+                    <td><input value="{{$tab['Heure']}}" type="checkbox" id="ten" name="choix[]"><label for="ten" class="checkbox2">{{$tab['H']}}</label></td>
                     @endif
                     @endforeach
                 </tr>
                 <tr>
-                    <td> MERCREDI</td>
-                    @foreach ($tabDispoMercredi as $item)
-                    @if ($item['Etat']=='oui')
-                    <td><input type="checkbox" id="ten" name="{{$item['Heure']}}" checked><label for="ten" class="checkbox2">{{$item['Heure']}}</label></td>
+                <td> MERCREDI</td>
+                @foreach($tabDispoMercredi as $tab)
+                @if($tab['Etat']=='oui')
+                    <td><input value="{{$tab['Heure']}}" type="checkbox" id="ten" name="choix[]" checked><label for="ten" class="checkbox2">{{$tab['H']}}</label></td>
                     @else
-                    <td><input type="checkbox" id="ten" name="{{$item['Heure']}}" ><label for="ten" class="checkbox2">{{$item['Heure']}}</label></td>
+                    <td><input value="{{$tab['Heure']}}" type="checkbox" id="ten" name="choix[]"><label for="ten" class="checkbox2">{{$tab['H']}}</label></td>
                     @endif
                     @endforeach
                 </tr>
                 <tr>
-                    <td> JEUDI</td>
-                    @foreach ($tabDispoJeudi as $item)
-                    @if ($item['Etat']=='oui')
-                    <td><input type="checkbox" id="ten" name="{{$item['Heure']}}" checked><label for="ten" class="checkbox2">{{$item['Heure']}}</label></td>
+                <td> JEUDI</td>
+                @foreach($tabDispoJeudi as $tab)
+                @if($tab['Etat']=='oui')
+                    <td><input value="{{$tab['Heure']}}" type="checkbox" id="ten" name="choix[]" checked><label for="ten" class="checkbox2">{{$tab['H']}}</label></td>
                     @else
-                    <td><input type="checkbox" id="ten" name="{{$item['Heure']}}" ><label for="ten" class="checkbox2">{{$item['Heure']}}</label></td>
+                    <td><input value="{{$tab['Heure']}}" type="checkbox" id="ten" name="choix[]"><label for="ten" class="checkbox2">{{$tab['H']}}</label></td>
                     @endif
                     @endforeach
                 </tr>
                 <tr>
-                    <td> VENDREDI</td>
-                    @foreach ($tabDispoVendredi as $item)
-                    @if ($item['Etat']=='oui')
-                    <td><input type="checkbox" id="ten" name="{{$item['Heure']}}" checked><label for="ten" class="checkbox2">{{$item['Heure']}}</label></td>
+                <td> VENDREDI</td>
+                @foreach($tabDispoVendredi as $tab)
+                @if($tab['Etat']=='oui')
+                    <td><input value="{{$tab['Heure']}}" type="checkbox" id="ten" name="choix[]" checked><label for="ten" class="checkbox2">{{$tab['H']}}</label></td>
                     @else
-                    <td><input type="checkbox" id="ten" name="{{$item['Heure']}}" ><label for="ten" class="checkbox2">{{$item['Heure']}}</label></td>
+                    <td><input value="{{$tab['Heure']}}" type="checkbox" id="ten" name="choix[]"><label for="ten" class="checkbox2">{{$tab['H']}}</label></td>
                     @endif
                     @endforeach
                 </tr>

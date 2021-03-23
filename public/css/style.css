@@ -161,11 +161,7 @@ nav {
     .body {
         width: 50%
     }
-<<<<<<< HEAD
 }
-=======
-
->>>>>>> b0e5c23729a86972db22c66379d9a86d4ec25e43
 
 form {
     font-size: 12px;
@@ -892,3 +888,11 @@ td input {
     border-color: #abcfb6;
     background: rgba(139, 138, 138, 0.8);
 }
+.opload{
+    position: absolute; 
+    top: 450px; 
+    left: 5px; color: rgb(243, 234, 234); 
+    background: rgba(0, 0, 0, 0.7);
+    /*font-size: x-large*/
+}
+

@@ -32,18 +32,19 @@ class DatabaseSeeder extends Seeder
                                     'Date_Naissance' => '1989-01-18',
                                     'Email_Etudiant' => 'lyes@hotmail.com',
                                     'Niveau_Etude' => 'Troisième_année',
-                                    'NumTelephone'=> '0614 62 33 44']
+                                    'NumTelephone'=> '06 14 62 33 44',
+                                    'NomImage'=> 'imagesDefault.png']
 
                                     );
 
-
-        $repository->insertEtudiant(
+                                    $repository->insertEtudiant(
                                         ['NomEtudiant' => 'SIYOUCEF',
                                         'PrénomEtudiant' => 'Walid',
                                         'Date_Naissance' => '1992-01-18',
                                         'Email_Etudiant' => 'walid@hotmail.com',
                                         'Niveau_Etude' => 'Troisième_année',
-                                        'NumTelephone'=> '0751 19 77 30']
+                                        'NumTelephone'=> '06 20 20 20',
+                                        'NomImage'=> 'imagesDefault.png']
 
                                         );
         $repository->insertEtudiant(
@@ -52,7 +53,8 @@ class DatabaseSeeder extends Seeder
                                             'Date_Naissance' => '1992-01-18',
                                             'Email_Etudiant' => 'nabil@hotmail.com',
                                             'Niveau_Etude' => 'Troisième_année',
-                                            'NumTelephone'=> '0751 19 77 12']
+                                            'NumTelephone'=> '0751 19 77 12',
+                                            'NomImage'=> 'imagesDefault.png']
 
                                             );
 

@@ -14,7 +14,21 @@ class Repository
 // build.sql en étant connectée à la base de données de l'application.
 function tableEtudiant($email): array
 {
-    return DB::table('Etudiant')->where('Email_Etudiant', $email)->get()->toArray();
+    $tableEtudiant = DB::table('Etudiant')->where('Email_Etudiant', $email)->get()->toArray();
+    if(count($tableEtudiant)===0){
+        throw new Exception('Utilisateur inconnu');
+    }
+    return $tableEtudiant;
+}
+//---------------------------------------------------------------------------------------------
+function tableEnseignant($email): array
+{
+    $tableEnseignant = DB::table('Enseignant')->where('Email_Enseignant', $email)->get()->toArray();
+    if(count($tableEnseignant)===0){
+        throw new Exception('Utilisateur inconnu');
+    }
+    $tableEnseignant = json_decode(json_encode($tableEnseignant), true);
+    return $tableEnseignant;
 }
 //----------------------------------------------------------------------------------------------
 function tableUtilisateurEtudiant($email): array
@@ -177,10 +191,10 @@ function remplissageBD(): void{
                 if($j==3) $jour = 'Mercredi';
                 if($j==4) $jour = 'Jeudi';
                 if($j==5) $jour = 'Vendredi';
-                DB::table('DispNouioua')->insert(['Heure'=>$i,'Etat'=>'oui','jour'=>$jour]);
-                DB::table('DispEstellon')->insert(['Heure'=>$i,'Etat'=>'oui','jour'=>$jour]);
-                DB::table('DispDinaz')->insert(['Heure'=>$i,'Etat'=>'oui','jour'=>$jour]);
-                DB::table('DispCreignou')->insert(['Heure'=>$i,'Etat'=>'oui','jour'=>$jour]);
+                DB::table('DispNouioua')->insert(['Heure'=>$i,'Etat'=>'non','jour'=>$jour]);
+                DB::table('DispEstellon')->insert(['Heure'=>$i,'Etat'=>'non','jour'=>$jour]);
+                DB::table('DispDinaz')->insert(['Heure'=>$i,'Etat'=>'non','jour'=>$jour]);
+                DB::table('DispCreignou')->insert(['Heure'=>$i,'Etat'=>'non','jour'=>$jour]);
             }
     }
 
@@ -236,6 +250,52 @@ function remplissageBD(): void{
 
                 if($email == (DB::table('Enseignant')->where('Id_Enseignant',4)->get('Email_Enseignant'))[0]->Email_Enseignant)
                     return DB::table('DispCreignou')->get()->toArray();
+            }
+
+
+            function modificationDispo($email, $tab): void
+            {
+                if($email == (DB::table('Enseignant')->where('Id_Enseignant',1)->get('Email_Enseignant'))[0]->Email_Enseignant)
+                  {
+                      foreach($tab as $val)
+                      {
+                         // dd($val);
+                          DB::table('DispNouioua')
+                          ->where('Heure',$val)
+                          ->update(['Etat'=>'oui']);
+                      }
+                  } 
+                       
+
+                if($email == (DB::table('Enseignant')->where('Id_Enseignant',2)->get('Email_Enseignant'))[0]->Email_Enseignant)
+                {
+                    foreach($tab as $val)
+                    {
+                        DB::table('DispEstellon')
+                        ->where('Heure',$val)
+                        ->update(['Etat'=>'oui']);
+                    }
+                } 
+
+                if($email == (DB::table('Enseignant')->where('Id_Enseignant',3)->get('Email_Enseignant'))[0]->Email_Enseignant)
+                {
+                    foreach($tab as $val)
+                    {
+                        DB::table('DispDinaz')
+                        ->where('Heure',$val)
+                        ->update(['Etat'=>'oui']);
+                    }
+                } 
+
+                if($email == (DB::table('Enseignant')->where('Id_Enseignant',4)->get('Email_Enseignant'))[0]->Email_Enseignant)
+                {
+                    foreach($tab as $val)
+                    {
+                        DB::table('DispCreignou')
+                        ->where('Heure',$val)
+                        ->update(['Etat'=>'oui']);
+                    }
+                } 
             }
 
 
