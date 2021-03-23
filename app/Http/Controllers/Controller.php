@@ -306,7 +306,6 @@ function storeLoginEnseignant(Request $request)
 //--------------------------------------------------------------------------------------------------------------------------------
     function showProfil(Request $request)
     {
-
         $hasKey = $request->session()->has('student');
         //dd($hasKey);
        //dump($hasKey);
@@ -389,7 +388,6 @@ function storeLoginEnseignant(Request $request)
         }
         //dump(gettype($tableEtudiant));
         //dd(count($tableEtudiant));
-
         try{
         //dd($request->file('image'));
         $tableEtudiant = $repository->tableEtudiant($ancienEmail);
@@ -407,7 +405,6 @@ function storeLoginEnseignant(Request $request)
 
         if($validatedData['prenom']!== null)
             $prenom = $validatedData['prenom'];
-
         if($validatedData['phone']!=null)
             $phone = $validatedData['phone'];
 
@@ -424,16 +421,15 @@ function storeLoginEnseignant(Request $request)
 
 
         return redirect()->route('profil.show')->with('message','Modiffications enrigistrées');
-
         }catch(Exception $e)
         {
             return redirect()->back()->withErrors("Modifs non enrigistrées");
         }
-
     }
 //-------------------------------------------------------------------------------------------------------------------------
 function storePhoto(Request $request)
 {
+    //23/03/2021
     $hasKey = $request->session()->has('student');
     if(!$hasKey){
         return redirect()->route('PageAccueil.show');
@@ -469,23 +465,56 @@ function storePhoto(Request $request)
 //--------------------------------------------------------------------------------------------------------------------------------
     function priseRendezVousForm(Request $request)
     {
-        /*
-        verifier tjrs si la requette http a été faite aprés une connexion si non rediriger
-        l'ulilisateur a la page de connexion
-        */
-
-
         $hasKey = $request->session()->has('student');
         if(!$hasKey){
             return redirect()->route('PageAccueil.show');
         }
 // dd($request->profs['NomEnseignant']);
-// $request->profs['NomEnseignant'];
-// $request->profs['PrénomEnseignant'];
-// $request->profs['Matière'];
+   $profN=$request->profs['NomEnseignant'];
+   $profP=$request->profs['PrénomEnseignant'];
+   //dd($profP);
+   $email_prof=$this->repository->findEmail($profN,$profP);
+   $tab = ['10:00','10:30','11:00','11:30','12:00','12:30','14:00','14:30','15:00'];
+   $tableDispoEnseignant = $this->repository->tabDispoEnseignant($email_prof);
+   $tableDispoEnseignant = json_decode(json_encode($tableDispoEnseignant), true);
+        for($i=0; $i<9 ;$i++)
+        {
+            $tabDispoLundi[$i] = $tableDispoEnseignant[$i];
+            $tabDispoLundi[$i]['H'] = $tab[$i];
+        }
+        for($i=9; $i<18 ;$i++)
+        {
+            $tabDispoMardi[$i] = $tableDispoEnseignant[$i];
+            $tabDispoMardi[$i]['H'] = $tab[$i-9];
+        }
+        for($i=18; $i<27 ;$i++)
+        {
+            $tabDispoMercredi[$i] = $tableDispoEnseignant[$i];
+            $tabDispoMercredi[$i]['H'] = $tab[$i-18];
+        }
+        for($i=27; $i<36 ;$i++)
+        {
+            $tabDispoJeudi[$i] = $tableDispoEnseignant[$i];
+            $tabDispoJeudi[$i]['H'] = $tab[$i-27];
+        }
+        for($i=36; $i<45 ;$i++)
+        {
+            $tabDispoVendredi[$i] = $tableDispoEnseignant[$i];
+            $tabDispoVendredi[$i]['H'] = $tab[$i-36];
+        }
 
 
-        return view('prise_rendez_vous_etudiant',['PrénomEnseignant'=>$request->profs['NomEnseignant'],'NomEnseignant'=>$request->profs['PrénomEnseignant'],'Matière'=>$request->profs['Matière']]);
+
+
+        return view('prise_rendez_vous_etudiant',['PrénomEnseignant'=>$request->profs['NomEnseignant'],
+                                                  'NomEnseignant'=>$request->profs['PrénomEnseignant'],
+                                                  'Matière'=>$request->profs['Matière'],
+                                                  'tabDispoLundi'=>$tabDispoLundi,
+                                                  'tabDispoMardi'=>$tabDispoMardi,
+                                                  'tabDispoMercredi'=>$tabDispoMercredi,
+                                                  'tabDispoJeudi'=>$tabDispoJeudi,
+                                                  'tabDispoVendredi'=>$tabDispoVendredi,
+                                                  ]);
 
     }
     function storePriseRendezVous(Request $request)
@@ -506,20 +535,33 @@ function storePhoto(Request $request)
         try{
 
 
-            $message = $validatedData['message'];
-            $select = $validatedData['select'];
-            $avatar = $validatedData['avatar'];
-            $dispo = $validatedData['dispo'];
-            $this->repository->RDV($message ,$select ,$avatar ,$dispo);
-            dd($message);
+            $message = $request->input('message');
 
-            return "vos informations ont été actualisé avec succe";
+            $select = $validatedData['select'];
+
+            $dispo = $request->input('dispo');
+            $profN=$request->input('profN');
+            $profP=$request->input('profP');
+
+
+            $idE=$this->repository->idEns($profN, $profP);
+            $email=$request->session()->get('student')[1];
+            $idEt=$this->repository->idEt($email);
+            //dd($idEt);
+
+            $this->repository->RDV($message ,$select, $idE, $idEt, $dispo);
+            $this->repository->misDisp($dispo,$idE);
+
+
+
+
             }catch(Exception $e)
             {
                 return redirect()->back()->withErrors("impossible");
             }
 
         //return view('mes_rendez_vous_etudiant');
+        //return "vos informations ont été actualisé avec succe";
         return "vos informations ont été actualisé avec succe";
     }
     function annulationRendezVous(Request $request)
@@ -614,7 +656,6 @@ function storePhoto(Request $request)
             $tabDispoLundi[$i] = $tableDispoEnseignant[$i];
             $tabDispoLundi[$i]['H'] = $tab[$i];
         }
-
         for($i=9; $i<18 ;$i++)
         {
             $tabDispoMardi[$i] = $tableDispoEnseignant[$i];
