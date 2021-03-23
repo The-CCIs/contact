@@ -19,8 +19,8 @@ Prise rendez-vous
                 <li>
                     <img class="photo_profil3" src="/icon/profil1.jpeg" alt="">
                     <div class="prof">
-                        <span class="nom_prof">WALID SIYOUCEF</span>
-                        <span class="matière">MATHS</span>
+                        <span class="nom_prof">{{$PrénomEnseignant}} {{$NomEnseignant}}</span>
+                        <span class="matière">{{$Matière}}</span>
                     </div>
                 </li>
             </ul>-->

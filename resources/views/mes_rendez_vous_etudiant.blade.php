@@ -67,11 +67,9 @@ Mes rendez-vous etudiant
         <br>
         <br>
         <br>
-
     </div>
     <h2></h2>
     <div  class="bar_iden">
-
         <a href="/etudiant/message-reçu">
         <ul>
             <li>
@@ -83,15 +81,8 @@ Mes rendez-vous etudiant
             </li>
         </ul>
         </a>
-
     </div>
-
-
-
-
     <br>
-
-
 </div>
 
 

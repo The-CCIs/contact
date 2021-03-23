@@ -9,10 +9,23 @@ Modification profil
 
 @section('content')
 
-<div class="big-box">
+
+
+
+<div class="big-box"><input type="checkbox" checked>
+@if(session()->has('message'))
+        <div class="alert alert-success" style="font-size: 20px;">
+            {{ session()->get('message') }}
+        </div>
+    @endif
     <h2> Profil</h2>
     <h3>A propos de moi</h3><br>
-    <input type="file" name="lyesImage">
+    <form class="opload" method="POST" action="{{route('photo.post')}}" enctype="multipart/form-data">
+       @csrf 
+       <input type="file" name="image"><br>
+       <input type="submit" value="upload">
+    </form>
+
     <form class="profil-edit-box" method="POST" action="{{route('modificationEtudiant.post')}}">
         @csrf
         @if ($errors->any())
@@ -23,16 +36,13 @@ Modification profil
         <table>
             <tr>
                 <td class="td1" >
-                    <form method="POST" action="{{route('modificationEtudiant.post')}}">
                     <ul class="">
                         <li>
-                            <img class="photo_profil2" src="/icon/image.jpg" alt=""><br>
+                        
+                            <img class="photo_profil2" src="http://localhost:8000/storage/image/{{$nomImage}}" alt=""><br>
                         </li>
-                        <li>
-                            <input type="file" name="file" value="Modifier" class="input-group-text">
-                        </li>
+                       
                     </ul>
-                    </form>
                 </td>
                 <td>
                     <div class="profil_edit">

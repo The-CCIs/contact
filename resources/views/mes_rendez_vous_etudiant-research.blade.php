@@ -56,7 +56,8 @@ Mes rendez-vous etudiant
     <h2></h2>
     <div class="bar_rech">
         <h3>Equipe d'enseignement</h3><br>
-        <form action="{{route('barre.reserch')}}" >
+        <form action="{{route('barre.reserch')}}">
+
         <div class="search_box">
             <input type="text" name="q" placeholder="Trouvez votre professeur?">
             <button type="submit" class="btn btn-info">Chercher</button>
@@ -64,12 +65,19 @@ Mes rendez-vous etudiant
         </form>
         <br>
         <div>
+            @if (count($profss)==0)
+            <ul>
+                <li>
+                    <span class="nom_prof">{{"Cet enseignant n'existe pas"}}</span>
+                </li>
+            </ul>
+            @endif
         @foreach($profss as $profs)
             <ul>
                 <li>
                     <img class="photo_profil3" src="/icon/profil1.jpeg" alt=""> <span class="nom_prof">{{$profs->NomEnseignant}}   {{$profs->PrénomEnseignant}}</span>
                     <span class="matière">{{$profs->Matière}}</span>
-                    <a href="/etudiant/prise-rendez-vous"><span class="prendre_rendez_vous"> Prendre un rendez vous</span></a>
+                    <a href="{{route('priseRendezVous',['profs'=>$profs])}}"> <span class="prendre_rendez_vous">Prendre un rendez vous</span></a>
                 </li>
             </ul>
         @endforeach
