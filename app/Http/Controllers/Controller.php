@@ -434,6 +434,7 @@ function storeLoginEnseignant(Request $request)
 //-------------------------------------------------------------------------------------------------------------------------
 function storePhoto(Request $request)
 {
+    //23/03/2021
     $hasKey = $request->session()->has('student');
     if(!$hasKey){
         return redirect()->route('PageAccueil.show');
