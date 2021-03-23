@@ -166,6 +166,16 @@ function modifInfoEtudiant(string $email,string $email2,string $nomEtudiant,
        ->get()
        ->toArray();
       }
+    function RDV(string $message ,string $select ,string $avatar ,string $dispo):void
+    {
+           DB::table('RendezVous')->insert(
+            ['Date_RDV'=>$dispo,
+            'Message'=>$message,
+            'Fichier'=>$select,
+            'objet'=>$avatar,
+            'IdEtudiant'=>1,
+            'Id_Enseignant'=>1]);
+    }
 
 }
 

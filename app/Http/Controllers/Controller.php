@@ -409,6 +409,8 @@ function storeLoginEnseignant(Request $request)
         verifier tjrs si la requette http a été faite aprés une connexion si non rediriger
         l'ulilisateur a la page de connexion
         */
+
+
         $hasKey = $request->session()->has('student');
         if(!$hasKey){
             return redirect()->route('PageAccueil.show');
@@ -417,16 +419,37 @@ function storeLoginEnseignant(Request $request)
     }
     function storePriseRendezVous(Request $request)
     {
-        /*
-        verification des champs saisis
-        verification de la disponibilité de l'enseignant
+        /*verification de la disponibilité de l'enseignant*/
+        $messages = [
+            'select.required' => "Vous devez choisi un objet."];
 
-        */
+        $rules = ['select' => ['required']];
+        $validatedData = $request->validate($rules,$messages);
+
         $hasKey = $request->session()->has('student');
+
         if(!$hasKey){
             return redirect()->route('PageAccueil.show');
         }
-        return view('mes_rendez_vous_etudiant');
+
+        try{
+
+
+            $message = $validatedData['message'];
+            $select = $validatedData['select'];
+            $avatar = $validatedData['avatar'];
+            $dispo = $validatedData['dispo'];
+            $this->repository->RDV($message ,$select ,$avatar ,$dispo);
+            dd($message);
+
+            return "vos informations ont été actualisé avec succe";
+            }catch(Exception $e)
+            {
+                return redirect()->back()->withErrors("impossible");
+            }
+
+        //return view('mes_rendez_vous_etudiant');
+        return "vos informations ont été actualisé avec succe";
     }
     function annulationRendezVous(Request $request)
     {
@@ -505,9 +528,10 @@ function storeLoginEnseignant(Request $request)
 
 function showSearchBarre()
 {
+
 $q = request()->input('q');
 $profss= $this->repository->searchProf($q);
-// dd($profss);
+//dd($profss);
 // $profs=['NomEnseignant'=>$profss[0]->NomEnseignant,
 //         'PrénomEnseignant'=>$profss[0]->PrénomEnseignant,
 //         'Matière'=>$profss[0]->Matière];
