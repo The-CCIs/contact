@@ -501,16 +501,34 @@ function storeLoginEnseignant(Request $request)
     {
         $email = 'nadia@hotmail.com';
 
+
         $tableDispoEnseignant = $this->repository->tabDispoEnseignant($email);
         $tableDispoEnseignant = json_decode(json_encode($tableDispoEnseignant), true);
         for($i=0; $i<9 ;$i++)
             $tabDispoLundi[$i] = $tableDispoEnseignant[$i];
+
+        for($i=9; $i<18 ;$i++)
+            $tabDispoMardi[$i] = $tableDispoEnseignant[$i];
+
+        for($i=18; $i<27 ;$i++)
+            $tabDispoMercredi[$i] = $tableDispoEnseignant[$i];
+
+        for($i=27; $i<36 ;$i++)
+            $tabDispoJeudi[$i] = $tableDispoEnseignant[$i];
+
+        for($i=36; $i<45 ;$i++)
+            $tabDispoVendredi[$i] = $tableDispoEnseignant[$i];
             //dd($tabDispoLundi[0]['Etat']);
-        //dd($tabDispoLundi[0]['Heure']);
+        // dd($tabDispoLundi);
         //dd($tableDispoEnseignant);
 
 
-        return view('disponibilites_enseignant',['tabDispoLundi'=>$tabDispoLundi]);
+        return view('disponibilites_enseignant',['tabDispoLundi'=>$tabDispoLundi,
+        'tabDispoMardi'=>$tabDispoMardi,
+        'tabDispoMercredi'=>$tabDispoMercredi,
+        'tabDispoJeudi'=>$tabDispoJeudi,
+        'tabDispoVendredi'=>$tabDispoVendredi
+        ]);
     }
 
     function storeDisponibilites()

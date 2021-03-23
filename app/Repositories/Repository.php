@@ -157,7 +157,7 @@ function modifInfoEtudiant(string $email,string $email2,string $nomEtudiant,
       ->orWhere('PrénomEnseignant', 'like', "%$q%")
       ->get()
       ->toArray();
-     }
+    }
 
      function searchEtud(string $q): array
      {
@@ -166,7 +166,7 @@ function modifInfoEtudiant(string $email,string $email2,string $nomEtudiant,
        ->orWhere('PrénomEtudiant', 'like', "%$q%")
        ->get()
        ->toArray();
-      }
+    }
 function remplissageBD(): void{
     for($j = 1 ; $j<=5 ; $j++)
     {

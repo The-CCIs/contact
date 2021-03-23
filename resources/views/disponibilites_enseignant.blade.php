@@ -35,72 +35,56 @@ Disponibilité
                 <tr>
                     <td> LINDI</td>
 
-
-                    @if({{$tabDispoLundi[0]['Etat']=="oui"}})
-                    <td><input type="checkbox" id="ten" name="L1000" checked><label for="ten" class="checkbox2">10:00</label></td>
+                    @foreach ($tabDispoLundi as $item)
+                    @if ($item['Etat']=='oui')
+                    <td><input type="checkbox" id="ten" name="{{$item['Heure']}}" checked><label for="ten" class="checkbox2">{{$item['Heure']}}</label></td>
                     @else
-                    <td><input type="checkbox" id="ten" name="L1000"><label for="ten" class="checkbox2">10:00</label></td>
+                    <td><input type="checkbox" id="ten" name="{{$item['Heure']}}" ><label for="ten" class="checkbox2">{{$item['Heure']}}</label></td>
                     @endif
-
-                    <td><input type="checkbox" id="tenhalf" name="L1030" ><label for="tenhalf" class="checkbox2">10:30</label></td>
-                    <td><input type="checkbox" id="eleven" name="L1100" ><label for="eleven" class="checkbox2">11:00</label></td>
-                    <td><input type="checkbox" id="elevenhalf" name="L1130" ><label for="elevenhalf" class="checkbox2">11:30</label></td>
-                    <td><input type="checkbox" id="twelf" name="L1200" ><label for="twelf" class="checkbox2">12:00</label></td>
-                    <td><input type="checkbox" id="twelfhalf" name="L1230"><label for="twelfhalf" class="checkbox2">12:30</label></td>
-                    <td><input type="checkbox" id="forty" name="L1400"><label for="forty" class="checkbox2">14:00</label></td>
-                    <td><input type="checkbox" id="fortyhalf" name="L1430"><label for="fortyhalf" class="checkbox2">14:30</label></td>
-                    <td><input type="checkbox" id="fifty" name="L1500"><label for="fifty" class="checkbox2">15:00</label></td>
+                    @endforeach
 
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td> MARDI</td>
-                    <td><input type="checkbox" id="ten" name="dispo" ><label for="ten" class="checkbox2">10:00</label></td>
-                    <td><input type="checkbox" id="tenhalf" name="dispo"><label for="tenhalf" class="checkbox2">10:30</label></td>
-                    <td><input type="checkbox" id="eleven" name="dispo"><label for="eleven" class="checkbox2">11:00</label></td>
-                    <td><input type="checkbox" id="elevenhalf" name="dispo"><label for="elevenhalf" class="checkbox2">11:30</label></td>
-                    <td><input type="checkbox" id="twelf" name="dispo"><label for="twelf" class="checkbox2">12:00</label></td>
-                    <td><input type="checkbox" id="twelfhalf" name="dispo"><label for="twelfhalf" class="checkbox2">12:30</label></td>
-                    <td><input type="checkbox" id="forty" name="dispo"><label for="forty" class="checkbox2">14:00</label></td>
-                    <td><input type="checkbox" id="fortyhalf" name="dispo"><label for="fortyhalf" class="checkbox2">14:30</label></td>
-                    <td><input type="checkbox" id="fifty" name="dispo"><label for="fifty" class="checkbox2">15:00</label></td>
+                    @foreach ($tabDispoMardi as $item)
+                    @if ($item['Etat']=='oui')
+                    <td><input type="checkbox" id="ten" name="{{$item['Heure']}}" checked><label for="ten" class="checkbox2">{{$item['Heure']}}</label></td>
+                    @else
+                    <td><input type="checkbox" id="ten" name="{{$item['Heure']}}" ><label for="ten" class="checkbox2">{{$item['Heure']}}</label></td>
+                    @endif
+                    @endforeach
                 </tr>
                 <tr>
                     <td> MERCREDI</td>
-                    <td><input type="checkbox" id="ten" name="dispo"><label for="ten" class="checkbox2">10:00</label></td>
-                    <td><input type="checkbox" id="tenhalf" name="dispo"><label for="tenhalf" class="checkbox2">10:30</label></td>
-                    <td><input type="checkbox" id="eleven" name="dispo"><label for="eleven" class="checkbox2">11:00</label></td>
-                    <td><input type="checkbox" id="elevenhalf" name="dispo"><label for="elevenhalf" class="checkbox2">11:30</label></td>
-                    <td><input type="checkbox" id="twelf" name="dispo"><label for="twelf" class="checkbox2">12:00</label></td>
-                    <td><input type="checkbox" id="twelfhalf" name="dispo"><label for="twelfhalf" class="checkbox2">12:30</label></td>
-                    <td><input type="checkbox" id="forty" name="dispo"><label for="forty" class="checkbox2">14:00</label></td>
-                    <td><input type="checkbox" id="fortyhalf" name="dispo"><label for="fortyhalf" class="checkbox2">14:30</label></td>
-                    <td><input type="checkbox" id="fifty" name="dispo"><label for="fifty" class="checkbox2">15:00</label></td>
+                    @foreach ($tabDispoMercredi as $item)
+                    @if ($item['Etat']=='oui')
+                    <td><input type="checkbox" id="ten" name="{{$item['Heure']}}" checked><label for="ten" class="checkbox2">{{$item['Heure']}}</label></td>
+                    @else
+                    <td><input type="checkbox" id="ten" name="{{$item['Heure']}}" ><label for="ten" class="checkbox2">{{$item['Heure']}}</label></td>
+                    @endif
+                    @endforeach
                 </tr>
                 <tr>
                     <td> JEUDI</td>
-                    <td><input type="checkbox" id="ten" name="dispo"><label for="ten" class="checkbox2">10:00</label></td>
-                    <td><input type="checkbox" id="tenhalf" name="dispo"><label for="tenhalf" class="checkbox2">10:30</label></td>
-                    <td><input type="checkbox" id="eleven" name="dispo"><label for="eleven" class="checkbox2">11:00</label></td>
-                    <td><input type="checkbox" id="elevenhalf" name="dispo"><label for="elevenhalf" class="checkbox2">11:30</label></td>
-                    <td><input type="checkbox" id="twelf" name="dispo"><label for="twelf" class="checkbox2">12:00</label></td>
-                    <td><input type="checkbox" id="twelfhalf" name="dispo"><label for="twelfhalf" class="checkbox2">12:30</label></td>
-                    <td><input type="checkbox" id="forty" name="dispo"><label for="forty" class="checkbox2">14:00</label></td>
-                    <td><input type="checkbox" id="fortyhalf" name="dispo"><label for="fortyhalf" class="checkbox2">14:30</label></td>
-                    <td><input type="checkbox" id="fifty" name="dispo"><label for="fifty" class="checkbox2">15:00</label></td>
+                    @foreach ($tabDispoJeudi as $item)
+                    @if ($item['Etat']=='oui')
+                    <td><input type="checkbox" id="ten" name="{{$item['Heure']}}" checked><label for="ten" class="checkbox2">{{$item['Heure']}}</label></td>
+                    @else
+                    <td><input type="checkbox" id="ten" name="{{$item['Heure']}}" ><label for="ten" class="checkbox2">{{$item['Heure']}}</label></td>
+                    @endif
+                    @endforeach
                 </tr>
                 <tr>
                     <td> VENDREDI</td>
-                    <td><input type="checkbox" id="ten" name="dispo"><label for="ten" class="checkbox2">10:00</label></td>
-                    <td><input type="checkbox" id="tenhalf" name="dispo"><label for="tenhalf" class="checkbox2">10:30</label></td>
-                    <td><input type="checkbox" id="eleven" name="dispo"><label for="eleven" class="checkbox2">11:00</label></td>
-                    <td><input type="checkbox" id="elevenhalf" name="dispo"><label for="elevenhalf" class="checkbox2">11:30</label></td>
-                    <td><input type="checkbox" id="twelf" name="dispo"><label for="twelf" class="checkbox2">12:00</label></td>
-                    <td><input type="checkbox" id="twelfhalf" name="dispo"><label for="twelfhalf" class="checkbox2">12:30</label></td>
-                    <td><input type="checkbox" id="forty" name="dispo"><label for="forty" class="checkbox2">14:00</label></td>
-                    <td><input type="checkbox" id="fortyhalf" name="dispo"><label for="fortyhalf" class="checkbox2">14:30</label></td>
-                    <td><input type="checkbox" id="fifty" name="dispo"><label for="fifty" class="checkbox2">15:00</label></td>
+                    @foreach ($tabDispoVendredi as $item)
+                    @if ($item['Etat']=='oui')
+                    <td><input type="checkbox" id="ten" name="{{$item['Heure']}}" checked><label for="ten" class="checkbox2">{{$item['Heure']}}</label></td>
+                    @else
+                    <td><input type="checkbox" id="ten" name="{{$item['Heure']}}" ><label for="ten" class="checkbox2">{{$item['Heure']}}</label></td>
+                    @endif
+                    @endforeach
                 </tr>
 
             </tbody>
