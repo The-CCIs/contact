@@ -1,11 +1,13 @@
 <?php
 namespace App\Repositories;
 use Exception;
+use Facade\FlareClient\Http\Response;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\VarDumper\Cloner\Data;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class Repository
 {
@@ -252,51 +254,207 @@ function remplissageBD(): void{
                     return DB::table('DispCreignou')->get()->toArray();
             }
 
-
+            //fonction qui modifit les disponibilité choisit par le prof
             function modificationDispo($email, $tab): void
             {
                 if($email == (DB::table('Enseignant')->where('Id_Enseignant',1)->get('Email_Enseignant'))[0]->Email_Enseignant)
                   {
-                      foreach($tab as $val)
-                      {
-                         // dd($val);
-                          DB::table('DispNouioua')
-                          ->where('Heure',$val)
-                          ->update(['Etat'=>'oui']);
-                      }
+                    if($tab!=null)
+                    {
+                        DB::table('DispNouioua')
+                        ->update(['Etat'=>'non']);
+                        foreach($tab as $val)
+                        {
+                            DB::table('DispNouioua')
+                            ->where('Heure',$val)
+                            ->update(['Etat'=>'oui']);
+                        }
+                        
+                    }else
+                    {
+                        DB::table('DispNouioua')
+                        ->update(['Etat'=>'non']);
+                    }
                   } 
                        
 
                 if($email == (DB::table('Enseignant')->where('Id_Enseignant',2)->get('Email_Enseignant'))[0]->Email_Enseignant)
                 {
-                    foreach($tab as $val)
+                    if($tab!=null)
                     {
                         DB::table('DispEstellon')
-                        ->where('Heure',$val)
-                        ->update(['Etat'=>'oui']);
+                        ->update(['Etat'=>'non']);
+                        foreach($tab as $val)
+                        {
+                            DB::table('DispEstellon')
+                            ->where('Heure',$val)
+                            ->update(['Etat'=>'oui']);
+                        }
+                    }else
+                    {
+                        DB::table('DispEstellon')
+                        ->update(['Etat'=>'non']);
                     }
                 } 
-
                 if($email == (DB::table('Enseignant')->where('Id_Enseignant',3)->get('Email_Enseignant'))[0]->Email_Enseignant)
                 {
-                    foreach($tab as $val)
-                    {
-                        DB::table('DispDinaz')
-                        ->where('Heure',$val)
-                        ->update(['Etat'=>'oui']);
-                    }
+                  if($tab!=null)
+                  {
+                      DB::table('DispDinaz')
+                      ->update(['Etat'=>'non']);
+                      foreach($tab as $val)
+                      {
+                          DB::table('DispDinaz')
+                          ->where('Heure',$val)
+                          ->update(['Etat'=>'oui']);
+                      }
+                      
+                  }else
+                  {
+                      DB::table('DispDinaz')
+                      ->update(['Etat'=>'non']);
+                  }
                 } 
 
                 if($email == (DB::table('Enseignant')->where('Id_Enseignant',4)->get('Email_Enseignant'))[0]->Email_Enseignant)
                 {
-                    foreach($tab as $val)
-                    {
-                        DB::table('DispCreignou')
-                        ->where('Heure',$val)
-                        ->update(['Etat'=>'oui']);
-                    }
+                  if($tab!=null)
+                  {
+                      DB::table('DispCreignou')
+                      ->update(['Etat'=>'non']);
+                      foreach($tab as $val)
+                      {
+                          DB::table('DispCreignou')
+                          ->where('Heure',$val)
+                          ->update(['Etat'=>'oui']);
+                      }
+                      
+                  }else
+                  {
+                      DB::table('DispCreignou')
+                      ->update(['Etat'=>'non']);
+                  }
                 } 
             }
+            //fonction qui modifit la table DispoProf (une des 4 tables) lorsqu'il prend rdv (possibilité de coché qu'une seul case)
+            function modificationDispoParEtudiant($email, $Heure): void
+            {
+                if($email == (DB::table('Enseignant')->where('Id_Enseignant',1)->get('Email_Enseignant'))[0]->Email_Enseignant)
+                  {
+                        DB::table('DispNouioua')
+                        ->where('Heure',$Heure)
+                        ->update(['Etat'=>'non']);
+                  } 
+                       
+                        
+                if($email == (DB::table('Enseignant')->where('Id_Enseignant',2)->get('Email_Enseignant'))[0]->Email_Enseignant)
+                {
+                    DB::table('DispEstellon')
+                    ->where('Heure',$Heure)
+                    ->update(['Etat'=>'non']);
+                } 
+                if($email == (DB::table('Enseignant')->where('Id_Enseignant',3)->get('Email_Enseignant'))[0]->Email_Enseignant)
+                {
+                    DB::table('DispDinaz')
+                    ->where('Heure',$Heure)
+                    ->update(['Etat'=>'non']);
+                } 
+
+                if($email == (DB::table('Enseignant')->where('Id_Enseignant',4)->get('Email_Enseignant'))[0]->Email_Enseignant)
+                {
+                    DB::table('DispCreignou')
+                    ->where('Heure',$Heure)
+                    ->update(['Etat'=>'non']);
+                } 
+            }
+            function envoiFichier(string $Heure,string $Message,string $objet, int $IdEtudiant, int $Id_Enseignant)
+            {
+                $chaineAleatoire = $this->genererChaineAleatoire(30);
+                //dump($_FILES);
+                $nomFichier = $_FILES['fichier']['name'];
+                //dump($nomFichier);
+                $extentionFichier = strrchr($nomFichier,('.'));
+                if($extentionFichier!=false)
+                {
+                    $extensionsAutorises = array('.pdf','.PDF','.docx','.docx','.txt','.TXT');
+                    $nomFichierTmp = $_FILES['fichier']['tmp_name'];
+                    //dd($nomFichierTmp);
+                    $nomFichierHache = $chaineAleatoire.$nomFichier ;
+                    //dump($nomFichier);
+                    //dd($nomFichierHache);
+                    $fichierDestination = 'C:\Users\hp\lyesEssai\public\storage\image\fichiers/'.$nomFichierHache;
+
+                    if(in_array($extentionFichier,$extensionsAutorises))
+                    {
+                        if(move_uploaded_file($nomFichierTmp,$fichierDestination))
+                        {
+                            DB::table('RendezVous') ->insert(['Heure'=>$Heure,
+                                                            'Message'=>$Message,
+                                                            'objet'=>$objet,
+                                                            'IdEtudiant'=>$IdEtudiant,
+                                                            'Id_Enseignant'=>$Id_Enseignant,
+                                                            'nomFichier'=>$nomFichier,
+                                                            'nomFichierHache'=>$nomFichierHache]);
+                        }
+                        else 
+                        {
+                            throw new Exception('Fichier non envoyer verifiez la fonction mouve dasn repository');
+                        }
+                    } else 
+                    {
+                        throw new Exception('Extension du fichier non autorisée');
+                    }
+                }
+                else
+                {
+                    DB::table('RendezVous') ->insert([  'Heure'=>$Heure,
+                                                        'Message'=>$Message,
+                                                        'objet'=>$objet,
+                                                        'IdEtudiant'=>$IdEtudiant,
+                                                        'Id_Enseignant'=>$Id_Enseignant]);
+                }
+
+            }
+
+
+            function getJour(string $Heur):string
+            {
+                $lundi = array('L1000','L1030','L1100','L1130','L1200','L1230','L1400','L1430','L1500');
+                $mardi = array('Ma1000','Ma1030','Ma1100','Ma1130','Ma1200','Ma1230','Ma1400','Ma1430','Ma1500');
+                $mercredi = array('Me1000','Me1030','Me1100','Me1130','Me1200','Me1230','Me1400','Me1430','Me1500');
+                $jeudi = array('J1000','J1030','J1100','J1130','J1200','J1230','J1400','J1430','J1500');
+                $vendredi = array('V1000','V1030','V1100','V1130','V1200','V1230','V1400','V1430','V1500');
+
+                if(in_array($Heur,$lundi)) return "Lundi";
+                if(in_array($Heur,$mardi)) return "Mardi";
+                if(in_array($Heur,$mercredi)) return "mercredi";
+                if(in_array($Heur,$jeudi)) return "Jeudi";
+                if(in_array($Heur,$vendredi)) return "Vendredi";
+                throw new Exception('Heure incorecte');
+            }
+
+            function genererChaineAleatoire($longueur = 10)
+            {
+                $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                $longueurMax = strlen($caracteres);
+                $chaineAleatoire = '';
+                for ($i = 0; $i < $longueur; $i++)
+                    {
+                    $chaineAleatoire .= $caracteres[rand(0, $longueurMax - 1)];
+                    }
+                return $chaineAleatoire;
+            }
+
+            //fonction qui renvoi le dernier rvd juste pour les testes
+            function nonFichier():array
+            {
+                $tab = DB::table('RendezVous')->get('nomFichierHache')->toArray();
+                $taille = count($tab);
+                
+                return DB::table('RendezVous')->where('Id_RDV',$taille)
+                ->get('nomFichierHache')->toArray();
+            }
+                
 
 
 

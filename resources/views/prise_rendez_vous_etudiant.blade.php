@@ -9,8 +9,21 @@ Prise rendez-vous
 
 @section('content')
 
-<form action="">
+<form method="POST" action="{{route('priseRendezVous.post',['emailprofs'=>$email])}}" enctype="multipart/form-data">
+@csrf 
     <div class="container22">
+        <a href="http://localhost:8000/storage/image/fichiers/{{$nomFichierHache}}">TELECHERGER</a>
+    @if ($errors->any())
+        <div id="messageDisp" class="alert alert-warning">
+            Merci de selectionner au moin un créneau &#9785;
+        </div>
+        @endif
+    
+    @if(session()->has('message'))
+        <div id="messageDisp" class="alert alert-success" style="font-size: 15px;">
+            {{ session()->get('message') }}
+        </div>
+    @endif
         <h2> Rendez-vous</h2>
         <div class="bar_iden">
             <ul>
@@ -25,21 +38,23 @@ Prise rendez-vous
         </div><br>
         <h3> Message</h3>
         <div class="Message2">
-            <textarea placeholder="Message"></textarea>
+            <textarea name="message" placeholder="Message"></textarea>
         </div>
         <div class="cc">
             <ul>
                 <li>
-                    <select name="" id="objet">
-                    <option >Objet</option>
-                    <option value="1">Reclamation de note</option>
-                    <option value="2">Absence</option>
-                    <option value="3">Retard</option>
-                    <option value="4">Explication</option>
-                    <option value="5">Autre</option>
+                    <label for="objet">Objet</label>
+                    <select name="motif" id="objet">
+                    <option value="aucun">aucun</option>
+                    <option value="Reclamation de note">Reclamation de note</option>
+                    <option value="Absence">Absence</option>
+                    <option value="Retard">Retard</option>
+                    <option value="Explication">Explication</option>
+                    <option value="Autre">Autre</option>
                 </select>
                 </li>
                 <li>
+                    <input name="fichier" type="file">
                     <a href="#">
                         <button class="docs">Ajouter un document</button>
                     </a>
@@ -53,68 +68,56 @@ Prise rendez-vous
         <table>
             <thead>
                 <tr>
-                    <td> LINDI</td>
-
-                    <td><input type="radio" id="ten" name="dispo"><label for="ten" class="radio2">10:00</label></td>
-                    <td><input type="radio" id="tenhalf" name="dispo"><label for="tenhalf" class="radio2">10:30</label></td>
-                    <td><input type="radio" id="eleven" name="dispo"><label for="eleven" class="radio2">11:00</label></td>
-                    <td><input type="radio" id="elevenhalf" name="dispo"><label for="elevenhalf" class="radio2">11:30</label></td>
-                    <td><input type="radio" id="twelf" name="dispo"><label for="twelf" class="radio2">12:00</label></td>
-                    <td><input type="radio" id="twelfhalf" name="dispo"><label for="twelfhalf" class="radio2">12:30</label></td>
-                    <td><input type="radio" id="forty" name="dispo"><label for="forty" class="radio2">14:00</label></td>
-                    <td><input type="radio" id="fortyhalf" name="dispo"><label for="fortyhalf" class="radio2">14:30</label></td>
-                    <td><input type="radio" id="fifty" name="dispo"><label for="fifty" class="radio2">15:00</label></td>
-
+                    <td>Lundi</td>
+                    @foreach($tabDispoLundi as $tab)
+                    @if($tab['Etat']=='oui')
+                    <td><input value="{{$tab['Heure']}}" type="radio" id="ten"    name="choix[]">        <label for="ten" class="radio2">{{$tab['H']}}</label></td>
+                    @else
+                    <td>Non Dispo</td>
+                    @endif
+                    @endforeach
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td> MARDI</td>
-                    <td><input type="radio" id="ten" name="dispo"><label for="ten" class="radio2">10:00</label></td>
-                    <td><input type="radio" id="tenhalf" name="dispo"><label for="tenhalf" class="radio2">10:30</label></td>
-                    <td><input type="radio" id="eleven" name="dispo"><label for="eleven" class="radio2">11:00</label></td>
-                    <td><input type="radio" id="elevenhalf" name="dispo"><label for="elevenhalf" class="radio2">11:30</label></td>
-                    <td><input type="radio" id="twelf" name="dispo"><label for="twelf" class="radio2">12:00</label></td>
-                    <td><input type="radio" id="twelfhalf" name="dispo"><label for="twelfhalf" class="radio2">12:30</label></td>
-                    <td><input type="radio" id="forty" name="dispo"><label for="forty" class="radio2">14:00</label></td>
-                    <td><input type="radio" id="fortyhalf" name="dispo"><label for="fortyhalf" class="radio2">14:30</label></td>
-                    <td><input type="radio" id="fifty" name="dispo"><label for="fifty" class="radio2">15:00</label></td>
+                    @foreach($tabDispoMardi as $tab)
+                    @if($tab['Etat']=='oui')
+                    <td><input value="{{$tab['Heure']}}" type="radio" id="ten"    name="choix[]">        <label for="ten" class="radio2">{{$tab['H']}}</label></td>
+                    @else
+                    <td>Non Dispo</td>
+                    @endif
+                    @endforeach
                 </tr>
                 <tr>
                     <td> MERCREDI</td>
-                    <td><input type="radio" id="ten" name="dispo"><label for="ten" class="radio2">10:00</label></td>
-                    <td><input type="radio" id="tenhalf" name="dispo"><label for="tenhalf" class="radio2">10:30</label></td>
-                    <td><input type="radio" id="eleven" name="dispo"><label for="eleven" class="radio2">11:00</label></td>
-                    <td><input type="radio" id="elevenhalf" name="dispo"><label for="elevenhalf" class="radio2">11:30</label></td>
-                    <td><input type="radio" id="twelf" name="dispo"><label for="twelf" class="radio2">12:00</label></td>
-                    <td><input type="radio" id="twelfhalf" name="dispo"><label for="twelfhalf" class="radio2">12:30</label></td>
-                    <td><input type="radio" id="forty" name="dispo"><label for="forty" class="radio2">14:00</label></td>
-                    <td><input type="radio" id="fortyhalf" name="dispo"><label for="fortyhalf" class="radio2">14:30</label></td>
-                    <td><input type="radio" id="fifty" name="dispo"><label for="fifty" class="radio2">15:00</label></td>
+                    @foreach($tabDispoMercredi as $tab)
+                    @if($tab['Etat']=='oui')
+                    <td><input value="{{$tab['Heure']}}" type="radio" id="ten"    name="choix[]">        <label for="ten" class="radio2">{{$tab['H']}}</label></td>
+                    @else
+                    <td>Non Dispo</td>
+                    @endif
+                    @endforeach
                 </tr>
                 <tr>
                     <td> JEUDI</td>
-                    <td><input type="radio" id="ten" name="dispo"><label for="ten" class="radio2">10:00</label></td>
-                    <td><input type="radio" id="tenhalf" name="dispo"><label for="tenhalf" class="radio2">10:30</label></td>
-                    <td><input type="radio" id="eleven" name="dispo"><label for="eleven" class="radio2">11:00</label></td>
-                    <td><input type="radio" id="elevenhalf" name="dispo"><label for="elevenhalf" class="radio2">11:30</label></td>
-                    <td><input type="radio" id="twelf" name="dispo"><label for="twelf" class="radio2">12:00</label></td>
-                    <td><input type="radio" id="twelfhalf" name="dispo"><label for="twelfhalf" class="radio2">12:30</label></td>
-                    <td><input type="radio" id="forty" name="dispo"><label for="forty" class="radio2">14:00</label></td>
-                    <td><input type="radio" id="fortyhalf" name="dispo"><label for="fortyhalf" class="radio2">14:30</label></td>
-                    <td><input type="radio" id="fifty" name="dispo"><label for="fifty" class="radio2">15:00</label></td>
+                    @foreach($tabDispoJeudi as $tab)
+                    @if($tab['Etat']=='oui')
+                    <td><input value="{{$tab['Heure']}}" type="radio" id="ten"    name="choix[]">        <label for="ten" class="radio2">{{$tab['H']}}</label></td>
+                    @else
+                    <td>Non Dispo</td>
+                    @endif
+                    @endforeach
                 </tr>
                 <tr>
                     <td> VENDREDI</td>
-                    <td><input type="radio" id="ten" name="dispo"><label for="ten" class="radio2">10:00</label></td>
-                    <td><input type="radio" id="tenhalf" name="dispo"><label for="tenhalf" class="radio2">10:30</label></td>
-                    <td><input type="radio" id="eleven" name="dispo"><label for="eleven" class="radio2">11:00</label></td>
-                    <td><input type="radio" id="elevenhalf" name="dispo"><label for="elevenhalf" class="radio2">11:30</label></td>
-                    <td><input type="radio" id="twelf" name="dispo"><label for="twelf" class="radio2">12:00</label></td>
-                    <td><input type="radio" id="twelfhalf" name="dispo"><label for="twelfhalf" class="radio2">12:30</label></td>
-                    <td><input type="radio" id="forty" name="dispo"><label for="forty" class="radio2">14:00</label></td>
-                    <td><input type="radio" id="fortyhalf" name="dispo"><label for="fortyhalf" class="radio2">14:30</label></td>
-                    <td><input type="radio" id="fifty" name="dispo"><label for="fifty" class="radio2">15:00</label></td>
+                    @foreach($tabDispoVendredi as $tab)
+                    @if($tab['Etat']=='oui')
+                    <td><input value="{{$tab['Heure']}}" type="radio" id="ten"    name="choix[]">        <label for="ten" class="radio2">{{$tab['H']}}</label></td>
+                    @else
+                    <td>Non Dispo</td>
+                    @endif
+                    @endforeach
                 </tr>
 
             </tbody>
@@ -124,6 +127,7 @@ Prise rendez-vous
     </div>
 
 </form>
+
 
 
 

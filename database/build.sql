@@ -38,12 +38,15 @@ UNIQUE (Id_Enseignant)
 
 
 CREATE TABLE RendezVous (
-Id_RDV INTEGER PRIMARY KEY ,
-Date_RDV datetime NOT NULL,
+Id_RDV INTEGER PRIMARY KEY AUTOINCREMENT ,
+Heure varcha(10) NOT NULL,
 Message VARCHAR(3000),
+objet VARCHAR(30),
 IdEtudiant INTEGER,
 Id_Enseignant INTEGER,
-  UNIQUE (Id_RDV,Date_RDV,IdEtudiant,Id_Enseignant),
+nomFichier varchar(200),
+nomFichierHache varchar(200),
+
   FOREIGN KEY(IdEtudiant) REFERENCES Etudiant(IdEtudiant),
   FOREIGN KEY(Id_Enseignant) REFERENCES Enseignant(Id_Enseignant)
 

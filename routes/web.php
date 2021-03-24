@@ -103,3 +103,6 @@ Route::get('/test-email',function(){
     return new ContactMessageCreated('BELKHOUS','lyes.belkhous@hotmail.com','reinitialisation de mot de passe');
 });
 
+//chargement d'un fichier
+Route::get('/chargementFichier', [Controller::class, 'chargementFichier'])->name('chargerFichier');
+

@@ -12,7 +12,7 @@ Modification profil
 
 
 
-<div class="big-box"><input type="checkbox" checked>
+<div class="big-box">
 @if(session()->has('message'))
         <div class="alert alert-success" style="font-size: 20px;">
             {{ session()->get('message') }}
