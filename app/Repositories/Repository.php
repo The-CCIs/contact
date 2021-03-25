@@ -358,53 +358,11 @@ function remplissageBD(): void{
                 $Names=$Nam;
                 return $Names;
             }
-<<<<<<< HEAD
 
 
 
 
 
-=======
-                
-
-   function idEns(string $profN, string $profP):int
-   {
-        $ens=DB::table('Enseignant')->where('NomEnseignant',$profP)->where('PrénomEnseignant',$profN)->get()->toArray();
-        $en=$ens[0];
-        //dd($en->Id_Enseignant);
-        return $en->Id_Enseignant;
-   }
-   function idEt(string $email):int
-   {
-    $ens=DB::table('UtilisateurEtudiant')->join('Etudiant','UtilisateurEtudiant.Email_Etudiant','=','Etudiant.Email_Etudiant')->where('Etudiant.Email_Etudiant',$email)->get()->toArray();
-    //dd($ens);
-    $en=$ens[0];
-    //dd($en);
-    return $en->IdEtudiant;
-   }
-  function findEmail(string $profN,string $profP):string
-  {
-    $ens=DB::table('Enseignant')->where('NomEnseignant',$profN)->where('PrénomEnseignant',$profP)->get()->toArray();
-    $en=$ens[0];
-    //dd($en->Email_Enseignant);
-    return $en->Email_Enseignant;
-  }
-  function misDisp(string $dispo, int $idEt):void
-  {
-    if($idEt == (DB::table('Enseignant')->where('Id_Enseignant',1)->get('Id_Enseignant'))[0]->Id_Enseignant)
-      DB::table('DispNouioua')->where('Heure',$dispo)->update(['Etat'=>'non']);
-
-    if($idEt== (DB::table('Enseignant')->where('Id_Enseignant',2)->get('Id_Enseignant'))[0]->Id_Enseignant)
-      DB::table('DispEstellon')->where('Heure',$dispo)->update(['Etat'=>'non']);;
-
-    if($idEt == (DB::table('Enseignant')->where('Id_Enseignant',3)->get('Id_Enseignant'))[0]->Id_Enseignant)
-      DB::table('DispDinaz')->where('Heure',$dispo)->update(['Etat'=>'non']);;
-
-    if($idEt== (DB::table('Enseignant')->where('Id_Enseignant',4)->get('Id_Enseignant'))[0]->Id_Enseignant)
-      DB::table('DispCreignou')->where('Heure',$dispo)->update(['Etat'=>'non']);;
-  }
-  //comment
->>>>>>> 1261f401c570fc89fd39d2e8107436b8283b56c6
 
 }
 
