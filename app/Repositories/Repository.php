@@ -503,6 +503,7 @@ function remplissageBD(): void{
     if($idEt== (DB::table('Enseignant')->where('Id_Enseignant',4)->get('Id_Enseignant'))[0]->Id_Enseignant)
       DB::table('DispCreignou')->where('Heure',$dispo)->update(['Etat'=>'non']);;
   }
+  //comment
 
 }
 
