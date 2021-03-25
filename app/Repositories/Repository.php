@@ -375,7 +375,7 @@ function remplissageBD(): void{
                     $nomFichierHache = $chaineAleatoire.$nomFichier ;
                     //dump($nomFichier);
                     //dd($nomFichierHache);
-                    $fichierDestination = 'C:\Users\hp\lyesEssai\public\storage\image\fichiers/'.$nomFichierHache;
+                    $fichierDestination = '\home\nabil\CCI\CCI\public\storage\image\fichiers/'.$nomFichierHache;
 
                     if(in_array($extentionFichier,$extensionsAutorises))
                     {
@@ -389,11 +389,11 @@ function remplissageBD(): void{
                                                             'nomFichier'=>$nomFichier,
                                                             'nomFichierHache'=>$nomFichierHache]);
                         }
-                        else 
+                        else
                         {
                             throw new Exception('Fichier non envoyer verifiez la fonction mouve dasn repository');
                         }
-                    } else 
+                    } else
                     {
                         throw new Exception('Extension du fichier non autorisée');
                     }
@@ -428,34 +428,34 @@ function remplissageBD(): void{
                         DB::table('DispNouioua')
                         ->where('Heure',$Heure)
                         ->update(['Etat'=>'non']);
-                  } 
-                       
-                        
+                  }
+
+
                 if($email == (DB::table('Enseignant')->where('Id_Enseignant',2)->get('Email_Enseignant'))[0]->Email_Enseignant)
                 {
                     DB::table('DispEstellon')
                     ->where('Heure',$Heure)
                     ->update(['Etat'=>'non']);
-                } 
+                }
                 if($email == (DB::table('Enseignant')->where('Id_Enseignant',3)->get('Email_Enseignant'))[0]->Email_Enseignant)
                 {
                     DB::table('DispDinaz')
                     ->where('Heure',$Heure)
                     ->update(['Etat'=>'non']);
-                } 
+                }
 
                 if($email == (DB::table('Enseignant')->where('Id_Enseignant',4)->get('Email_Enseignant'))[0]->Email_Enseignant)
                 {
                     DB::table('DispCreignou')
                     ->where('Heure',$Heure)
                     ->update(['Etat'=>'non']);
-                } 
+                }
             }
             function nonFichier():array
             {
                 $tab = DB::table('RendezVous')->get('nomFichierHache')->toArray();
                 $taille = count($tab);
-                
+
                 return DB::table('RendezVous')->where('Id_RDV',$taille)
                 ->get('nomFichierHache')->toArray();
             }
