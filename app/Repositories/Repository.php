@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 class Repository
 {
 //-------------------------------CREATION-DE-BASE-DE-DONNEES-------------------------------
+//commentaire lyes
 // la méthode createDatabase exécute le script
 // build.sql en étant connectée à la base de données de l'application.
 function tableEtudiant($email): array
