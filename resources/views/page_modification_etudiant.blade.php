@@ -14,7 +14,7 @@ Modification profil
 
 <div class="big-box">
 @if(session()->has('message'))
-        <div class="alert alert-success" style="font-size: 20px;">
+        <div id="messageDisp" class="alert alert-success" style="font-size: 20px;">
             {{ session()->get('message') }}
         </div>
     @endif
@@ -29,7 +29,7 @@ Modification profil
     <form class="profil-edit-box" method="POST" action="{{route('modificationEtudiant.post')}}">
         @csrf
         @if ($errors->any())
-        <div class="alert alert-warning">
+        <div id="messageDisp" class="alert alert-warning">
             infos non actualisées &#9785;
         </div>
         @endif

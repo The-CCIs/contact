@@ -57,7 +57,7 @@ Mes rendez-vous etudiant
     <div class="bar_rech">
         <h3>Equipe d'enseignement</h3><br>
         <form action="{{route('barre.reserch')}}">
-  
+
         <div class="search_box">
             <input type="text" name="q" placeholder="Trouvez votre professeur?">
             <button type="submit" class="btn btn-info">Chercher</button>

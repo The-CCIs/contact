@@ -12,7 +12,6 @@ Prise rendez-vous
 <form method="POST" action="{{route('priseRendezVous.post',['emailprofs'=>$email])}}" enctype="multipart/form-data">
 @csrf 
     <div class="container22">
-        <a href="http://localhost:8000/storage/image/fichiers/{{$nomFichierHache}}">TELECHERGER</a>
     @if ($errors->any())
         <div id="messageDisp" class="alert alert-warning">
             Merci de selectionner au moin un créneau &#9785;
@@ -26,7 +25,7 @@ Prise rendez-vous
     @endif
         <h2> Rendez-vous</h2>
         <div class="bar_iden">
-            <ul>
+              <!--<ul>
                 <li>
                     <img class="photo_profil3" src="/icon/profil1.jpeg" alt="">
                     <div class="prof">
@@ -34,7 +33,9 @@ Prise rendez-vous
                         <span class="matière">{{$Matière}}</span>
                     </div>
                 </li>
-            </ul>
+            </ul>-->
+            <input name="profN" type="hidden" value="{{$NomEnseignant}}">
+            <input name="profP" type="hidden" value="{{$PrénomEnseignant}}">
         </div><br>
         <h3> Message</h3>
         <div class="Message2">
@@ -119,6 +120,9 @@ Prise rendez-vous
                     @endif
                     @endforeach
                 </tr>
+
+
+
 
             </tbody>
         </table>

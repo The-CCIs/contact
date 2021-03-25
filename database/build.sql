@@ -1,7 +1,7 @@
 /* Suppression de tables existantes */
 DROP TABLE IF EXISTS Probleme;
-DROP TABLE IF EXISTS Fichier;
-DROP TABLE IF EXISTS Message;
+/*DROP TABLE IF EXISTS Fichier;
+DROP TABLE IF EXISTS Message;*/
 DROP TABLE IF EXISTS RendezVous;
 
 DROP TABLE IF EXISTS UtilisateurEtudiant;
@@ -52,7 +52,7 @@ nomFichierHache varchar(200),
 
 );
 
-CREATE TABLE Message (
+/*CREATE TABLE Message (
 Id_msg INTEGER PRIMARY KEY ,
 IdEtudiant INTEGER,
   FOREIGN KEY(IdEtudiant) REFERENCES Etudiant(IdEtudiant)
@@ -63,14 +63,14 @@ Id_Fichier INTEGER PRIMARY KEY ,
 IdEtudiant INTEGER,
   FOREIGN KEY(IdEtudiant) REFERENCES Etudiant(IdEtudiant)
 
-);
+);*/
 
-CREATE TABLE Probleme (
-Id_Pbm INTEGER PRIMARY KEY,
-Nom_Pbm varchar(20),
-IdEtudiant INTEGER,
-  FOREIGN KEY(IdEtudiant) REFERENCES Etudiant(IdEtudiant)
-);
+-- CREATE TABLE Probleme (
+-- Id_Pbm INTEGER PRIMARY KEY,
+-- Nom_Pbm varchar(20),
+-- IdEtudiant INTEGER,
+--   FOREIGN KEY(IdEtudiant) REFERENCES Etudiant(IdEtudiant)
+-- );
 
 CREATE TABLE UtilisateurEtudiant (
 Id INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -128,7 +128,7 @@ class Controller extends BaseController
     }
 
     function storeLoginEtudiant(Request $request)
-    {   
+    {
         $rules = [
         'email' => ['required', 'email'],
         'password' => ['required']
@@ -151,8 +151,8 @@ class Controller extends BaseController
 
         //$value = $request->session()->get($user['email']);
         $request->session()->put('student', $student);
-        //return view('tableau_de_bord_etudiant'); 
-        
+        //return view('tableau_de_bord_etudiant');
+
         } catch (Exception $e) {
         return redirect()->back()->withInput()->withErrors("Impossible de vous authentifier.");
     }
@@ -307,7 +307,6 @@ function storeLoginEnseignant(Request $request)
 //--------------------------------------------------------------------------------------------------------------------------------
     function showProfil(Request $request)
     {
-       
         $hasKey = $request->session()->has('student');
         //dd($hasKey);
        //dump($hasKey);
@@ -317,9 +316,9 @@ function storeLoginEnseignant(Request $request)
 
         $value = $request->session()->get('student');
         $email = $value[1];
-        
+
         try{
-            
+
         $tableEtudiant = $this->repository->tableEtudiant($email);
         $nom = $tableEtudiant[0]->NomEtudiant;
         //dump($nom);
@@ -331,8 +330,8 @@ function storeLoginEnseignant(Request $request)
         //dd($NomImage);
 
         $tableInformations = ['NomImage'=>$NomImage ,'nom'=>$nom , 'prenom'=>$prenom , 'dateNaissance'=>$dateNaissance , 'phone'=>$phone , 'classe'=>$classe];
-        
-        
+
+
         } catch(Exception $e){
             return redirect()->back()->withErrors("il y a eu un probleme");
         }
@@ -379,9 +378,9 @@ function storeLoginEnseignant(Request $request)
         //dump($request->all());
         $validatedData = $request->validate($rules,$messages);
         $ancienEmail = $validatedData['ancienEmail'];
-        
 
-        
+
+
 
         //dd($nom . $prenom . $ancienEmail . $nouveauEmail . $date);
         $hasKey = $request->session()->has('student');
@@ -390,7 +389,6 @@ function storeLoginEnseignant(Request $request)
         }
         //dump(gettype($tableEtudiant));
         //dd(count($tableEtudiant));
-        
         try{
         //dd($request->file('image'));
         $tableEtudiant = $repository->tableEtudiant($ancienEmail);
@@ -408,16 +406,15 @@ function storeLoginEnseignant(Request $request)
 
         if($validatedData['prenom']!== null)
             $prenom = $validatedData['prenom'];
-        
         if($validatedData['phone']!=null)
             $phone = $validatedData['phone'];
 
         if($validatedData['ancienEmail']!= null)
             $ancienEmail = $validatedData['ancienEmail'];
-        
+
         if($validatedData['nouveauEmail']!= null)
             $nouveauEmail = $validatedData['nouveauEmail'];
-        
+
         if($validatedData['date']!= null)
             $date = $validatedData['date'];
         //dd(gettype($phone));
@@ -425,12 +422,10 @@ function storeLoginEnseignant(Request $request)
 
 
         return redirect()->route('profil.show')->with('message','Modiffications enrigistrées');
-        
         }catch(Exception $e)
         {
             return redirect()->back()->withErrors("Modifs non enrigistrées");
         }
-        
     }
 //-------------------------------------------------------------------------------------------------------------------------
 function storePhoto(Request $request)
@@ -455,8 +450,8 @@ function storePhoto(Request $request)
         return redirect()->back()->with("message","Photo de profil changé avec succé");
     }
     return redirect()->back()->withErrors("aucune photo selectionné");
-   
-    
+
+
 }
 //-------------------------------------------------------------------------------------------------------------------------------
     function showMesRendezVousEtudiant(Request $request)
@@ -515,7 +510,7 @@ function storePhoto(Request $request)
         $arrayUrl = DB::table('RendezVous')->get('urlFichier')->toArray();
         //$url = $arrayUrl[0]->urlFichier;
         $nonFichier = $this->repository->nonFichier();
-        $nomFichierHache = $nonFichier[0]->nomFichierHache;
+        //$nomFichierHache = $nonFichier[0]->nomFichierHache;
         return view('prise_rendez_vous_etudiant',[  'PrénomEnseignant'=>$request->profs['NomEnseignant'],
                                                     'NomEnseignant'=>$request->profs['PrénomEnseignant'],
                                                     'Matière'=>$request->profs['Matière'],
@@ -524,8 +519,8 @@ function storePhoto(Request $request)
                                                     'tabDispoMercredi'=>$tabDispoMercredi,
                                                     'tabDispoJeudi'=>$tabDispoJeudi,
                                                     'tabDispoVendredi'=>$tabDispoVendredi,
-                                                    'email'=>$email,
-                                                    'nomFichierHache'=>$nomFichierHache
+                                                    'email'=>$email
+                                                    //'nomFichierHache'=>$nomFichierHache
                                                 ]);
 
     }
@@ -536,10 +531,10 @@ function storePhoto(Request $request)
 
         /*
         verification des champs saisis
-        verification de la disponibilité de l'enseignant
+        verification de la disponibilité de l'enseignant*/
 
-        */
         $hasKey = $request->session()->has('student');
+
         if(!$hasKey){
             return redirect()->route('PageAccueil.show');
         }
@@ -637,11 +632,11 @@ function storePhoto(Request $request)
 
     function showdisponibilites(Request $request)
     {
-       
+
 
         $hasKey1 = $request->session()->has('teacher');
         //dd($hasKey1);
-        
+
         if(!$hasKey1){
             return view('page_accueil');
         }
@@ -663,7 +658,6 @@ function storePhoto(Request $request)
             $tabDispoLundi[$i] = $tableDispoEnseignant[$i];
             $tabDispoLundi[$i]['H'] = $tab[$i];
         }
-        
         for($i=9; $i<18 ;$i++)
         {
             $tabDispoMardi[$i] = $tableDispoEnseignant[$i];
@@ -701,11 +695,11 @@ function storePhoto(Request $request)
     {
         $hasKey1 = $request->session()->has('teacher');
         //dd($hasKey1);
-        
+
         if(!$hasKey1){
             return view('page_accueil');
         }
-        
+
         $email = $request->session()->get('teacher')[1];
         //dd($email);
         $tabCoché = $request->input('choix');
@@ -719,9 +713,9 @@ function storePhoto(Request $request)
 
 function showSearchBarre()
 {
+
 $q = request()->input('q');
 $profss= $this->repository->searchProf($q);
-
 return view('mes_rendez_vous_etudiant-research', ['profss' => $profss]);
 }
 
