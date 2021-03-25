@@ -517,7 +517,7 @@ function storePhoto(Request $request)
         //dump("okkkkkkk");
         $arrayUrl = DB::table('RendezVous')->get('urlFichier')->toArray();
         //$url = $arrayUrl[0]->urlFichier;
-        $nonFichier = $this->repository->nonFichier();
+        //$nonFichier = $this->repository->nonFichier();
         //$nomFichierHache = $nonFichier[0]->nomFichierHache;
         return view('prise_rendez_vous_etudiant',[  'PrénomEnseignant'=>$request->profs['NomEnseignant'],
                                                     'NomEnseignant'=>$request->profs['PrénomEnseignant'],

@@ -55,10 +55,9 @@ Prise rendez-vous
                 </select>
                 </li>
                 <li>
+                    
                     <input name="fichier" type="file">
-                    <a href="#">
-                        <button class="docs">Ajouter un document</button>
-                    </a>
+                   
                 </li>
             </ul>
         </div>
