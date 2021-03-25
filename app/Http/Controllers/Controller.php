@@ -202,10 +202,14 @@ function storeLoginEnseignant(Request $request)
 
 }
       function logout(Request $request) {
-        if($request->session()->has('student'))
+        if($request->session()->has('student')){
         $request->session()->forget('student');
-        else
+        $value=$request->session()->get('student');
+        //dd($value);
+        }
+        else{
         $request->session()->forget('teacher');
+        }
 
         return redirect()->route('PageAccueil.show');
       }
@@ -464,7 +468,11 @@ function storePhoto(Request $request)
         if(!$hasKey){
             return redirect()->route('PageAccueil.show');
         }
-        return view('mes_rendez_vous_etudiant');
+        $IdEtudiant = $request->session()->get('student')[0];
+        // dd($IdEtudiant);
+        $msg_count=$this->repository->msg_count($IdEtudiant);
+        // dd($msg_count);
+        return view('mes_rendez_vous_etudiant',['msg_count' => $msg_count]);
     }
 //--------------------------------------------------------------------------------------------------------------------------------
     function priseRendezVousForm(Request $request)
@@ -484,11 +492,7 @@ function storePhoto(Request $request)
     }
     function storePriseRendezVous(Request $request)
     {
-        /*
-        verification des champs saisis
-        verification de la disponibilité de l'enseignant
 
-        */
         $hasKey = $request->session()->has('student');
         if(!$hasKey){
             return redirect()->route('PageAccueil.show');
@@ -509,14 +513,49 @@ function storePhoto(Request $request)
         return view('mes_rendez_vous_etudiant');
     }
 
-    function showMessageReçu()
+    function showMessageReçu(Request $request)
     {
+        $hasKey = $request->session()->has('student');
+        if(!$hasKey){
+            return redirect()->route('PageAccueil.show');
+        }
 
-        return view('message_reçu_etudiant');
+        $IdEtudiant = $request->session()->get('student')[0];
+
+        $MSG=$this->repository->getMessage($IdEtudiant);
+        // dd($MSG);
+        $Id=$this->repository->getMessageIdtech($IdEtudiant);
+        //  dd($Id);
+        $Names=$this->repository->getMessageIdtechNames($IdEtudiant);
+              //  dd($Names);
+        return view('message_reçu_etudiant',['Names'=>$Names]);
+    }
+
+    function showMessageReçu_msg(Request $request)
+    {
+        $hasKey = $request->session()->has('student');
+        if(!$hasKey){
+            return redirect()->route('PageAccueil.show');
+        }
+        $IdEtudiant = $request->session()->get('student')[0];
+        // dd($IdEtudiant);
+        // $Idprof=$request->Id_Enseignant;
+
+        // dd($request->Id_Enseignant);
+        $MSG=$this->repository->getMessage2($request->Id_msg);
+        $Name=$this->repository->getMessageIdtechName($request->Id_Enseignant);
+        // dd($Name);
+        return view('message_reçu_etudiant-msg',['Name'=>$Name , 'MSG'=>$MSG]);
     }
 //---------------------------------------------------------------------------------------------------------------------------------
-    function rendezVousMessageForm()
+    function rendezVousMessageForm(Request $request)
     {
+        $hasKey1 = $request->session()->has('teacher');
+        //dd($hasKey1);
+
+        if(!$hasKey1){
+            return view('page_accueil');
+        }
         /*
         verifications habituelles
         */
@@ -524,21 +563,43 @@ function storePhoto(Request $request)
     }
     function RendezVousMessage(Request $request)
     {
-// dd($request->etuds);
+        $hasKey1 = $request->session()->has('teacher');
+        //dd($hasKey1);
+
+        if(!$hasKey1){
+            return view('page_accueil');
+        }
+//  dd($request->etuds);
 // $request->etuds['NomEtudiant'];
 // $request->etuds['PrénomEtudiant'];
 // $request->etuds['Niveau'];
-
-
-        return view('message_enseignant_etudiant',['PrénomEtudiant'=>$request->etuds['PrénomEtudiant'],'NomEtudiant'=>$request->etuds['NomEtudiant'],'Niveau_Etude'=>$request->etuds['Niveau_Etude']]);
+        return view('message_enseignant_etudiant',['etuds'=>$request->etuds,'PrénomEtudiant'=>$request->etuds['PrénomEtudiant'],'NomEtudiant'=>$request->etuds['NomEtudiant'],'Niveau_Etude'=>$request->etuds['Niveau_Etude']]);
     }
 
-    function storeRendezVousMessage()
+    function storeRendezVousMessage(Request $request, Repository $repository)
     {
-        /*
-        verifications habituelles + message "message envoyer avec succé"
-        */
-        return ('messageenboyé');
+        $hasKey1 = $request->session()->has('teacher');
+        //dd($hasKey1);
+
+        if(!$hasKey1){
+            return view('page_accueil');
+        }
+
+        $IdEnseignant = $request->session()->get('teacher')[0];
+        $IdEtudiant = $request->etuds['IdEtudiant'];
+        // dd($IdEnseignant);
+        //  dd($request->etuds);
+        $rules = [
+            'msgEnEt' => ['required'],
+            ];
+            $messages = [
+                'msgEnEt.required' => 'Vous devez saisir un message.'
+            ];
+            $validatedData = $request->validate($rules,$messages);
+            $Message = $validatedData['msgEnEt'];
+            $this->repository->sendMessage($Message, $IdEtudiant , $IdEnseignant);
+
+        return view('mes_rendez_vous_enseignant');
     }
 
     function storeannulationRendezVousEnseignant()
@@ -637,7 +698,6 @@ function storePhoto(Request $request)
         //dd( $tabCoché);
         //$taille = count($tabCoché);
         $this->repository->modificationDispo($email, $tabCoché);
-
         return view('tableau_de_bord_enseignant');
 
         // return "yooopiiiii";
@@ -645,17 +705,35 @@ function storePhoto(Request $request)
     }
 //---------------------------------------------------------------------BARRE DE RECHERCHE-------------------------------------------------------
 
-function showSearchBarre()
+function showSearchBarre(Request $request)
 {
+    $hasKey = $request->session()->has('student');
+    if(!$hasKey){
+        return redirect()->route('PageAccueil.show');
+    }
+    $IdEtudiant = $request->session()->get('student')[0];
+
+
 $q = request()->input('q');
+// dd($q);
+if(empty($q)){
+    return redirect()->route('MesRendezVousEtudiant');
+}
 $profss= $this->repository->searchProf($q);
 
-return view('mes_rendez_vous_etudiant-research', ['profss' => $profss]);
+$msg_count=$this->repository->msg_count($IdEtudiant);
+// dd($msg_count);
+
+return view('mes_rendez_vous_etudiant-research', ['profss' => $profss, 'msg_count' => $msg_count]);
 }
 
-function showSearchBarre2()
+function showSearchBarre2(Request $request)
 {
 $q = request()->input('q');
+if(empty($q)){
+    return redirect()->route('rendezVousMessage');
+}
+
 $etudss= $this->repository->searchEtud($q);
 
 return view('mes_rendez_vous_enseignant-research', ['etudss' => $etudss]);

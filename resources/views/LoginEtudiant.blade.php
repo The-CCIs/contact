@@ -33,14 +33,14 @@ Authentification
       </div>
       @enderror
         <br>
-        <!--<label class="mot_passe_oubli"> <a href="{{route('motDePasseOublie')}}">Mot de passe oublié ? </a></label><br>
+        <label class="mot_passe_oubli"> <a href="{{route('motDePasseOublie')}}">Mot de passe oublié ? </a></label><br>
         <label class="checkbox_c"> <input type="checkbox"> Restez connecté</label><br>
-        <br>-->
+        <br>
         <button type="submit" class="btn btn-secondary">Se connecter</button>
         <!--<br>
         <br>
         <div class="connexion-index">Vous n'avez pas encore de compte ?
-        <a href="{{route('InscriptionEtudiant.show')}}">Inscrivez-vous</a></div>-->
+        <a href="{{route('InscriptionEtudiant.show')}}">Inscrivez-vous</a></div>
 
     </form>
 

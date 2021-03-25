@@ -70,12 +70,12 @@ Mes rendez-vous etudiant
     </div>
     <h2></h2>
     <div  class="bar_iden">
-        <a href="/etudiant/message-reçu">
+        <a href="{{route('messageRecu.show')}}">
         <ul>
             <li>
                 <div class="prof">
                     <span class="nom_prof">Message reçus</span>
-                    <span class="matière">1</span>
+                    <span class="matière">{{$msg_count}}</span>
                 </div>
 
             </li>

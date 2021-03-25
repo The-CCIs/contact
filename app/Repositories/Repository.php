@@ -166,6 +166,7 @@ function modifInfoEtudiant(string $email,string $email2,string $nomEtudiant,
 
     function searchProf(string $q): array
     {
+        
       return  DB::table('Enseignant')
       ->where('NomEnseignant', 'like', "%$q%")
       ->orWhere('PrénomEnseignant', 'like', "%$q%")
@@ -264,8 +265,8 @@ function remplissageBD(): void{
                           ->where('Heure',$val)
                           ->update(['Etat'=>'oui']);
                       }
-                  } 
-                       
+                  }
+
 
                 if($email == (DB::table('Enseignant')->where('Id_Enseignant',2)->get('Email_Enseignant'))[0]->Email_Enseignant)
                 {
@@ -275,7 +276,7 @@ function remplissageBD(): void{
                         ->where('Heure',$val)
                         ->update(['Etat'=>'oui']);
                     }
-                } 
+                }
 
                 if($email == (DB::table('Enseignant')->where('Id_Enseignant',3)->get('Email_Enseignant'))[0]->Email_Enseignant)
                 {
@@ -285,7 +286,7 @@ function remplissageBD(): void{
                         ->where('Heure',$val)
                         ->update(['Etat'=>'oui']);
                     }
-                } 
+                }
 
                 if($email == (DB::table('Enseignant')->where('Id_Enseignant',4)->get('Email_Enseignant'))[0]->Email_Enseignant)
                 {
@@ -295,8 +296,70 @@ function remplissageBD(): void{
                         ->where('Heure',$val)
                         ->update(['Etat'=>'oui']);
                     }
-                } 
+                }
             }
+
+            function sendMessage(String $message, int $IdEtudiant , int $IdEnseignant): int
+            {
+                return DB::table('Message')->insertGetId(['Message'=>$message,'Id_Enseignant'=>$IdEnseignant,'IdEtudiant'=>$IdEtudiant]);
+            }
+
+            function msg_count(int $IdEtudiant): int
+            {
+                return count(DB::table('Message')->where('IdEtudiant',$IdEtudiant)->get()->toArray());
+            }
+
+
+            function getMessage( int $IdEtudiant): array
+            {
+                return DB::table('Message')->where('IdEtudiant',$IdEtudiant)->get('Message')->toArray();
+            }
+            function getMessage2( int $Id_msg): array
+            {
+                return DB::table('Message')->where('Id_msg',$Id_msg)->get('Message')->toArray();
+            }
+            function getMessageIdtech( int $IdEtudiant):array
+            {
+                return DB::table('Message')->where('IdEtudiant',$IdEtudiant)->get(['Id_Enseignant'])->toArray();
+            }
+
+            function getMessageIdtechName(int $Id_Enseignant):array
+            {
+            return DB::table('Enseignant')
+                    ->where('Id_Enseignant',$Id_Enseignant)
+                    ->get(['Id_Enseignant','NomEnseignant', 'PrénomEnseignant','Matière'])
+                    ->toArray();
+            }
+
+            function getMessageIdtechNames(int $IdEtudiant):array
+            {
+                $Ids=$this->getMessageIdtech($IdEtudiant);
+                foreach($Ids as $Id){
+                    $Names[] = $this->getMessageIdtechName($Id->Id_Enseignant);
+                }
+                $idmsg = DB::table('Message')->where('IdEtudiant',$IdEtudiant)->get(['Id_msg'])->toArray();
+                $idms=json_decode(json_encode($idmsg), true);
+                $Nam=json_decode(json_encode($Names), true);
+                // dump($Nam);
+                //  dump($idms);
+                // dd('fin');
+
+                // dd($Nam);
+                // dd($idms);
+
+
+                for($i=0; $i< $this->msg_count($IdEtudiant) ;$i++)
+                {
+                    $Nam[$i][0]=$Nam[$i][0]+$idms[$i];
+
+                }
+                // dump($Nam);
+                // dd('fin');
+                $Names=$Nam;
+                return $Names;
+            }
+
+
 
 
 

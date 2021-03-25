@@ -92,8 +92,8 @@ class DatabaseSeeder extends Seeder
                                                         );
 
 
-        $repository->addUser('walid@hotmail.com','123456');
         $repository->addUser('lyes@hotmail.com','123456');
+        $repository->addUser('walid@hotmail.com','123456');
         $repository->addUser('nabil@hotmail.com','123456');
 
         $repository->addTeacher('karim@hotmail.com','123456');

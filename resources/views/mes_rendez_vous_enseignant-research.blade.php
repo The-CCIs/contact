@@ -59,6 +59,7 @@ Mes rendez-vous enseignant
     <div class="bar_rech">
         <h3>Etudiant</h3><br>
         <form action="{{route('barre2.reserch')}}">
+            @csrf
             <div class="search_box">
                 <input type="text" name="q" placeholder="Trouvez l'étudiant?">
                 <button type="submit" class="btn btn-info">Chercher</button>

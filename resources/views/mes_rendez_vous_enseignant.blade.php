@@ -16,10 +16,11 @@ Mes rendez-vous enseignant
     <div class="bar_iden">
         <div>
             <ul>
+                <a href="{{route('RDV-enseignant-etudiant')}}">
                 <li>
                     <div class="RDV">
                         <span class="date">Lundi 15 fevrier 15:30</span>
-                        <span class="annuler"><a href="#">Annuler</a></span>
+                        <span class="annuler"></span>
                     </div>
                     <img class="photo_profil3" src="/icon/profil1.jpeg" alt="">
                     <div class="prof">
@@ -27,10 +28,12 @@ Mes rendez-vous enseignant
                         <span class="matière">1ère année</span>
                     </div>
                 </li>
+                </a>
+                <a href="{{route('RDV-enseignant-etudiant')}}">
                 <li>
                     <div class="RDV">
                         <span class="date">Lundi 15 fevrier 15:30</span>
-                        <span class="annuler"><a href="#">Annuler</a></span>
+                        <span class="annuler"></span>
                     </div>
                     <img class="photo_profil3" src="/icon/profil1.jpeg" alt="">
                     <div class="prof">
@@ -38,17 +41,9 @@ Mes rendez-vous enseignant
                         <span class="matière">1ère année</span>
                     </div>
                 </li>
-                <li>
-                    <div class="RDV">
-                        <span class="date">Lundi 15 fevrier 15:30</span>
-                        <span class="annuler"><a href="#">Annuler</a></span>
-                    </div>
-                    <img class="photo_profil3" src="/icon/profil1.jpeg" alt="">
-                    <div class="prof">
-                        <span class="nom_prof">CAMIILE DINAZ</span>
-                        <span class="matière">1ère année</span>
-                    </div>
-                </li>
+                </a>
+
+
 
 
 
@@ -69,7 +64,6 @@ Mes rendez-vous enseignant
         <br>
         <br>
         <br>
-
     </div>
     <h2></h2>
 
