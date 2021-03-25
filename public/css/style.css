@@ -888,11 +888,22 @@ td input {
     border-color: #abcfb6;
     background: rgba(139, 138, 138, 0.8);
 }
+
 .opload{
-    position: absolute; 
-    top: 450px; 
-    left: 5px; color: rgb(243, 234, 234); 
+    position: absolute;
+    top: 450px;
+    left: 5px; color: rgb(243, 234, 234);
     background: rgba(0, 0, 0, 0.7);
     /*font-size: x-large*/
 }
+.oploadFile{
+    position: absolute; 
+    top: 720px; 
+    left: 1200px; color: rgb(243, 234, 234); 
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 10;
+    /*font-size: x-large*/
+}
+
+
 

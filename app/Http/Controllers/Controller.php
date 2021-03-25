@@ -16,6 +16,7 @@ use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\ConvertEmptyStringsToNull;
 use App\Mail\ContactMessageCreated;
 use App\Models\User as ModelsUser;
+use Facade\FlareClient\Http\Response;
 use Illuminate\Foundation\Auth\User;
 use PhpParser\Builder\Use_;
 use PhpParser\Node\Stmt\Use_ as StmtUse_;
@@ -284,7 +285,7 @@ function storeLoginEnseignant(Request $request)
             if($codeSaisi=== $codeExistant && $password1Saisi ===$password2Saisi)
             {
                 $repository->changeMotDePasseOublier($emailExistant,$password1Saisi);
-                return view('page_autentification_etudiant')->with('message','Votre mot de passe a bien été changé');
+                return view('page_principale_Etudiant')->with('message','Votre mot de passe a bien été changé');
             }
         }
         return redirect()->back()->withErrors('echeque, vérifiez bien vos informations');
@@ -310,7 +311,6 @@ function storeLoginEnseignant(Request $request)
 //--------------------------------------------------------------------------------------------------------------------------------
     function showProfil(Request $request)
     {
-
         $hasKey = $request->session()->has('student');
         //dd($hasKey);
        //dump($hasKey);
@@ -393,7 +393,6 @@ function storeLoginEnseignant(Request $request)
         }
         //dump(gettype($tableEtudiant));
         //dd(count($tableEtudiant));
-
         try{
         //dd($request->file('image'));
         $tableEtudiant = $repository->tableEtudiant($ancienEmail);
@@ -411,7 +410,6 @@ function storeLoginEnseignant(Request $request)
 
         if($validatedData['prenom']!== null)
             $prenom = $validatedData['prenom'];
-
         if($validatedData['phone']!=null)
             $phone = $validatedData['phone'];
 
@@ -428,16 +426,15 @@ function storeLoginEnseignant(Request $request)
 
 
         return redirect()->route('profil.show')->with('message','Modiffications enrigistrées');
-
         }catch(Exception $e)
         {
             return redirect()->back()->withErrors("Modifs non enrigistrées");
         }
-
     }
 //-------------------------------------------------------------------------------------------------------------------------
 function storePhoto(Request $request)
 {
+    //23/03/2021
     $hasKey = $request->session()->has('student');
     if(!$hasKey){
         return redirect()->route('PageAccueil.show');
@@ -481,24 +478,102 @@ function storePhoto(Request $request)
         if(!$hasKey){
             return redirect()->route('PageAccueil.show');
         }
-// dd($request->profs['NomEnseignant']);
-// $request->profs['NomEnseignant'];
-// $request->profs['PrénomEnseignant'];
-// $request->profs['Matière'];
+        //dd($request->all());
+        //dd($hasKey);
+        // dd($request->profs['NomEnseignant']);
+        // $request->profs['NomEnseignant'];
+        // $request->profs['PrénomEnseignant'];
+        $email = $request->profs['Email_Enseignant'];
+        $tab = ['10:00','10:30','11:00','11:30','12:00','12:30','14:00','14:30','15:00'];
+        $tableDispoEnseignant = $this->repository->tabDispoEnseignant($email);
+        $tableDispoEnseignant = json_decode(json_encode($tableDispoEnseignant), true);
+        for($i=0; $i<9 ;$i++)
+        {
+            $tabDispoLundi[$i] = $tableDispoEnseignant[$i];
+            $tabDispoLundi[$i]['H'] = $tab[$i];
+        }
 
+        for($i=9; $i<18 ;$i++)
+        {
+            $tabDispoMardi[$i] = $tableDispoEnseignant[$i];
+            $tabDispoMardi[$i]['H'] = $tab[$i-9];
+        }
+        for($i=18; $i<27 ;$i++)
+        {
+            $tabDispoMercredi[$i] = $tableDispoEnseignant[$i];
+            $tabDispoMercredi[$i]['H'] = $tab[$i-18];
+        }
+        for($i=27; $i<36 ;$i++)
+        {
+            $tabDispoJeudi[$i] = $tableDispoEnseignant[$i];
+            $tabDispoJeudi[$i]['H'] = $tab[$i-27];
+        }
+        for($i=36; $i<45 ;$i++)
+        {
+            $tabDispoVendredi[$i] = $tableDispoEnseignant[$i];
+            $tabDispoVendredi[$i]['H'] = $tab[$i-36];
+        }
 
-        return view('prise_rendez_vous_etudiant',['PrénomEnseignant'=>$request->profs['NomEnseignant'],'NomEnseignant'=>$request->profs['PrénomEnseignant'],'Matière'=>$request->profs['Matière']]);
+        //dump("okkkkkkk");
+        $arrayUrl = DB::table('RendezVous')->get('urlFichier')->toArray();
+        //$url = $arrayUrl[0]->urlFichier;
+        $nonFichier = $this->repository->nonFichier();
+        //$nomFichierHache = $nonFichier[0]->nomFichierHache;
+        return view('prise_rendez_vous_etudiant',[  'PrénomEnseignant'=>$request->profs['NomEnseignant'],
+                                                    'NomEnseignant'=>$request->profs['PrénomEnseignant'],
+                                                    'Matière'=>$request->profs['Matière'],
+                                                    'tabDispoLundi'=>$tabDispoLundi,
+                                                    'tabDispoMardi'=>$tabDispoMardi,
+                                                    'tabDispoMercredi'=>$tabDispoMercredi,
+                                                    'tabDispoJeudi'=>$tabDispoJeudi,
+                                                    'tabDispoVendredi'=>$tabDispoVendredi,
+                                                    'email'=>$email
+                                                    //'nomFichierHache'=>$nomFichierHache
+                                                ]);
 
     }
+//-------------------------------------------------------------------------------------------------------------------------
+
     function storePriseRendezVous(Request $request)
     {
 
+        /*
+        verification des champs saisis
+        verification de la disponibilité de l'enseignant*/
+
         $hasKey = $request->session()->has('student');
+
         if(!$hasKey){
             return redirect()->route('PageAccueil.show');
         }
-        return view('mes_rendez_vous_etudiant');
+
+        //dd($request->all());
+
+
+        $emailProf = $request->input()["emailprofs"];
+        $tabCoche = $request->input('choix');
+        //dd($tabCoche);
+        if($tabCoche==null) return redirect()->back()->withErrors('selectionner au moins un créneau');
+        $Heure = $tabCoche[0];
+        $idEnseignant = intval($this->repository->tableEnseignant($emailProf)[0]["Id_Enseignant"]);
+        $IdEtudiant = intval($request->session()->get('student')[0]);
+        //$jour = $this->repository->getJour($Heure);
+        $message = $request->input('message');
+        if($message==null) $message ="aucun message";
+        $objet = $request->input('motif') ;
+
+        $this->repository->envoiFichier($Heure, $message, $objet, $IdEtudiant, $idEnseignant);
+        //dd($tabCoché[0]);
+        //dd( $tabCoché);
+        //$taille = count($tabCoché);
+        $this->repository->modificationDispoParEtudiant($emailProf, $Heure);
+        $nonFichier = $this->repository->nonFichier();
+        $nomFichierHache = $nonFichier[0]->nomFichierHache;
+        return redirect()->back()->with('message', 'Rendez-vous pris avec sucée');
+        //return view('mes_rendez_vous_etudiant');
     }
+//----------------------------------------------------------------------------------------------------------------------------
+
     function annulationRendezVous(Request $request)
     {
         /*
@@ -649,7 +724,6 @@ function storePhoto(Request $request)
             $tabDispoLundi[$i] = $tableDispoEnseignant[$i];
             $tabDispoLundi[$i]['H'] = $tab[$i];
         }
-
         for($i=9; $i<18 ;$i++)
         {
             $tabDispoMardi[$i] = $tableDispoEnseignant[$i];
@@ -698,10 +772,8 @@ function storePhoto(Request $request)
         //dd( $tabCoché);
         //$taille = count($tabCoché);
         $this->repository->modificationDispo($email, $tabCoché);
-        return view('tableau_de_bord_enseignant');
 
-        // return "yooopiiiii";
-        //return redirect()->route('disponibilites.show');
+        return redirect()->back()->with('message', 'Disponibilitées mises a jour');
     }
 //---------------------------------------------------------------------BARRE DE RECHERCHE-------------------------------------------------------
 

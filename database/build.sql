@@ -1,6 +1,4 @@
 /* Suppression de tables existantes */
-DROP TABLE IF EXISTS Probleme;
-DROP TABLE IF EXISTS Fichier;
 DROP TABLE IF EXISTS Message;
 DROP TABLE IF EXISTS RendezVous;
 DROP TABLE IF EXISTS Disponibilite;
@@ -38,12 +36,15 @@ UNIQUE (Id_Enseignant)
 
 
 CREATE TABLE RendezVous (
-Id_RDV INTEGER PRIMARY KEY AUTOINCREMENT,
-Date_RDV datetime NOT NULL,
+Id_RDV INTEGER PRIMARY KEY AUTOINCREMENT ,
+Heure varcha(10) NOT NULL,
 Message VARCHAR(3000),
+objet VARCHAR(30),
 IdEtudiant INTEGER,
 Id_Enseignant INTEGER,
-  UNIQUE (Id_RDV,Date_RDV,IdEtudiant,Id_Enseignant),
+nomFichier varchar(200),
+nomFichierHache varchar(200),
+
   FOREIGN KEY(IdEtudiant) REFERENCES Etudiant(IdEtudiant),
   FOREIGN KEY(Id_Enseignant) REFERENCES Enseignant(Id_Enseignant)
 
@@ -60,18 +61,6 @@ IdEtudiant INTEGER,
 
 );
 
--- CREATE TABLE Fichier (
--- Id_Fichier INTEGER PRIMARY KEY ,
--- IdEtudiant INTEGER,
---   FOREIGN KEY(IdEtudiant) REFERENCES Etudiant(IdEtudiant)
--- );
-
-CREATE TABLE Probleme (
-Id_Pbm INTEGER PRIMARY KEY,
-Nom_Pbm varchar(20),
-IdEtudiant INTEGER,
-  FOREIGN KEY(IdEtudiant) REFERENCES Etudiant(IdEtudiant)
-);
 
 CREATE TABLE UtilisateurEtudiant (
 Id INTEGER PRIMARY KEY AUTOINCREMENT,

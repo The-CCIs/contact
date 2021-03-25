@@ -5,14 +5,22 @@ Disponibilité
 @endsection
 @section('assets')
     <link rel="stylesheet" href="/css/style.css">
+
 @endsection
 
 @section('content')
 
 
+
 <form method="POST" action="{{route('diponibilites.post')}}">
+
 @csrf
-    <div class="container">
+    <div class="container" >
+    @if(session()->has('message'))
+        <div id="messageDisp" class="alert alert-success" style="font-size: 15px;">
+            {{ session()->get('message') }}
+        </div>
+    @endif
         <h2> disponibilité</h2>
         <div class="bar_iden">
             <ul>

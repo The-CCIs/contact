@@ -166,7 +166,7 @@ function modifInfoEtudiant(string $email,string $email2,string $nomEtudiant,
 
     function searchProf(string $q): array
     {
-        
+
       return  DB::table('Enseignant')
       ->where('NomEnseignant', 'like', "%$q%")
       ->orWhere('PrénomEnseignant', 'like', "%$q%")

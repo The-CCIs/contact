@@ -37,7 +37,7 @@ Authentification
         <label class="checkbox_c"> <input type="checkbox"> Restez connecté</label><br>
         <br>
         <button type="submit" class="btn btn-secondary">Se connecter</button>
-        <!--<br>
+        <br>
         <br>
         <div class="connexion-index">Vous n'avez pas encore de compte ?
         <a href="{{route('InscriptionEtudiant.show')}}">Inscrivez-vous</a></div>
